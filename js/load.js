@@ -1,6 +1,9 @@
 var Images = new (function() {
   var images = {
     // key: 'img/image_name.png'
+    track_wall: 'img/track_wall.png',
+    track_road: 'img/track_road.png',
+    car: 'img/car.png'
   };
 
   this.initialize = function(callback) {

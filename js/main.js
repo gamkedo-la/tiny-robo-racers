@@ -8,11 +8,17 @@ var isPlaying = false;
 var isPaused = false;
 var isGameOver = false;
 
+var track;
+var car;
+
 var settings = {};
 
 window.onload = function() {
   gameCanvas = document.getElementById('gameCanvas');
   gameContext = gameCanvas.getContext('2d');
+
+  window.addEventListener("focus", windowOnFocus);
+  window.addEventListener("blur", windowOnBlur);
 
   initDrawingCanvas();
 
@@ -23,6 +29,7 @@ window.onload = function() {
 
   MainLoop
     .stop()
+    .setMaxAllowedFPS(FRAME_RATE)
     .setUpdate(gameUpdate)
     .setDraw(gameDraw);
 
@@ -33,8 +40,23 @@ window.onload = function() {
   });
 };
 
+function windowOnFocus() {
+  if (!MainLoop.isRunning()) {
+    MainLoop.start();
+  }
+}
+
+function windowOnBlur() {
+  if (MainLoop.isRunning()) {
+    MainLoop.stop();
+  }
+}
+
 function gameInitialize() {
   isPlaying = true;
+
+  track = new Track(0);
+  car = new Car(track.playerStart, DRIVE_POWER);
 
   MainLoop.start();
 }
@@ -56,6 +78,8 @@ function shakeScreen(amount) {
 
 function gameUpdate(delta) {
   // Call the update methods of all objects.
+  track.update(delta);
+  car.update(delta);
 
   TWEEN.update(delta);
 }
@@ -80,6 +104,8 @@ function gameDraw(interpolationPercentage) {
   }
 
   // Call the draw methods of all objects.
+  track.draw();
+  car.draw();
 
   gameContext.restore();
   redrawCanvas();

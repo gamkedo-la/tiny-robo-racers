@@ -1,3 +1,13 @@
+function drawImage(canvasContext, image, x, y, angle) {
+  canvasContext.save();
+  canvasContext.translate(x, y);
+  if (angle !== undefined) {
+    canvasContext.rotate(angle);
+  }
+  canvasContext.drawImage(image, -image.width / 2, -image.height / 2);
+  canvasContext.restore();
+}
+
 function drawFillRectRotated(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, fillColor, angle) {
   var hw = boxWidth / 2;
   var hh = boxHeight / 2;
@@ -35,5 +45,16 @@ function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, 
   canvasContext.lineWidth = lineWidth;
   canvasContext.beginPath();
   canvasContext.arc(x, y, radius, startAngle, endAngle, false);
+  canvasContext.stroke();
+}
+
+function drawLines(canvasContext, color, lineWidth, points) {
+  canvasContext.beginPath();
+  canvasContext.moveTo(points[0].x, points[0].y);
+  for (var i = 1; i < points.length; i++) {
+    canvasContext.lineTo(points[i].x, points[i].y);
+  }
+  canvasContext.strokeStyle = color;
+  canvasContext.lineWidth = lineWidth;
   canvasContext.stroke();
 }
