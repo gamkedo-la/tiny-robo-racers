@@ -7,8 +7,8 @@ var Car = function(startPosition, drivePower) {
   this.speed = 0;
 
   this.sensors = [];
-  this.sensors.push(new Sensor(this, 20, -10, 40, -Math.PI / 4, 0.04 / FRAME_RATE_DELTA));
-  this.sensors.push(new Sensor(this, 20, 10, 40, Math.PI / 4, -0.04 / FRAME_RATE_DELTA));
+  this.sensors.push(new Sensor(this, 30, -20, 40, -Math.PI / 4, 0.04 / FRAME_RATE_DELTA));
+  this.sensors.push(new Sensor(this, 30, 20, 40, Math.PI / 4, -0.04 / FRAME_RATE_DELTA));
 
   this.getPosition = function() {
     return {

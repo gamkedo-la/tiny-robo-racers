@@ -11,8 +11,8 @@ const GROUNDSPEED_DECAY_MULT = 0.94 / FRAME_RATE_DELTA;
 
 const TRACK_WIDTH = 40;
 const TRACK_HEIGHT = 40;
-const TRACK_ROWS =  15;
-const TRACK_COLS = 20;
+const TRACK_COLS = 32;
+const TRACK_ROWS = 20;
 
 const TRACK_ROAD = 0;
 const TRACK_WALL = 1;
