@@ -36,6 +36,7 @@ var Images = new (function() {
 
     return this;
   }
+
 })();
 
 var Sounds = new (function() {
@@ -46,7 +47,7 @@ var Sounds = new (function() {
   }
 
   var sounds = {
-    // key_theme: 'sfx/file_name'
+    // key: 'sfx/file_name_without_extension'
   };
 
   this.initialize = function(callback) {
@@ -55,6 +56,7 @@ var Sounds = new (function() {
       callback();
       return;
     }
+
     for (var key in sounds) {
       if (sounds.hasOwnProperty(key)) {
         this[key] = new Sound(sounds[key] + this.audioFormat, doneLoading);
@@ -74,7 +76,6 @@ var Sounds = new (function() {
   };
 
   this.play = function(sound) {
-    sound += '_' + settings['theme'];
     if (this[sound]) {
       this[sound].play();
     }
@@ -95,7 +96,7 @@ var Sounds = new (function() {
     }
 
     this.play = function() {
-      if (!settings.sound) {
+      if (!settings.get('sound')) {
         return;
       }
       if (Date.now() - lastPlay > timeOut) {
@@ -113,25 +114,29 @@ var Sounds = new (function() {
       }
     };
   };
+
 })();
 
 var Music = new (function() {
   var songPlaying = '';
+
   var songs = {
+    // key: 'music/file_name_without_extension'
   };
 
   this.initialize = function(callback) {
     var numToLoad = Object.keys(songs).length;
-    if (numToLoad == 0 && callback) {
+    if (numToLoad === 0 && callback) {
       callback();
       return;
     }
+
     for (var key in songs) {
       if (songs.hasOwnProperty(key)) {
         this[key] = new Audio(songs[key] + Sounds.audioFormat);
         this[key].addEventListener('canplaythrough', doneLoading);
         this[key].load();
-        if (key.indexOf('_intro') == -1) {
+        if (key.indexOf('_intro') === -1) {
           this[key].loop = true;
         }
       }
@@ -149,7 +154,7 @@ var Music = new (function() {
     }
 
     this.play = function(song) {
-      if (!settings.music) {
+      if (!settings.get('music')) {
         return;
       }
       if (!song) {
@@ -186,4 +191,5 @@ var Music = new (function() {
       }
     }
   };
+
 })();

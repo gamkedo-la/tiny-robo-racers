@@ -13,62 +13,114 @@
 </div>
 
 <div id="wrapper">
-    <div id="loading">
-        <h2>Loading Tiny Robo Racers</h2>
-        <img src="img/loader.gif" alt="Loading Tiny Robo Racers">
-    </div>
+  <div id="loading">
+    <h2>Loading Tiny Robo Racers</h2>
+    <img src="img/loader.gif" alt="Loading Tiny Robo Racers">
+  </div>
 
-    <div class="menu" id="menu">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="#play" class="play">Play</a></li>
-            <li><a href="#settings">Settings</a></li>
-            <li><a href="#credits">Credits</a></li>
-        </ul>
-    </div>
+  <div class="menu" id="menu">
+    <h2>Menu</h2>
+    <ul>
+      <li><a href="#play" class="play">Play</a></li>
+      <li><a href="#levels">Levels</a></li>
+      <li><a href="#hiscore">Hiscore</a></li>
+      <li><a href="#settings">Settings</a></li>
+      <li><a href="#levelEditor" class="level-editor">Level editor</a></li>
+      <li><a href="#credits">Credits</a></li>
+    </ul>
+  </div>
 
-    <div class="menu" id="settings">
-        <h2>Settings</h2>
-
-        <a href="#menu" class="back">Back</a>
+  <div class="menu" id="levels">
+    <h2>Levels</h2>
+    <div>
+      <table>
+        <tbody></tbody>
+      </table>
     </div>
+    <a href="#menu" class="back">Back</a>
+  </div>
 
-    <div class="menu" id="gameOver">
-        <h2>Game over!</h2>
-        <a href="#menu" class="back">back</a>
-    </div>
+  <div class="menu" id="settings">
+    <h2>Settings</h2>
+    <table>
+      <tbody>
+      <tr>
+        <th>Sound</th>
+        <td><button id="settingSound" value="sound"><img src="img/icons/sound-on.png"></button></td>
+      </tr>
+      <tr>
+        <th>Music</th>
+        <td><button id="settingMusic" value="music"><img src="img/icons/music-on.png"></button></td>
+      </tr>
+      </tbody>
+    </table>
+    <a href="#menu" class="back">Back</a>
+  </div>
 
-    <div class="menu" id="gamePause">
-        <h2>Game paused!</h2>
-        <a href="#" class="continue">Continue</a>
-        <a href="#menu" class="quit">Quit</a>
-    </div>
+  <div class="menu" id="gameOver">
+    <h2>Game over!</h2>
+    <a href="#menu" class="back">back</a>
+  </div>
 
-    <div class="menu" id="credits">
-        <h2>Credits</h2>
-        <table>
-            <tbody>
-            <tr>
-                <th>Caspar</th>
-                <td>code</td>
-            </tr>
-            <tr>
-                <th>Other</th>
-                <td>etc</td>
-            </tr>
-            </tbody>
-        </table>
-        <a href="#menu" class="back">Back</a>
-    </div>
+  <div class="menu" id="gamePause">
+    <h2>Game paused!</h2>
+    <a href="#" class="continue">Continue</a>
+    <a href="#menu" class="quit">Quit</a>
+  </div>
+
+  <div class="menu" id="hiscore">
+    <h2>Hiscore</h2>
+    <table>
+      <tbody></tbody>
+    </table>
+    <a href="#menu" class="back">Back</a>
+  </div>
+
+  <div class="menu" id="credits">
+    <h2>Credits</h2>
+    <table>
+      <tbody>
+      <tr>
+        <th>Caspar</th>
+        <td>Team lead, code</td>
+      </tr>
+      <tr>
+        <th>Other</th>
+        <td>etc</td>
+      </tr>
+      </tbody>
+    </table>
+    <a href="#menu" class="back">Back</a>
+  </div>
 </div>
 
+<script id="hiscoresItem" type="text/x-jsrender">
+  <tr>
+    <th>{{:name}}</th>
+    <td>{{:track}}</td>
+    <td>{{:time}}</td>
+  </tr>
+</script>
+
+<script id="levelsItem" type="text/x-jsrender">
+  <tr>
+    <th>{{:name}}</th>
+    <td>
+      <button value="load.{{:key}}">Load</button>
+      <button value="delete.{{:key}}">Delete</button>
+    </td>
+  <tr>
+</script>
+
 <script src="js/lib/jquery-3.2.1.slim.min.js"></script>
+<script src="js/lib/jsrender.min.js"></script>
 <script src="js/lib/mainloop.js"></script>
 <script src="js/lib/Tween.js"></script>
 <script src="js/const.js"></script>
 <script src="js/tools.js"></script>
 <script src="js/graphics.js"></script>
 <script src="js/scalingCanvas.js"></script>
+<script src="js/localStorage.js"></script>
 <script src="js/load.js"></script>
 <script src="js/input.js"></script>
 <script src="js/menu.js"></script>

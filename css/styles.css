@@ -91,26 +91,42 @@ ul {
   margin-right: 5%;
 }
 
-#credits table {
+.menu table {
   border-collapse: collapse;
   width: 100%;
 }
 
-#credits table th,
-#credits table td {
+.menu table th,
+.menu table td {
   width: 50%;
   padding: 3px 6px 6px 6px;
 }
 
-#credits table th {
+.menu table th {
   text-align: right;
 }
 
-#credits table td {
+.menu table td {
   text-align: left;
 }
 
-#credits table tr + tr th,
-#credits table tr + tr td {
+.menu table tr + tr th,
+.menu table tr + tr td {
   border-top: solid 1px white;
+}
+
+#levels > div {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+#hiscore td.spacer {
+  padding: 0;
+  margin: 0;
+  height: 8px;
+}
+
+#settings button {
+  background: transparent;
+  border: 0;
 }

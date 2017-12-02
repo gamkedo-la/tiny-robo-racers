@@ -1,4 +1,3 @@
-var drawCanvas, drawContext;
 var gameCanvas, gameContext;
 
 var screenShakeAmount = 0;
@@ -11,21 +10,19 @@ var isGameOver = false;
 var track;
 var car;
 
-var settings = {};
+var settings;
+var levelsList;
 
 window.onload = function() {
   gameCanvas = document.getElementById('gameCanvas');
   gameContext = gameCanvas.getContext('2d');
 
-  window.addEventListener("focus", windowOnFocus);
   window.addEventListener("blur", windowOnBlur);
 
-  initDrawingCanvas();
+  settings = new LocalStorage('trr', 'settings');
+  levelsList = new LocalStorage('trr', 'levelsList');
 
-  var _settings = JSON.parse(localStorage.getItem('settings'));
-  if (_settings) {
-    settings = _settings;
-  }
+  initDrawingCanvas();
 
   MainLoop
     .stop()
@@ -40,15 +37,9 @@ window.onload = function() {
   });
 };
 
-function windowOnFocus() {
-  if (!MainLoop.isRunning()) {
-    MainLoop.start();
-  }
-}
-
 function windowOnBlur() {
   if (MainLoop.isRunning()) {
-    MainLoop.stop();
+    showGamePause();
   }
 }
 
@@ -59,16 +50,6 @@ function gameInitialize() {
   car = new Car(track.playerStart, DRIVE_POWER);
 
   MainLoop.start();
-}
-
-function setSetting(setting, value) {
-  settings[setting] = value;
-
-  if (localStorage && localStorage.setItem) {
-    localStorage.setItem('settings', JSON.stringify(settings));
-  }
-
-  return settings[setting];
 }
 
 function shakeScreen(amount) {

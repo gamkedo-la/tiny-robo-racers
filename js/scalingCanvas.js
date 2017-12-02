@@ -1,3 +1,4 @@
+var drawCanvas, drawContext;
 var drawScale, aspectRatio;
 
 function initDrawingCanvas() {
