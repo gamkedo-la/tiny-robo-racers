@@ -87,22 +87,18 @@ function continueGame() {
 
 function showLevels() {
   var $list = $('#levels table tbody').empty();
-  var $tpl = $.templates('#levelsItem');
 
   var numLevels = 50;
   for (var i = 1; i <= numLevels; i++) {
-    var item = {
-      key: 'level_' + i,
-      name: 'Level ' + i
-    };
-    var $item = $tpl.render(item);
-    $list.append($item);
+    $list.append($('<tr><th>Level ' + i + '</th><td>' +
+      '<button value="load.level_' + i + '">Load</button>' +
+      '<button value="delete.level_' + i + '">Delete</button>' +
+      '</td><tr>'));
   }
 }
 
 function showHiscore() {
   var $list = $('#hiscore table tbody').empty();
-  var $tpl = $.templates('#hiscoresItem');
 
   var numLevels = 2;
   var numHiscores = 4;
@@ -111,13 +107,9 @@ function showHiscore() {
       $list.append($('<tr><td colspan="3" class="spacer"></td></tr>'));
     }
     for (var i = 1; i <= numHiscores; i++) {
-      var item = {
-        name: 'Name',
-        track: 'Level ' + l,
-        time: '01:0' + i
-      };
-      var $item = $tpl.render(item);
-      $list.append($item);
+      $list.append($('<tr><th>Name</th>' +
+        '<td>Track ' + l + '</td>' +
+        '<td>01:0' + i + '</td></tr>'));
     }
   }
 }
