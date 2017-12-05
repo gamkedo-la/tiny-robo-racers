@@ -1,3 +1,4 @@
+const PADDING = 30;
 var drawCanvas, drawContext;
 var drawScale, aspectRatio;
 
@@ -21,10 +22,7 @@ function scaleCoordinates(x, y) {
 
 function redrawCanvas() {
   drawContext.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-  drawContext.save();
-  drawContext.scale(drawScale, drawScale);
-  drawContext.drawImage(gameCanvas, 0, 0);
-  drawContext.restore();
+  drawContext.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height, PADDING, PADDING, drawCanvas.width - (2 * PADDING), drawCanvas.height - (2 * PADDING));
 }
 
 function resizeWindow() {
