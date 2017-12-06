@@ -9,6 +9,7 @@ var isGameOver = false;
 
 var track;
 var car;
+var cars = [];
 
 var settings;
 var levelsList;
@@ -48,6 +49,7 @@ function gameInitialize() {
 
   track = new Track(0);
   car = new Car(track.playerStart, DRIVE_POWER);
+  cars.push(new Car({x: 200, y: 95}, DRIVE_POWER))
 
   MainLoop.start();
 }
@@ -61,6 +63,9 @@ function gameUpdate(delta) {
   // Call the update methods of all objects.
   track.update(delta);
   car.update(delta);
+  for(var i in cars){
+    cars[i].update(delta);
+  }
 
   TWEEN.update(delta);
 }
@@ -87,6 +92,9 @@ function gameDraw(interpolationPercentage) {
   // Call the draw methods of all objects.
   track.draw();
   car.draw();
+  for(var i in cars){
+    cars[i].draw();
+  }
 
   gameContext.restore();
   redrawCanvas();
