@@ -1,14 +1,24 @@
-var Car = function(startPosition, drivePower) {
+var Car = function(startPosition, drivePower, sensors) {
 
   var x = startPosition.x;
   var y = startPosition.y;
 
   this.angle = 0;
-  this.speed = 0;
-
+  this.speed = 0; 
   this.sensors = [];
-  this.sensors.push(new Sensor(this, 30, -20, 40, -Math.PI / 4, 0.04 / FRAME_RATE_DELTA));
-  this.sensors.push(new Sensor(this, 30, 20, 40, Math.PI / 4, -0.04 / FRAME_RATE_DELTA));
+  
+  if(!sensors){
+    sensors = []
+  }
+  if(!sensors.length || sensors.length != 2){
+    sensors = [
+     {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
+     {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
+    ]
+  }
+  this.sensors.push(new Sensor(this,sensors[0].x, sensors[0].y, sensors[0].length, sensors[0].angle, sensors[0].steerAngle))
+  this.sensors.push(new Sensor(this,sensors[1].x, sensors[1].y, sensors[1].length, sensors[1].angle, sensors[1].steerAngle))
+  
 
   this.getPosition = function() {
     return {
