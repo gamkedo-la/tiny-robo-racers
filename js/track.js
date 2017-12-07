@@ -1,6 +1,11 @@
 var Track = function(levelIndex) {
 
-  var grid = levels[levelIndex].slice();
+  var grid = levels[levelIndex].grid.slice();
+  var image = levels[levelIndex].image;
+
+  if (!Images[image]) {
+    Images.loadImage(image, 'img/tracks/' + image + '.png');
+  }
 
   this.playerStart = initializeTrack();
 
@@ -49,17 +54,26 @@ var Track = function(levelIndex) {
   };
 
   this.draw = function() {
-    var i = 0, x = 0, y = 0;
-    for (var r = 0; r < TRACK_ROWS; r++) {
-      for (var c = 0; c < TRACK_COLS; c++) {
-        var type = TRACK_IMAGES[grid[i]];
+    gameContext.drawImage(Images[image], 0, 0);
 
-        gameContext.drawImage(Images[type], x, y);
-        i++;
-        x += TRACK_WIDTH;
+    if (DEBUG) {
+      gameContext.save();
+      gameContext.globalAlpha = 0.5;
+
+      var i = 0, x = 0, y = 0;
+      for (var r = 0; r < TRACK_ROWS; r++) {
+        for (var c = 0; c < TRACK_COLS; c++) {
+          var type = TRACK_IMAGES[grid[i]];
+
+          gameContext.drawImage(Images[type], x, y);
+          i++;
+          x += TRACK_WIDTH;
+        }
+        x = 0;
+        y += TRACK_HEIGHT;
       }
-      x = 0;
-      y += TRACK_HEIGHT;
+
+      gameContext.restore();
     }
   };
 

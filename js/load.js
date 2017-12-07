@@ -15,16 +15,9 @@ var Images = new (function() {
 
     for (var key in images) {
       if (images.hasOwnProperty(key)) {
-        this[key] = loadImage(images[key]);
+        this.loadImage(key, images[key]);
+        this[key].onload = doneLoading;
       }
-    }
-
-    function loadImage(src) {
-      var img = document.createElement('img');
-      img.onload = doneLoading;
-      img.src = src;
-
-      return img;
     }
 
     function doneLoading() {
@@ -35,7 +28,13 @@ var Images = new (function() {
     }
 
     return this;
-  }
+  };
+
+  this.loadImage = function(key, src) {
+    var img = document.createElement('img');
+    img.src = src;
+    this[key] = img;
+  };
 
 })();
 
