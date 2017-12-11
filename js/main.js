@@ -47,11 +47,15 @@ function windowOnBlur() {
 function gameInitialize() {
   isPlaying = true;
 
-  track = new Track(0);
-  car = new Car(track.playerStart, DRIVE_POWER);
-  cars.push(new Car({x: 200, y: 95}, DRIVE_POWER, 
-     [{x: 30, y: -20, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
-     {x: 30, y: 20, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}]))
+  track = new Track(1);
+  car = new Car(track.playerStart, DRIVE_POWER, [
+    {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
+    {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
+  ]);
+  cars.push(new Car({x: 200, y: 125}, DRIVE_POWER, [
+    {x: 30, y: -20, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
+    {x: 30, y: 20, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
+  ]));
 
   MainLoop.start();
 }

@@ -58,3 +58,11 @@ function drawLines(canvasContext, color, lineWidth, points) {
   canvasContext.lineWidth = lineWidth;
   canvasContext.stroke();
 }
+
+function drawText(canvasContext, x, y, color, font, align, text) {
+  gameContext.font = font;
+  gameContext.textBaseline = 'middle';
+  gameContext.textAlign = align;
+  canvasContext.fillStyle = color;
+  canvasContext.fillText(text, x, y);
+}

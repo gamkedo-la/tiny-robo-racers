@@ -15,21 +15,34 @@ function setupInput() {
 }
 
 function keyDown(event) {
-  if (event.keyCode === KEY_ESC) {
-    if (isPaused) {
-      continueGame();
-    }
-    else if (isPlaying) {
-      showGamePause();
-    }
-    else {
-      showMenu();
-    }
+  switch (event.keyCode) {
+    case KEY_ESC:
+      if (isPaused) {
+        continueGame();
+      }
+      else if (isPlaying) {
+        showGamePause();
+      }
+      else {
+        showMenu();
+      }
+      break;
+    case KEY_D:
+      if (isPlaying) {
+        DEBUG = !DEBUG;
+        TRACK_SCREENSHOT = false;
+      }
+      break;
+    case KEY_S:
+      if (isPlaying && DEBUG) {
+        TRACK_SCREENSHOT = !TRACK_SCREENSHOT;
+      }
+      break;
   }
-
-  // Call each play field and let them handle the key press.
+  if (DEBUG) {
+    console.log('key ' + event.keyCode);
+  }
 }
 
 function keyUp(event) {
-  // Call each play field and let them handle the key release.
 }

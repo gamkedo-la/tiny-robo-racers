@@ -7,18 +7,9 @@ var Car = function(startPosition, drivePower, sensors) {
   this.speed = 0; 
   this.sensors = [];
   
-  if(!sensors){
-    sensors = []
+  for (var s = 0; s < sensors.length; s++) {
+    this.sensors.push(new Sensor(this, sensors[s].x, sensors[s].y, sensors[s].length, sensors[s].angle, sensors[s].steerAngle));
   }
-  if(!sensors.length || sensors.length != 2){
-    sensors = [
-     {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
-     {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
-    ]
-  }
-  this.sensors.push(new Sensor(this,sensors[0].x, sensors[0].y, sensors[0].length, sensors[0].angle, sensors[0].steerAngle))
-  this.sensors.push(new Sensor(this,sensors[1].x, sensors[1].y, sensors[1].length, sensors[1].angle, sensors[1].steerAngle))
-  
 
   this.getPosition = function() {
     return {
@@ -62,12 +53,6 @@ var Car = function(startPosition, drivePower, sensors) {
     for (var s = 0; s < this.sensors.length; s++) {
       this.sensors[s].draw();
     }
-
-//    if (DEBUG) {
-//      var col = Math.floor(x / TRACK_WIDTH);
-//      var row = Math.floor(y / TRACK_HEIGHT);
-//      drawStrokeRect(gameContext, col * TRACK_WIDTH, row * TRACK_HEIGHT, TRACK_WIDTH, TRACK_HEIGHT, '#fff', 1);
-//    }
   };
 
 };
