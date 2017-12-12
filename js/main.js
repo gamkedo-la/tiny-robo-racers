@@ -97,12 +97,13 @@ function gameDraw(interpolationPercentage) {
 
   // Call the draw methods of all objects.
   track.draw();
+
+  tireTracks.draw();
+
   car.draw();
   for(var i in cars){
     cars[i].draw();
   }
-
-  tireTracks.draw();
 
   gameContext.restore();
   redrawCanvas();

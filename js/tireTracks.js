@@ -13,7 +13,7 @@ var decalManager = function() {
 		this.tireTrackCTX.save();
 		this.tireTrackCTX.translate(x,y);
 		this.tireTrackCTX.rotate(rot);
-		this.tireTrackCTX.drawImage(Images.tire_tracks,0,0);
+		this.tireTrackCTX.drawImage(Images.tire_tracks,-9,-9);
 		this.tireTrackCTX.restore()
 	}
 
