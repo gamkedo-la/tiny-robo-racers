@@ -62,9 +62,9 @@ var Track = function(levelIndex) {
     drawText(gameContext, 260, 0, '#fff', GAME_FONT, 'left', 'Ghost: 00:00');
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'Track: ' + label);
     // @todo how to read this 'car.speed' some conversion to mph/kph?
-    drawText(gameContext, 0, 40, '#fff', GAME_FONT, 'left', 'Speed: ' + Math.round(car.speed));
+    drawText(gameContext, 0, 30, '#fff', GAME_FONT, 'left', 'Speed: ' + Math.round(car.speed));
     // @todo replace with 2 wheels
-    drawText(gameContext, 150, 40, '#fff', GAME_FONT, 'left', 'Angle: ' + Math.round(car.angle / DEC2RAD) + '°');
+    drawText(gameContext, 150, 30, '#fff', GAME_FONT, 'left', 'Angle: ' + Math.round(car.angle / DEC2RAD) + '°');
 
     if (DEBUG) {
       gameContext.save();
