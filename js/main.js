@@ -102,6 +102,8 @@ function gameDraw(interpolationPercentage) {
     cars[i].draw();
   }
 
+  tireTracks.draw();
+
   gameContext.restore();
   redrawCanvas();
 }

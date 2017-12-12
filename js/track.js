@@ -54,7 +54,7 @@ var Track = function(levelIndex) {
 
   };
 
-  this.draw = function() {
+    this.draw = function() {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
 
     drawText(gameContext, 0, 20, '#fff', GAME_FONT, 'left', 'Time: 00:00');

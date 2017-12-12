@@ -6,7 +6,7 @@ var Car = function(startPosition, drivePower, sensors) {
   this.angle = 0;
   this.speed = 0; 
   this.sensors = [];
-  
+
   for (var s = 0; s < sensors.length; s++) {
     this.sensors.push(new Sensor(this, sensors[s].x, sensors[s].y, sensors[s].length, sensors[s].angle, sensors[s].steerAngle));
   }
@@ -31,6 +31,9 @@ var Car = function(startPosition, drivePower, sensors) {
     y += Math.sin(this.angle) * speed;
 
     this.carTrackHandling(delta);
+
+    tireTracks.add(x,y,this.angle);
+
   };
 
   this.carTrackHandling = function(delta) {
