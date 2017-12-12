@@ -1,8 +1,9 @@
-var Car = function(startPosition, drivePower, sensors) {
+var Car = function(startPosition, image, drivePower, sensors) {
 
   var x = startPosition.x;
   var y = startPosition.y;
 
+  this.isGhost = false;
   this.angle = 0;
   this.speed = 0; 
   this.sensors = [];
@@ -45,7 +46,7 @@ var Car = function(startPosition, drivePower, sensors) {
     if (this.isTurning) tireTrackAlpha = 0.75;
     else if (this.isBraking) tireTrackAlpha = 1.0;
     // all alphas are way less than 50% dark
-    tireTrackAlpha *= 0.05;
+    tireTrackAlpha *= this.isGhost ? 0.03 : 0.05;
     tireTracks.add(x,y,this.angle,tireTrackAlpha);
   };
 
@@ -73,7 +74,7 @@ var Car = function(startPosition, drivePower, sensors) {
   };
 
   this.draw = function() {
-    drawImage(gameContext, Images.car, x, y, this.angle);
+    drawImage(gameContext, image, x, y, this.angle);
 
     for (var s = 0; s < this.sensors.length; s++) {
       this.sensors[s].draw();

@@ -3,7 +3,8 @@ var Images = new (function() {
     // key: 'img/image_name.png'
     track_wall: 'img/track_wall.png',
     track_road: 'img/track_road.png',
-    car: 'img/carYellow.png',
+    carYellow: 'img/carYellow.png',
+    carRed: 'img/carRed.png',
     tire_tracks: 'img/tire_tracks.png',
   };
 

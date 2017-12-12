@@ -8,7 +8,8 @@ var isPaused = false;
 var isGameOver = false;
 
 var track;
-var cars = [];
+var car;
+var ghost;
 
 var settings;
 var levelsList;
@@ -47,14 +48,15 @@ function gameInitialize() {
   isPlaying = true;
 
   track = new Track(1);
-  cars.push(new Car(track.playerStart, DRIVE_POWER, [
+  car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
     {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
-  ]));
-  cars.push(new Car({x: 200, y: 125}, DRIVE_POWER, [
+  ]);
+  ghost = new Car(track.playerStart, Images.carYellow, DRIVE_POWER, [
     {x: 30, y: -20, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 30, y: 20, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
-  ]));
+  ]);
+  ghost.isGhost = true;
 
   MainLoop.start();
 }
@@ -67,9 +69,9 @@ function shakeScreen(amount) {
 function gameUpdate(delta) {
   // Call the update methods of all objects.
   track.update(delta);
-  for(var i in cars){
-    cars[i].update(delta);
-  }
+
+  ghost.update(delta);
+  car.update(delta);
 
   TWEEN.update(delta);
 }
@@ -98,9 +100,8 @@ function gameDraw(interpolationPercentage) {
 
   tireTracks.draw();
 
-  for(var i in cars){
-    cars[i].draw();
-  }
+  ghost.draw();
+  car.draw();
 
   gameContext.restore();
   redrawCanvas();

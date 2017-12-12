@@ -61,7 +61,7 @@ function drawLines(canvasContext, color, lineWidth, points) {
 
 function drawText(canvasContext, x, y, color, font, align, text) {
   gameContext.font = font;
-  gameContext.textBaseline = 'middle';
+  gameContext.textBaseline = 'top';
   gameContext.textAlign = align;
   canvasContext.fillStyle = color;
   canvasContext.fillText(text, x, y);

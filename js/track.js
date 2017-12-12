@@ -54,12 +54,12 @@ var Track = function(levelIndex) {
 
   };
 
-    this.draw = function() {
+  this.draw = function() {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
 
-    drawText(gameContext, 0, 20, '#fff', GAME_FONT, 'left', 'Time: 00:00');
-    drawText(gameContext, 160, 20, '#fff', GAME_FONT, 'left', 'Best: 00:00');
-    drawText(gameContext, gameCanvas.width, 20, '#fff', GAME_FONT, 'right', 'Track: ' + label);
+    drawText(gameContext, 0, 0, '#fff', GAME_FONT, 'left', 'Time: 00:00');
+    drawText(gameContext, 160, 0, '#fff', GAME_FONT, 'left', 'Ghost: 00:00');
+    drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'Track: ' + label);
 
     if (DEBUG) {
       gameContext.save();
