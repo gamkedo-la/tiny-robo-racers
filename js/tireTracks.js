@@ -8,11 +8,15 @@ var decalManager = function() {
 	this.tireTrackCanvas.height = gameCanvas.height;
 	this.tireTrackCTX = this.tireTrackCanvas.getContext('2d'); 
 	
-	this.add = function(x,y,rot) {
-		//console.log('addTireTracks:'+x+','+y+','+rot);
+	this.add = function(x,y,rot,alpha) {
+		if (alpha==undefined) alpha = 0.333;
+		if (alpha>1) alpha=1;
+		if (alpha<0) alpha=0;
+		//console.log('addTireTracks:'+x+','+y+','+rot+' alpha:'+alpha);
 		this.tireTrackCTX.save();
 		this.tireTrackCTX.translate(x,y);
 		this.tireTrackCTX.rotate(rot);
+		this.tireTrackCTX.globalAlpha=alpha;
 		this.tireTrackCTX.drawImage(Images.tire_tracks,-9,-9);
 		this.tireTrackCTX.restore()
 	}

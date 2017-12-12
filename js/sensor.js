@@ -18,6 +18,8 @@ var Sensor = function(car, x, y, length, angle, steerAngle) {
     if (isTriggering) {
       car.angle += steerAngle * delta;
     }
+
+    return isTriggering;
   };
 
   this.draw = function() {
