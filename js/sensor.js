@@ -16,10 +16,8 @@ var Sensor = function(car, x, y, length, angle, steerAngle) {
     isTriggering = !track.coordsAreDriveable(end_x, end_y);
 
     if (isTriggering) {
-      car.angle += steerAngle * delta;
+      car.steer(steerAngle * delta);
     }
-
-    return isTriggering;
   };
 
   this.draw = function() {

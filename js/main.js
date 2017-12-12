@@ -8,7 +8,6 @@ var isPaused = false;
 var isGameOver = false;
 
 var track;
-var car;
 var cars = [];
 
 var settings;
@@ -48,10 +47,10 @@ function gameInitialize() {
   isPlaying = true;
 
   track = new Track(1);
-  car = new Car(track.playerStart, DRIVE_POWER, [
+  cars.push(new Car(track.playerStart, DRIVE_POWER, [
     {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
-  ]);
+  ]));
   cars.push(new Car({x: 200, y: 125}, DRIVE_POWER, [
     {x: 30, y: -20, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 30, y: 20, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
@@ -68,7 +67,6 @@ function shakeScreen(amount) {
 function gameUpdate(delta) {
   // Call the update methods of all objects.
   track.update(delta);
-  car.update(delta);
   for(var i in cars){
     cars[i].update(delta);
   }
@@ -100,7 +98,6 @@ function gameDraw(interpolationPercentage) {
 
   tireTracks.draw();
 
-  car.draw();
   for(var i in cars){
     cars[i].draw();
   }

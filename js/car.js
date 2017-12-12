@@ -26,7 +26,7 @@ var Car = function(startPosition, drivePower, sensors) {
 
     this.isTurning = false; // did ANY sensor trigger a steering change?
     for (var s = 0; s < this.sensors.length; s++) {
-      this.isTurning = this.isTurning || this.sensors[s].update(delta);
+      this.sensors[s].update(delta);
     }
 
     var speed = this.speed * (delta / 1000);
@@ -47,7 +47,12 @@ var Car = function(startPosition, drivePower, sensors) {
     // all alphas are way less than 50% dark
     tireTrackAlpha *= 0.05;
     tireTracks.add(x,y,this.angle,tireTrackAlpha);
-  }
+  };
+
+  this.steer = function(angle) {
+    this.angle += angle;
+    this.isTurning = true;
+  };
 
   this.carTrackHandling = function(delta) {
     if (!track.coordsAreDriveable(x, y)) {
