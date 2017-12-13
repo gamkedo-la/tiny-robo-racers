@@ -6,6 +6,7 @@ var Images = new (function() {
     carYellow: 'img/carYellow.png',
     carRed: 'img/carRed.png',
     tire_tracks: 'img/tire_tracks.png',
+    head_lights: 'img/headlights.png',
   };
 
   this.initialize = function(callback) {

@@ -74,6 +74,8 @@ var Car = function(startPosition, image, drivePower, sensors) {
   };
 
   this.draw = function() {
+    drawImage(gameContext, Images.head_lights, x, y, this.angle);
+
     drawImage(gameContext, image, x, y, this.angle);
 
     if (DEBUG) {
