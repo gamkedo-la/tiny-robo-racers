@@ -3,9 +3,14 @@ var Track = function(levelIndex) {
   var label = levels[levelIndex].label;
   var grid = levels[levelIndex].grid.slice();
   var imageName = levels[levelIndex].image;
-
+  var imageNameOverlay = imageName+"-overlay";
+  
   if (!Images[imageName]) {
     Images.loadImage(imageName, 'img/tracks/' + imageName + '.png');
+  }
+
+  if (!Images[imageNameOverlay]) {
+    Images.loadImage(imageNameOverlay, 'img/tracks/' + imageNameOverlay + '.png');
   }
 
   this.playerStart = initializeTrack();
@@ -53,6 +58,10 @@ var Track = function(levelIndex) {
     return TRACK_WALL;
 
   };
+
+  this.drawOverlay = function() { // the lights, scaffolding, clouds: anything drawn above cars
+    gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
+  }
 
   this.draw = function() {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
