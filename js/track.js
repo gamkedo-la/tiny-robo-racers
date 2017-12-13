@@ -5,9 +5,9 @@ var Track = function(levelIndex) {
   var grid = levels[levelIndex].grid.slice();
   var imageName = levels[levelIndex].image;
   var imageNameOverlay = imageName+"-overlay";
-  this.goalX;
-  this.goalMinY;
-  this.goalMaxY;
+  this.goalStart;
+  this.goalEnd;
+  this.playerStart;
   
   if (!Images[imageName]) {
     Images.loadImage(imageName, 'img/tracks/' + imageName + '.png');
@@ -17,40 +17,27 @@ var Track = function(levelIndex) {
     Images.loadImage(imageNameOverlay, 'img/tracks/' + imageNameOverlay + '.png');
   }
 
-  this.playerStart = initializeTrack();
-
-  function initializeTrack() {
-    var i = 0, x = TRACK_WIDTH / 2, y = TRACK_PADDING_TOP + TRACK_HEIGHT / 2;
-    var playerStart = null
+  this.initializeTrack = function() {
+    var i = 0;
     for (var r = 0; r < TRACK_ROWS; r++) {
       for (var c = 0; c < TRACK_COLS; c++) {
         if (grid[i] === TRACK_PLAYERSTART) {
           grid[i] = TRACK_ROAD;
-
-          playerStart = {
-            x: x,
-            y: y
-          };
+          this.playerStart = this.rowColToCoords(c, r);
         }
-        if (grid[i] === TRACK_GOALSTART) {
+        else if (grid[i] === TRACK_GOALSTART) {
           grid[i] = TRACK_ROAD;
-          this.goalX = x
-          this.goalMinY = y
+          this.goalStart = this.rowColToCoords(c, r);
         }
-
-        if(grid[i] === TRACK_GOALEND){
-            grid[i] = TRACK_ROAD;
-            this.goalMaxY = y
+        else if (grid[i] === TRACK_GOALEND) {
+          grid[i] = TRACK_ROAD;
+          this.goalEnd = this.rowColToCoords(c, r);
         }
 
         i++;
-        x += TRACK_WIDTH;
       }
-      x = 0;
-      y += TRACK_HEIGHT;
     }
-    return playerStart;
-  }
+  };
 
   this.coordsAreDriveable = function(x, y) {
     var col = Math.floor(x / TRACK_WIDTH);
@@ -72,12 +59,18 @@ var Track = function(levelIndex) {
     }
 
     return TRACK_WALL;
+  };
 
+  this.rowColToCoords = function(col, row) {
+    return {
+      x: col * TRACK_WIDTH + TRACK_WIDTH / 2,
+      y: row * TRACK_HEIGHT + TRACK_PADDING_TOP + TRACK_HEIGHT / 2
+    };
   };
 
   this.drawOverlay = function() { // the lights, scaffolding, clouds: anything drawn above cars
     gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
-  }
+  };
 
   this.draw = function() {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);

@@ -48,6 +48,7 @@ function gameInitialize() {
   isPlaying = true;
 
   track = new Track(1);
+  track.initializeTrack();
   car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
     {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
