@@ -1,9 +1,13 @@
+var lapTime = 0;
 var Track = function(levelIndex) {
 
   var label = levels[levelIndex].label;
   var grid = levels[levelIndex].grid.slice();
   var imageName = levels[levelIndex].image;
   var imageNameOverlay = imageName+"-overlay";
+  this.goalX;
+  this.goalMinY;
+  this.goalMaxY;
   
   if (!Images[imageName]) {
     Images.loadImage(imageName, 'img/tracks/' + imageName + '.png');
@@ -17,15 +21,26 @@ var Track = function(levelIndex) {
 
   function initializeTrack() {
     var i = 0, x = TRACK_WIDTH / 2, y = TRACK_PADDING_TOP + TRACK_HEIGHT / 2;
+    var playerStart = null
     for (var r = 0; r < TRACK_ROWS; r++) {
       for (var c = 0; c < TRACK_COLS; c++) {
         if (grid[i] === TRACK_PLAYERSTART) {
           grid[i] = TRACK_ROAD;
 
-          return {
+          playerStart = {
             x: x,
             y: y
           };
+        }
+        if (grid[i] === TRACK_GOALSTART) {
+          grid[i] = TRACK_ROAD;
+          this.goalX = x
+          this.goalMinY = y
+        }
+
+        if(grid[i] === TRACK_GOALEND){
+            grid[i] = TRACK_ROAD;
+            this.goalMaxY = y
         }
 
         i++;
@@ -34,6 +49,7 @@ var Track = function(levelIndex) {
       x = 0;
       y += TRACK_HEIGHT;
     }
+    return playerStart;
   }
 
   this.coordsAreDriveable = function(x, y) {
@@ -67,7 +83,7 @@ var Track = function(levelIndex) {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
 
     drawText(gameContext, 0, 0, '#fff', GAME_FONT, 'left', 'Lap: 01');
-    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'Time: 00:00');
+    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'Time: ' + lapTime);
     drawText(gameContext, 260, 0, '#fff', GAME_FONT, 'left', 'Ghost: 00:00');
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'Track: ' + label);
     // @todo how to read this 'car.speed' some conversion to mph/kph?

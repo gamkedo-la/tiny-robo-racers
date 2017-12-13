@@ -2,6 +2,8 @@ var Car = function(startPosition, image, drivePower, sensors) {
 
   var x = startPosition.x;
   var y = startPosition.y;
+  var lastX;
+  var lastY;
 
   this.isGhost = false;
   this.angle = 0;
@@ -9,6 +11,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
   this.sensors = [];
   this.isBraking=false; // used for tire tracks
   this.isTurning=false; // used for skid marks
+  this.lapTime = 0;
 
   for (var s = 0; s < sensors.length; s++) {
     this.sensors.push(new Sensor(this, sensors[s].x, sensors[s].y, sensors[s].length, sensors[s].angle, sensors[s].steerAngle));
@@ -22,6 +25,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
   };
 
   this.update = function(delta) {
+    this.lapTime += delta;
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
 
@@ -31,14 +35,25 @@ var Car = function(startPosition, image, drivePower, sensors) {
     }
 
     var speed = this.speed * (delta / 1000);
+      lastX = x;
+      lastY = y;
     x += Math.cos(this.angle) * speed;
     y += Math.sin(this.angle) * speed;
 
     this.carTrackHandling(delta);
     this.skidMarkHandling();
+    this.checkGoal();
 
   };
-
+  this.checkGoal = function(){
+    if(x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20){
+      //goal
+      if(!this.isGhost){
+        lapTime = this.lapTime;
+      }
+      this.lapTime = 0;
+    }
+  }
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range

@@ -25,6 +25,9 @@ const TRACK_ROAD = 0;
 const TRACK_WALL = 1;
 const TRACK_PLAYERSTART = 2;
 
+const TRACK_GOALSTART = 3;
+const TRACK_GOALEND = 4;
+
 var TRACK_IMAGES = [];
 TRACK_IMAGES[TRACK_ROAD] = 'track_road';
 TRACK_IMAGES[TRACK_WALL] = 'track_wall';
