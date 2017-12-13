@@ -4,7 +4,12 @@ var Car = function(startPosition, image, drivePower, sensors) {
   var y = startPosition.y;
   var lastX;
   var lastY;
-
+  
+  // finish line: derived from car start point! FIXME
+  var goalX;
+  var goalMinY;
+  var goalMaxY;
+  
   this.isGhost = false;
   this.angle = 0;
   this.speed = 0; 
@@ -25,6 +30,15 @@ var Car = function(startPosition, image, drivePower, sensors) {
   };
 
   this.update = function(delta) {
+
+    // determine finish line location if first update
+    if (goalX==undefined)
+    {
+      goalX = x;
+      goalMinY = y - 50; // FIXME: is this wide enough?
+      goalMax = y + 50;
+    }
+
     this.lapTime += delta;
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
