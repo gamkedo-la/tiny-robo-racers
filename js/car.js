@@ -76,8 +76,10 @@ var Car = function(startPosition, image, drivePower, sensors) {
   this.draw = function() {
     drawImage(gameContext, image, x, y, this.angle);
 
-    for (var s = 0; s < this.sensors.length; s++) {
-      this.sensors[s].draw();
+    if (DEBUG) {
+      for (var s = 0; s < this.sensors.length; s++) {
+        this.sensors[s].draw();
+      }
     }
   };
 
