@@ -66,7 +66,7 @@ var Track = function(levelIndex) {
     // @todo replace with 2 wheels
     drawText(gameContext, 150, 30, '#fff', GAME_FONT, 'left', 'Angle: ' + Math.round(car.angle / DEC2RAD) + '°');
 
-    if (DEBUG) {
+    if (TRACK_DEBUG_OVERLAY) {
       gameContext.save();
       if (!TRACK_SCREENSHOT) {
         gameContext.globalAlpha = 0.5;

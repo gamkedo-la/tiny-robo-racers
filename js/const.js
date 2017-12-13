@@ -1,5 +1,6 @@
 // Debug
 var DEBUG = true;
+var TRACK_DEBUG_OVERLAY = false;
 var TRACK_SCREENSHOT = false;
 
 const KEY_ESC = 27;

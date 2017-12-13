@@ -9,7 +9,7 @@ var decalManager = function() {
 	this.tireTrackCTX = this.tireTrackCanvas.getContext('2d'); 
 	
 	this.add = function(x,y,rot,alpha) {
-		if (alpha==undefined) alpha = 0.333;
+		if (alpha==undefined) alpha = 0.1;
 		if (alpha>1) alpha=1;
 		if (alpha<0) alpha=0;
 		//console.log('addTireTracks:'+x+','+y+','+rot+' alpha:'+alpha);
