@@ -74,8 +74,9 @@ var Car = function(startPosition, image, drivePower, sensors) {
     var tireTrackAlpha = this.speed/3200;
     if (this.isTurning) tireTrackAlpha = 0.75;
     else if (this.isBraking) tireTrackAlpha = 1.0;
-    // all alphas are way less than 50% dark
-    tireTrackAlpha *= this.isGhost ? 0.03 : 0.05;
+    // fun idea: we could tint the image for mud/water/oil...
+    // the alphas above are now scaled to a tiny range
+    tireTrackAlpha *= this.isGhost ? 0.015 : 0.035;
     tireTracks.add(x,y,this.angle,tireTrackAlpha);
   };
 
