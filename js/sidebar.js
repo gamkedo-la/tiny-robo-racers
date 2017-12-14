@@ -1,6 +1,6 @@
 var Sidebar = function() {
 
-  var minPercentage = 0.2;
+  var minPercentage = 0.08;
 
   this.editingAnimationPercentage = isEditing ? 1 : minPercentage;
 
@@ -17,7 +17,7 @@ var Sidebar = function() {
 
     new TWEEN.Tween(p)
       .to({ percentage: isEditing ? minPercentage : 1 }, 600)
-      .easing(TWEEN.Easing.Linear.None)
+      .easing(TWEEN.Easing.Quadratic.Out)
       .onUpdate(function() {
         sidebar.editingAnimationPercentage = p.percentage;
       })
