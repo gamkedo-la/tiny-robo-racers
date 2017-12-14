@@ -4,6 +4,7 @@ var TRACK_SCREENSHOT = false;
 
 const KEY_ESC = 27;
 const KEY_D = 68;
+const KEY_E = 69;
 const KEY_S = 83;
 
 const FRAME_RATE = 60;

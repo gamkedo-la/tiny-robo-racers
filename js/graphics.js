@@ -39,8 +39,8 @@ function drawStrokeRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, 
 }
 
 function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, lineWidth) {
-  startAngle = Math.PI * -0.5;
-  endAngle = Math.PI * 2 * percentage + startAngle;
+  var startAngle = Math.PI * -0.5;
+  var endAngle = Math.PI * 2 * percentage + startAngle;
   canvasContext.strokeStyle = strokeColor;
   canvasContext.lineWidth = lineWidth;
   canvasContext.beginPath();
@@ -60,9 +60,9 @@ function drawLines(canvasContext, color, lineWidth, points) {
 }
 
 function drawText(canvasContext, x, y, color, font, align, text) {
-  gameContext.font = font;
-  gameContext.textBaseline = 'top';
-  gameContext.textAlign = align;
+  canvasContext.font = font;
+  canvasContext.textBaseline = 'top';
+  canvasContext.textAlign = align;
   canvasContext.fillStyle = color;
   canvasContext.fillText(text, x, y);
 }

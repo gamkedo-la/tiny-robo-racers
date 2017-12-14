@@ -56,9 +56,9 @@ var Car = function(startPosition, image, drivePower, sensors) {
 
     this.carTrackHandling(delta);
     this.skidMarkHandling();
-    this.checkGoal();
-
+//    this.checkGoal();
   };
+
   this.checkGoal = function(){
     if(x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20){
       //goal
@@ -67,7 +67,8 @@ var Car = function(startPosition, image, drivePower, sensors) {
       }
       this.lapTime = 0;
     }
-  }
+  };
+
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range

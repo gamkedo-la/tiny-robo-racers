@@ -1,13 +1,17 @@
 var gameCanvas, gameContext;
+var editCanvas, editContext;
 
 var screenShakeAmount = 0;
 var screenShakeAmountHalf = 0;
 
 var isPlaying = false;
+var isEditing = false;
+var isEditToggling = false;
 var isPaused = false;
 var isGameOver = false;
 
 var track;
+var sidebar;
 var car;
 var ghost;
 
@@ -17,8 +21,10 @@ var levelsList;
 window.onload = function() {
   gameCanvas = document.getElementById('gameCanvas');
   gameContext = gameCanvas.getContext('2d');
+  editCanvas = document.getElementById('editCanvas');
+  editContext = editCanvas.getContext('2d');
 
-  window.addEventListener("blur", windowOnBlur);
+  window.addEventListener('blur', windowOnBlur);
 
   settings = new LocalStorage('trr', 'settings');
   levelsList = new LocalStorage('trr', 'levelsList');
@@ -47,6 +53,7 @@ function windowOnBlur() {
 function gameInitialize() {
   isPlaying = true;
 
+  sidebar = new Sidebar();
   track = new Track(1);
   track.initializeTrack();
   car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
@@ -70,11 +77,12 @@ function shakeScreen(amount) {
 function gameUpdate(delta) {
   // Call the update methods of all objects.
   track.update(delta);
+  sidebar.update(delta);
 
   ghost.update(delta);
   car.update(delta);
 
-  TWEEN.update(delta);
+  TWEEN.update();
 }
 
 function gameDraw(interpolationPercentage) {
@@ -97,6 +105,7 @@ function gameDraw(interpolationPercentage) {
   }
 
   // Call the draw methods of all objects.
+  sidebar.draw();
   track.draw();
   tireTracks.draw();
   ghost.draw();
@@ -109,7 +118,6 @@ function gameDraw(interpolationPercentage) {
 
 function clearCanvas() {
   gameContext.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-  redrawCanvas();
 }
 
 // Make sure we can handle the game when it has fallen too far behind real time.

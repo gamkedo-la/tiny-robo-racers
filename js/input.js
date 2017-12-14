@@ -33,6 +33,11 @@ function keyDown(event) {
         TRACK_SCREENSHOT = false;
       }
       break;
+    case KEY_E:
+      if (isPlaying) {
+        sidebar.toggle();
+      }
+      break;
     case KEY_S:
       if (isPlaying && DEBUG) {
         TRACK_SCREENSHOT = !TRACK_SCREENSHOT;
