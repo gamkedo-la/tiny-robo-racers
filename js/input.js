@@ -12,6 +12,10 @@ document.oncontextmenu = function() {
 function setupInput() {
   document.addEventListener('keydown', keyDown);
   document.addEventListener('keyup', keyUp);
+
+  drawCanvas.addEventListener('mousemove', updateMousePosition);
+  drawCanvas.addEventListener('mousedown', clickOrTouch);
+  drawCanvas.addEventListener('touchstart', clickOrTouch);
 }
 
 function keyDown(event) {
@@ -50,4 +54,40 @@ function keyDown(event) {
 }
 
 function keyUp(event) {
+}
+
+function setMousePos(posX, posY) {
+  var rect = drawCanvas.getBoundingClientRect();
+
+  mouse = scaleCoordinates(posX - rect.left, posY - rect.top);
+
+  mouse.button = -1;
+}
+
+function updateMousePosition(event) {
+  setMousePos(event.clientX, event.clientY, event.button);
+}
+
+function clickOrTouch(event) {
+  event.preventDefault();
+
+  var x, y;
+
+  if (event.targetTouches && event.targetTouches[0]) {
+    x = event.targetTouches[0].pageX;
+    y = event.targetTouches[0].pageY;
+  }
+  else {
+    x = event.clientX;
+    y = event.clientY;
+  }
+
+  setMousePos(x, y);
+  if (event.type === 'touchstart') {
+    // Left click
+    mouse.button = 0;
+  }
+  else {
+    mouse.button = event.button;
+  }
 }

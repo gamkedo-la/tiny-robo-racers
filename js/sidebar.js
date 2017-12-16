@@ -4,6 +4,11 @@ var Sidebar = function() {
 
   this.editingAnimationPercentage = isEditing ? 1 : minPercentage;
 
+  var btnReset = new Button(editContext, 100, 700, 'Reset car', GAME_FONT_BUTTON, resetCar);
+
+  function resetCar() {}
+  function startRace() {}
+
   this.toggle = function() {
     if (isEditToggling) {
       return;
@@ -32,6 +37,8 @@ var Sidebar = function() {
     if (!isEditing && !isEditToggling) {
       return;
     }
+
+    btnReset.update(delta);
   };
 
   this.draw = function() {
@@ -41,16 +48,9 @@ var Sidebar = function() {
 
     editContext.clearRect(0, 0, editCanvas.width, editCanvas.height);
 
-    drawLines(editContext, '#fff', 2, [
-      {x: 0, y: 0},
-      {x: editCanvas.width, y: 0},
-      {x: 0, y: editCanvas.height},
-      {x: editCanvas.width, y: editCanvas.height},
-      {x: 0, y: 0},
-      {x: 0, y: editCanvas.height},
-      {x: editCanvas.width, y: editCanvas.height},
-      {x: editCanvas.width, y: 0}
-    ]);
+    drawImage(editContext, Images.carRedBig, 180, 350);
+
+    btnReset.draw();
   };
 
 };

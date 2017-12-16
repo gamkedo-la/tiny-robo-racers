@@ -4,6 +4,12 @@ var editCanvas, editContext;
 var screenShakeAmount = 0;
 var screenShakeAmountHalf = 0;
 
+var mouse = {
+  x: 0,
+  y: 0,
+  button: -1
+};
+
 var isPlaying = false;
 var isEditing = false;
 var isEditToggling = false;

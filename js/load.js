@@ -1,10 +1,12 @@
 var Images = new (function() {
   var images = {
     // key: 'img/image_name.png'
+    button: 'img/button.png',
     track_wall: 'img/track_wall.png',
     track_road: 'img/track_road.png',
     carYellow: 'img/carYellow.png',
     carRed: 'img/carRed.png',
+    carRedBig: 'img/carRed-big.png',
     tire_tracks: 'img/tire_tracks.png',
     head_lights: 'img/headlights.png',
   };

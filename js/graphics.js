@@ -59,9 +59,9 @@ function drawLines(canvasContext, color, lineWidth, points) {
   canvasContext.stroke();
 }
 
-function drawText(canvasContext, x, y, color, font, align, text) {
+function drawText(canvasContext, x, y, color, font, align, baseline, text) {
   canvasContext.font = font;
-  canvasContext.textBaseline = 'top';
+  canvasContext.textBaseline = baseline;
   canvasContext.textAlign = align;
   canvasContext.fillStyle = color;
   canvasContext.fillText(text, x, y);

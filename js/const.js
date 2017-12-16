@@ -14,6 +14,7 @@ const DRIVE_POWER = 10 / FRAME_RATE_DELTA;
 const GROUNDSPEED_DECAY_MULT = 0.94 / FRAME_RATE_DELTA;
 
 const GAME_FONT = 'bold 16pt Verdana';
+const GAME_FONT_BUTTON = '13pt Verdana';
 
 const TRACK_WIDTH = 10;
 const TRACK_HEIGHT = 10;

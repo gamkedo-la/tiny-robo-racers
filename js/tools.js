@@ -17,6 +17,10 @@ String.prototype.ucFirst = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+function isString(obj) {
+  return (Object.prototype.toString.call(obj) === '[object String]');
+}
+
 if (!console) {
   var console = {};
 }
@@ -34,4 +38,13 @@ function random(min, max, isFloat) {
   }
 
   return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length === 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
