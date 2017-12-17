@@ -29,8 +29,18 @@ var Car = function(startPosition, image, drivePower, sensors) {
     }
   };
 
-  this.update = function(delta) {
+  this.reset = function() {
+    x = startPosition.x;
+    y = startPosition.y;
+    this.angle = 0;
+    this.speed = 0;
+    this.isBraking = false;
+    this.isTurning = false;
+    this.lapTime = 0;
+//    tireTracks.reset();
+  };
 
+  this.update = function(delta) {
     // determine finish line location if first update
     if (goalX==undefined)
     {

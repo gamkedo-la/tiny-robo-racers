@@ -15,10 +15,18 @@ function setupInput() {
 
   drawCanvas.addEventListener('mousemove', updateMousePosition);
   drawCanvas.addEventListener('mousedown', clickOrTouch);
+  drawCanvas.addEventListener('mouseup', clickOrTouchEnd);
+
+  drawCanvas.addEventListener('touchmove', updateMousePosition);
   drawCanvas.addEventListener('touchstart', clickOrTouch);
+  drawCanvas.addEventListener('touchend', clickOrTouchEnd);
+  drawCanvas.addEventListener('touchcancel', clickOrTouchEnd);
 }
 
 function keyDown(event) {
+}
+
+function keyUp(event) {
   switch (event.keyCode) {
     case KEY_ESC:
       if (isPaused) {
@@ -53,9 +61,6 @@ function keyDown(event) {
   }
 }
 
-function keyUp(event) {
-}
-
 function setMousePos(posX, posY) {
   var rect = drawCanvas.getBoundingClientRect();
 
@@ -65,12 +70,6 @@ function setMousePos(posX, posY) {
 }
 
 function updateMousePosition(event) {
-  setMousePos(event.clientX, event.clientY, event.button);
-}
-
-function clickOrTouch(event) {
-  event.preventDefault();
-
   var x, y;
 
   if (event.targetTouches && event.targetTouches[0]) {
@@ -83,6 +82,13 @@ function clickOrTouch(event) {
   }
 
   setMousePos(x, y);
+}
+
+function clickOrTouch(event) {
+  event.preventDefault();
+
+  updateMousePosition(event);
+
   if (event.type === 'touchstart') {
     // Left click
     mouse.button = 0;
@@ -90,4 +96,8 @@ function clickOrTouch(event) {
   else {
     mouse.button = event.button;
   }
+}
+
+function clickOrTouchEnd(event) {
+  mouse.button = -1;
 }

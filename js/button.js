@@ -7,6 +7,7 @@ var Button = function(canvasContext, x, y, text, font, callback) {
   var boxHeight = 20 + determineFontHeight(font);
 
   var isHover = 0;
+  var callbackFired = false;
   var normalColor = '#fff';
   var activeColor = '#fff';
 
@@ -17,18 +18,23 @@ var Button = function(canvasContext, x, y, text, font, callback) {
 
   createButton(buttonContext, Images.button, boxWidth, boxHeight);
 
-  console.log(x, y, x + boxWidth, y + boxHeight);
-
   this.update = function(delta) {
     isHover = (x < mouse.x && mouse.x < x + boxWidth && y < mouse.y && mouse.y < y + boxHeight);
-    // todo click
+    drawCanvas.style.cursor = isHover ? 'pointer' : 'default';
+
+    if (isHover && mouse.button === 0) {
+      if (!callbackFired) {
+        callbackFired = true;
+        callback();
+      }
+    }
+    else {
+      callbackFired = false;
+    }
   };
 
   this.draw = function() {
-    editContext.save();
-    editContext.translate(x, y);
-    editContext.drawImage(buttonCanvas, 0, isHover ? boxHeight : 0, boxWidth, boxHeight, -boxWidth / 2, -boxWidth / 2, boxWidth, boxHeight);
-    editContext.restore();
+    editContext.drawImage(buttonCanvas, 0, isHover ? boxHeight : 0, boxWidth, boxHeight, x, y, boxWidth, boxHeight);
   };
 
   function createButton(buttonContext, image, width, height) {

@@ -1,6 +1,6 @@
-const PADDING = 30;
+const PADDING = 60;
 var drawCanvas, drawContext;
-var drawScale, aspectRatio;
+var drawScaleX, drawScaleY, aspectRatio;
 
 function initDrawingCanvas() {
   drawCanvas = document.getElementById('drawCanvas');
@@ -15,8 +15,8 @@ function initDrawingCanvas() {
 
 function scaleCoordinates(x, y) {
   return {
-    x: x / drawScale,
-    y: y / drawScale
+    x: x / drawScaleX,
+    y: y / drawScaleY
   };
 }
 
@@ -35,11 +35,11 @@ function redrawCanvas() {
     var gameHeight = drawCanvas.height * (1 - sidebarPercentage);
     var gamePaddingTop = drawCanvas.height * (sidebarPercentage / 2);
 
-    drawContext.drawImage(editCanvas, 0, 0, editCanvas.width, editCanvas.height, PADDING, PADDING, sidebarWidth - PADDING, drawCanvas.height - (2 * PADDING));
-    drawContext.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height, sidebarWidth, PADDING + gamePaddingTop, gameWidth - PADDING, gameHeight - (2 * PADDING));
+    drawContext.drawImage(editCanvas, 0, 0, editCanvas.width, editCanvas.height, 0, 0, sidebarWidth, drawCanvas.height);
+    drawContext.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height, sidebarWidth, gamePaddingTop, gameWidth, gameHeight);
   }
   else {
-    drawContext.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height, PADDING, PADDING, drawCanvas.width - (2 * PADDING), drawCanvas.height - (2 * PADDING));
+    drawContext.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height, 0, 0, drawCanvas.width, drawCanvas.height);
   }
 }
 
@@ -56,5 +56,9 @@ function resizeWindow() {
     drawCanvas.width = Math.floor(maxHeight * aspectRatio);
   }
 
-  drawScale = drawCanvas.width / gameCanvas.width;
+  drawCanvas.width -= PADDING;
+  drawCanvas.height -= PADDING;
+
+  drawScaleX = drawCanvas.width / gameCanvas.width;
+  drawScaleY = drawCanvas.height / gameCanvas.height;
 }

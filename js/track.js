@@ -39,6 +39,9 @@ var Track = function(levelIndex) {
     }
   };
 
+  this.reset = function() {
+  };
+
   this.coordsAreDriveable = function(x, y) {
     var col = Math.floor(x / TRACK_WIDTH);
     var row = Math.floor((y - TRACK_PADDING_TOP) / TRACK_HEIGHT);
