@@ -16,10 +16,8 @@ var Sidebar = function() {
 
   function startRace() {
     that.toggle();
-    car.reset();
-    ghost.reset();
-    track.reset();
-    console.log('start race');
+    resetCar();
+    track.startRace();
   }
 
   this.toggle = function() {

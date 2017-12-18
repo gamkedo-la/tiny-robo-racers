@@ -1,6 +1,9 @@
 var lapTime = 0;
 var Track = function(levelIndex) {
 
+  var showCountdown = false;
+  var countdownRemaining = 0;
+
   var label = levels[levelIndex].label;
   var grid = levels[levelIndex].grid.slice();
   var imageName = levels[levelIndex].image;
@@ -39,8 +42,15 @@ var Track = function(levelIndex) {
     }
   };
 
-  this.reset = function() {
+  this.startRace = function() {
+    this.reset();
+    car.isRacing = false;
+    ghost.isRacing = false;
+    showCountdown = true;
+    countdownRemaining = 3000;
   };
+
+  this.reset = function() {};
 
   this.coordsAreDriveable = function(x, y) {
     var col = Math.floor(x / TRACK_WIDTH);
@@ -108,8 +118,26 @@ var Track = function(levelIndex) {
 
       gameContext.restore();
     }
+
+    if (showCountdown) {
+      gameContext.shadowBlur = 6;
+      gameContext.shadowColor = '#222';
+      drawText(gameContext, gameCanvas.width / 2, gameCanvas.height / 2, '#fff', GAME_FONT_LARGE, 'center', 'middle', 'Starting race in: ' + Math.ceil(countdownRemaining / 1000));
+      gameContext.shadowBlur = 0;
+      gameContext.shadowColor = 'transparent';
+    }
   };
 
-  this.update = function(delta) {};
+  this.update = function(delta) {
+    if (showCountdown && !isEditToggling) {
+      countdownRemaining -= delta;
+      if (countdownRemaining <= 0) {
+        countdownRemaining = 0;
+        showCountdown = false;
+        car.isRacing = true;
+        ghost.isRacing = true;
+      }
+    }
+  };
 
 };

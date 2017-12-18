@@ -12,6 +12,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
   var goalMinY = startPosition.y - 50;
   var goalMaxY = startPosition.y + 50;
 
+  this.isRacing = true;
   this.isGhost = false;
   this.angle = 0;
   this.speed = 0;
@@ -43,6 +44,10 @@ var Car = function(startPosition, image, drivePower, sensors) {
   };
 
   this.update = function(delta) {
+    if (!this.isRacing) {
+      return;
+    }
+
     this.lapTime += delta;
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
