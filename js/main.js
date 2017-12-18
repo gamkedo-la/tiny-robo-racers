@@ -56,11 +56,15 @@ function windowOnBlur() {
   }
 }
 
-function gameInitialize() {
+function gameInitialize(levelIndex) {
+  if (!levels[levelIndex]) {
+    alert('No level? ' + levelIndex);
+    return;
+  }
   isPlaying = true;
 
   sidebar = new Sidebar();
-  track = new Track(1);
+  track = new Track(levelIndex);
   track.initializeTrack();
   car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
     {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
@@ -123,7 +127,9 @@ function gameDraw(interpolationPercentage) {
 }
 
 function clearCanvas() {
+  editContext.clearRect(0, 0, editCanvas.width, editCanvas.height);
   gameContext.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+  drawContext.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
 }
 
 // Make sure we can handle the game when it has fallen too far behind real time.
