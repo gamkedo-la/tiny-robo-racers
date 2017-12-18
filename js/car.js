@@ -4,18 +4,20 @@ var Car = function(startPosition, image, drivePower, sensors) {
   var y = startPosition.y;
   var lastX;
   var lastY;
-  
+
   // finish line: derived from car start point! FIXME
-  var goalX;
-  var goalMinY;
-  var goalMaxY;
-  
+  // FIXME: is this wide enough?
+  // FIXME: what about starting points pointing up or down or left?
+  var goalX = startPosition.x;
+  var goalMinY = startPosition.y - 50;
+  var goalMaxY = startPosition.y + 50;
+
   this.isGhost = false;
   this.angle = 0;
-  this.speed = 0; 
+  this.speed = 0;
   this.sensors = [];
-  this.isBraking=false; // used for tire tracks
-  this.isTurning=false; // used for skid marks
+  this.isBraking = false; // used for tire tracks
+  this.isTurning = false; // used for skid marks
   this.lapTime = 0;
 
   for (var s = 0; s < sensors.length; s++) {
@@ -41,14 +43,6 @@ var Car = function(startPosition, image, drivePower, sensors) {
   };
 
   this.update = function(delta) {
-    // determine finish line location if first update
-    if (goalX==undefined)
-    {
-      goalX = x;
-      goalMinY = y - 50; // FIXME: is this wide enough?
-      goalMax = y + 50;
-    }
-
     this.lapTime += delta;
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
@@ -59,8 +53,8 @@ var Car = function(startPosition, image, drivePower, sensors) {
     }
 
     var speed = this.speed * (delta / 1000);
-      lastX = x;
-      lastY = y;
+    lastX = x;
+    lastY = y;
     x += Math.cos(this.angle) * speed;
     y += Math.sin(this.angle) * speed;
 
@@ -82,13 +76,17 @@ var Car = function(startPosition, image, drivePower, sensors) {
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range
-    var tireTrackAlpha = this.speed/3200;
-    if (this.isTurning) tireTrackAlpha = 0.75;
-    else if (this.isBraking) tireTrackAlpha = 1.0;
+    var tireTrackAlpha = this.speed / 3200;
+    if (this.isTurning) {
+      tireTrackAlpha = 0.75;
+    }
+    else if (this.isBraking) {
+      tireTrackAlpha = 1.0;
+    }
     // fun idea: we could tint the image for mud/water/oil...
     // the alphas above are now scaled to a tiny range
     tireTrackAlpha *= this.isGhost ? 0.015 : 0.035;
-    tireTracks.add(x,y,this.angle,tireTrackAlpha);
+    tireTracks.add(x, y, this.angle, tireTrackAlpha);
   };
 
   this.steer = function(angle) {
@@ -102,8 +100,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
       this.isBraking = true;
       this.speed = -this.speed / 2;
     }
-    else
-    {
+    else {
       this.isBraking = false;
     }
   };
@@ -119,7 +116,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
 
     drawImage(gameContext, image, x, y, this.angle);
 
-    if (DEBUG) {
+    if (isEditing || isEditToggling) {
       for (var s = 0; s < this.sensors.length; s++) {
         this.sensors[s].draw();
       }
