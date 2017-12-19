@@ -96,6 +96,9 @@ var Car = function(startPosition, image, drivePower, sensors) {
 
   this.steer = function(angle) {
     this.angle += angle;
+    if (ANGLE360 <= this.angle) {
+      this.angle -= ANGLE360;
+    }
     this.isTurning = true;
   };
 

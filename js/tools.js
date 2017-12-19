@@ -1,4 +1,5 @@
 const DEC2RAD = (Math.PI / 180);
+const ANGLE360 = Math.PI * 2;
 
 if (!Object.keys) {
   Object.keys = function(obj) {
