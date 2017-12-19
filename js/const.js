@@ -1,6 +1,7 @@
 // Debug
 var DEBUG = true;
 var TRACK_SCREENSHOT = false;
+const STRESSTEST_AI = false; // add 20 more cars with random attributes
 
 const KEY_ESC = 27;
 const KEY_D = 68;

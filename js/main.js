@@ -1,5 +1,3 @@
-const STRESSTEST_AI = true; // add 20 more cars with random attributes
-
 var gameCanvas, gameContext;
 var editCanvas, editContext;
 
