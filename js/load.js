@@ -1,7 +1,8 @@
 var Images = new (function() {
   var images = {
     // key: 'img/image_name.png'
-    button: 'img/button.png',
+    button_inactive: 'img/buttonInactive.png',
+    button_active: 'img/buttonActive.png',
     track_wall: 'img/track_wall.png',
     track_road: 'img/track_road.png',
     carYellow: 'img/carYellow.png',

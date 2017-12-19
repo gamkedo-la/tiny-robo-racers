@@ -12,6 +12,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
   var goalMinY = startPosition.y - 50;
   var goalMaxY = startPosition.y + 50;
 
+  this.image = image;
   this.isRacing = true;
   this.isGhost = false;
   this.angle = 0;
@@ -20,6 +21,9 @@ var Car = function(startPosition, image, drivePower, sensors) {
   this.isBraking = false; // used for tire tracks
   this.isTurning = false; // used for skid marks
   this.lapTime = 0;
+
+  // Clear tracks when creating a new car
+  tireTracks.reset();
 
   for (var s = 0; s < sensors.length; s++) {
     this.sensors.push(new Sensor(this, sensors[s].x, sensors[s].y, sensors[s].length, sensors[s].angle, sensors[s].steerAngle));

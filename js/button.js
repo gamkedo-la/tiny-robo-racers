@@ -3,6 +3,7 @@ var fontHeightCache = [];
 var Button = function(canvasContext, x, y, text, font, callback) {
 
   canvasContext.font = font;
+
   var boxWidth = 20 + canvasContext.measureText(text).width;
   var boxHeight = 20 + determineFontHeight(font);
 
@@ -11,15 +12,11 @@ var Button = function(canvasContext, x, y, text, font, callback) {
   var normalColor = '#fff';
   var activeColor = '#fff';
 
-  var buttonCanvas = document.createElement('canvas');
-	buttonCanvas.width = boxWidth;
-	buttonCanvas.height = boxHeight * 2;
-	var buttonContext = buttonCanvas.getContext('2d');
-
-  createButton(buttonContext, Images.button, boxWidth, boxHeight);
+  var buttonCanvas = createButtonCanvas(Images.button_active, Images.button_inactive, boxWidth, boxHeight);
 
   this.update = function(delta) {
     isHover = (x < mouse.x && mouse.x < x + boxWidth && y < mouse.y && mouse.y < y + boxHeight);
+    // @todo fix cursor: only works for "last button"
     drawCanvas.style.cursor = isHover ? 'pointer' : 'default';
 
     if (isHover && mouse.button === 0) {
@@ -37,42 +34,21 @@ var Button = function(canvasContext, x, y, text, font, callback) {
     editContext.drawImage(buttonCanvas, 0, isHover ? boxHeight : 0, boxWidth, boxHeight, x, y, boxWidth, boxHeight);
   };
 
-  function createButton(buttonContext, image, width, height) {
-    var centerX = Math.floor(width / 2);
-    var centerY = Math.floor(height / 2);
+  function createButtonCanvas(imageActive, imageInactive, boxWidth, boxHeight) {
+    var buttonCanvas = document.createElement('canvas');
+    buttonCanvas.width = boxWidth;
+    buttonCanvas.height = boxHeight * 2;
+    var buttonContext = buttonCanvas.getContext('2d');
 
-    var partWidth = image.width / 4;
-    var partHeight = image.height / 8;
+    var centerX = Math.floor(boxWidth / 2);
+    var centerY = Math.floor(boxHeight / 2);
 
-    var partHeightOffset = 0;
-    var heightOffset = 0;
-    var color = normalColor;
+    (new Drawbox(buttonContext, imageInactive, boxWidth, boxHeight)).draw(0, 0);
+    drawText(buttonContext, centerX, centerY, normalColor, font, 'center', 'middle', text);
+    (new Drawbox(buttonContext, imageActive, boxWidth, boxHeight)).draw(0, boxHeight);
+    drawText(buttonContext, centerX, centerY + boxHeight, activeColor, font, 'center', 'middle', text);
 
-    for (var i = 0; i < 2; i++) {
-      // Top left / right
-      buttonContext.drawImage(image, 0, partHeightOffset, partWidth, partHeight, 0, heightOffset, partWidth, partHeight);
-      buttonContext.drawImage(image, partWidth * 3, partHeightOffset, partWidth, partHeight, width - partWidth, heightOffset, partWidth, partHeight);
-      // Bottom left / right
-      buttonContext.drawImage(image, 0, partHeight * 3 + partHeightOffset, partWidth, partHeight, 0, height - partHeight + heightOffset, partWidth, partHeight);
-      buttonContext.drawImage(image, partWidth * 3, partHeight * 3 + partHeightOffset, partWidth, partHeight, width - partWidth, height - partHeight + heightOffset, partWidth, partHeight);
-      // Top / bottom
-      buttonContext.drawImage(image, partWidth, partHeightOffset, partWidth, partHeight, partWidth, heightOffset, width - partWidth * 2, partHeight);
-      buttonContext.drawImage(image, partWidth, partHeight * 3 + partHeightOffset, partWidth, partHeight, partWidth, height - partHeight + heightOffset, width - partWidth * 2, partHeight);
-      // Left / right
-      buttonContext.drawImage(image, 0, partHeight + partHeightOffset, partWidth, partHeight, 0, partHeight + heightOffset, partWidth, height - partHeight * 2);
-      buttonContext.drawImage(image, partWidth * 3, partHeight + partHeightOffset, partWidth, partHeight, width - partWidth, partHeight + heightOffset, partWidth, height - partHeight * 2);
-
-      // Center area
-      var d = buttonContext.getImageData(partWidth - 1, partHeight - 1 + heightOffset, 1, 1).data;
-      var centerColor = rgbToHex(d[0], d[1], d[2]);
-      drawFillRect(buttonContext, partWidth, partHeight + heightOffset, width - partWidth * 2, height - partHeight * 2, centerColor);
-
-      drawText(buttonContext, centerX, centerY + heightOffset, color, font, 'center', 'middle', text);
-
-      color = activeColor;
-      heightOffset += height;
-      partHeightOffset += partHeight * 4;
-    }
+    return buttonCanvas;
   }
 
   function determineFontHeight(font) {

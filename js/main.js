@@ -67,16 +67,19 @@ function gameInitialize(levelIndex) {
   }
   isPlaying = true;
 
-  sidebar = new Sidebar();
+  sidebar = new Sidebar(Images.carRedBig);
+  if (DEBUG) {
+    sidebar.toggle();
+  }
   track = new Track(levelIndex);
   track.initializeTrack();
   car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
-    {x: 30, y: -20, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
-    {x: 30, y: 20, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
+    {x: 15, y: -7, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
+    {x: 15, y: 7, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
   ]);
   ghost = new Car(track.playerStart, Images.carYellow, DRIVE_POWER, [
-    {x: 30, y: -20, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
-    {x: 30, y: 20, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
+    {x: 15, y: -7, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
+    {x: 15, y: 7, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
   ]);
   ghost.isGhost = true;
 
@@ -86,13 +89,12 @@ function gameInitialize(levelIndex) {
         {x:track.playerStart.x-80*Math.random(), // mostly behind the player
           y:track.playerStart.y+60*Math.random()-30}
           , Images.carYellow, DRIVE_POWER, [
-      {x: 30, y: -20, length: 40, angle: -Math.PI / 10 * Math.random(), steerAngle: 0.1 / FRAME_RATE_DELTA * Math.random()},
-      {x: 30, y: 20, length: 40, angle: Math.PI / 10 * Math.random(), steerAngle: -0.1 / FRAME_RATE_DELTA * Math.random()}
-    ]);
-    nextone.isGhost = true;
-    manyGhosts[manyGhosts.length] = nextone;
-  }
-  
+          {x: 15, y: -7, length: 40, angle: -Math.PI / 10 * Math.random(), steerAngle: 0.1 / FRAME_RATE_DELTA * Math.random()},
+          {x: 15, y: 7, length: 40, angle: Math.PI / 10 * Math.random(), steerAngle: -0.1 / FRAME_RATE_DELTA * Math.random()}
+        ]);
+      nextone.isGhost = true;
+      manyGhosts[manyGhosts.length] = nextone;
+    }
   }
 
   MainLoop.start();

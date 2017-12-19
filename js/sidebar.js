@@ -1,6 +1,12 @@
-var Sidebar = function() {
+var Sidebar = function(image) {
 
   var that = this;
+
+  this.image = image;
+  this.carX = 180;
+  this.carY = 350;
+
+  var editingSensor = true;
 
   var minPercentage = 0.08;
 
@@ -8,6 +14,10 @@ var Sidebar = function() {
 
   var btnReset = new Button(editContext, 60, 700, 'Reset car', GAME_FONT_BUTTON, resetCar);
   var btnStart = new Button(editContext, 200, 700, 'Start race!', GAME_FONT_BUTTON, startRace);
+
+  var dialogBox = new Drawbox(editContext, Images.button_inactive, 200, 300);
+  var btnSave = new Button(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, saveSensor);
+  var btnCancel = new Button(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, cancelEditSensor);
 
   function resetCar() {
     car.reset();
@@ -18,6 +28,14 @@ var Sidebar = function() {
     that.toggle();
     resetCar();
     track.startRace();
+  }
+
+  function saveSensor() {
+    editingSensor = false;
+  }
+
+  function cancelEditSensor() {
+    editingSensor = false;
   }
 
   this.toggle = function() {
@@ -49,8 +67,14 @@ var Sidebar = function() {
       return;
     }
 
-    btnReset.update(delta);
-    btnStart.update(delta);
+    if (editingSensor) {
+      btnSave.update(delta);
+      btnCancel.update(delta);
+    }
+    else {
+      btnReset.update(delta);
+      btnStart.update(delta);
+    }
   };
 
   this.draw = function() {
@@ -60,10 +84,30 @@ var Sidebar = function() {
 
     editContext.clearRect(0, 0, editCanvas.width, editCanvas.height);
 
-    drawImage(editContext, Images.carRedBig, 180, 350);
+    drawImage(editContext, image, this.carX, this.carY);
 
-    btnReset.draw();
-    btnStart.draw();
+    if (editingSensor) {
+      // ------------
+      // | Angle    |
+      // |    \     |
+      // | Steering |
+      // |   (Y)    |
+      // | Length   |
+      // | ------|- |
+      // ------------
+
+      dialogBox.draw(80, 390);
+      drawText(editContext, 90, 410, '#fff', GAME_FONT, 'left', 'middle', 'Angle');
+      drawText(editContext, 90, 520, '#fff', GAME_FONT, 'left', 'middle', 'Steering angle');
+      drawText(editContext, 90, 630, '#fff', GAME_FONT, 'left', 'middle', 'Length');
+
+      btnSave.draw();
+      btnCancel.draw();
+    }
+    else {
+      btnReset.draw();
+      btnStart.draw();
+    }
   };
 
 };
