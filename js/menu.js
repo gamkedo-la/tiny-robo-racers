@@ -7,7 +7,7 @@ function menuInitialize() {
 
   showMenu();
 
-  $('#wrapper a, #wrapper button').on('click', function (event) {
+  $('#wrapper a').on('click', function (event) {
     event.preventDefault();
 
     $activeWrapperScreen.hide();
