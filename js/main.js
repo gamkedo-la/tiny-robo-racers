@@ -1,3 +1,5 @@
+const STRESSTEST_AI = true; // add 20 more cars with random attributes
+
 var gameCanvas, gameContext;
 var editCanvas, editContext;
 
@@ -20,6 +22,10 @@ var track;
 var sidebar;
 var car;
 var ghost;
+
+if (STRESSTEST_AI) {
+  var manyGhosts = [];
+}
 
 var settings;
 var levelsList;
@@ -76,6 +82,21 @@ function gameInitialize(levelIndex) {
   ]);
   ghost.isGhost = true;
 
+  if (STRESSTEST_AI) {
+    for (var nextone, loop=0; loop<20; loop++) {
+      nextone = new Car(
+        {x:track.playerStart.x-80*Math.random(), // mostly behind the player
+          y:track.playerStart.y+60*Math.random()-30}
+          , Images.carYellow, DRIVE_POWER, [
+      {x: 30, y: -20, length: 40, angle: -Math.PI / 10 * Math.random(), steerAngle: 0.1 / FRAME_RATE_DELTA * Math.random()},
+      {x: 30, y: 20, length: 40, angle: Math.PI / 10 * Math.random(), steerAngle: -0.1 / FRAME_RATE_DELTA * Math.random()}
+    ]);
+    nextone.isGhost = true;
+    manyGhosts[manyGhosts.length] = nextone;
+  }
+  
+  }
+
   MainLoop.start();
 }
 
@@ -89,6 +110,9 @@ function gameUpdate(delta) {
   track.update(delta);
   sidebar.update(delta);
 
+  if (STRESSTEST_AI) { 
+    manyGhosts.map(function(nextone){nextone.update(delta);});
+  }
   ghost.update(delta);
   car.update(delta);
 
@@ -118,6 +142,11 @@ function gameDraw(interpolationPercentage) {
   sidebar.draw();
   track.draw();
   tireTracks.draw();
+
+  if (STRESSTEST_AI) { 
+    manyGhosts.map(function(nextone){nextone.draw();});
+  }
+
   ghost.draw();
   car.draw();
   track.drawOverlay();
