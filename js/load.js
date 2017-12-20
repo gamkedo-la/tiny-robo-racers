@@ -41,6 +41,9 @@ var Images = new (function() {
     var img = document.createElement('img');
     img.src = src;
     this[key] = img;
+    img.onload = function() {
+      this.downloaded = true;
+    }
   };
 
 })();

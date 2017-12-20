@@ -68,11 +68,15 @@ var Car = function(startPosition, image, drivePower, sensors) {
     y += Math.sin(this.angle) * speed;
 
     this.carTrackHandling(delta);
+    
+    // marks on the road when we skid
     this.skidMarkHandling();
 
-    if (Math.random()>0.6) // TODO: are we skidding or landing? kick up dirt
+    // dirt/gravel/dust particles kicked up by the tires
+    if (Math.random()>0.666) // not every frame
     {
-      particles.add(x,y,Images.smoke,500,64,'rgb(30,20,10)'); // we can tint the colr of the mud below...
+      var dustColor = track.pixelColor(x,y);
+      particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1000,64,dustColor);
     }
 
 //    this.checkGoal();

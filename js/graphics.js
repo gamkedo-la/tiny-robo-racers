@@ -76,6 +76,7 @@ var _tintImageCTX = _tintImageCanvas.getContext('2d');
 function tintImage (image, color) {
   _tintImageCanvas.width = image.width;
   _tintImageCanvas.height = image.height;
+  //_tintImageCTX.clearRect(0,0,image.width,image.height);
   _tintImageCTX.fillStyle = color;
   _tintImageCTX.fillRect(0, 0, _tintImageCanvas.width, _tintImageCanvas.height);
   _tintImageCTX.globalCompositeOperation = 'destination-atop';

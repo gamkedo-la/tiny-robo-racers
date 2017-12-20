@@ -8,8 +8,6 @@ function particleSystem() {
         
     this.add = function(x, y, sprite, life, size, color) {
 
-        //console.log('spawnParticle ' + x + ',' + y);
-
         var p, pnum, pcount;
         for (pnum = 0, pcount = particle.length; pnum < pcount; pnum++)
         {
@@ -38,7 +36,8 @@ function particleSystem() {
             p.death = p.birth + life;
             p.color = color;
             p.angle = 0;
-            p.rotSpd = Math.random()*5;
+            p.alpha = 1;
+            p.rotSpd = Math.random()*3-2;
         }
 
     }
