@@ -10,6 +10,7 @@ var Images = new (function() {
     carRedBig: 'img/carRed-big.png',
     tire_tracks: 'img/tire_tracks.png',
     head_lights: 'img/headlights.png',
+    smoke: 'img/smoke.png',
   };
 
   this.initialize = function(callback) {

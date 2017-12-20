@@ -110,6 +110,7 @@ function gameUpdate(delta) {
   track.update(delta);
   sidebar.update(delta);
 
+  particles.update();
   if (STRESSTEST_AI) { 
     manyGhosts.map(function(nextone){nextone.update(delta);});
   }
@@ -147,6 +148,7 @@ function gameDraw(interpolationPercentage) {
     manyGhosts.map(function(nextone){nextone.draw();});
   }
 
+  particles.draw();
   ghost.draw();
   car.draw();
   track.drawOverlay();

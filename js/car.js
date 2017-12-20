@@ -69,6 +69,12 @@ var Car = function(startPosition, image, drivePower, sensors) {
 
     this.carTrackHandling(delta);
     this.skidMarkHandling();
+
+    if (Math.random()>0.6) // TODO: are we skidding or landing? kick up dirt
+    {
+      particles.add(x,y,Images.smoke,500,64,'rgb(30,20,10)'); // we can tint the colr of the mud below...
+    }
+
 //    this.checkGoal();
   };
 
@@ -94,7 +100,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
     }
     // fun idea: we could tint the image for mud/water/oil...
     // the alphas above are now scaled to a tiny range
-    tireTrackAlpha *= this.isGhost ? 0.015 : 0.035;
+    tireTrackAlpha *= this.isGhost ? 0.02 : 0.04;
     tireTracks.add(x, y, this.angle, tireTrackAlpha);
   };
 
