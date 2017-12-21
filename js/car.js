@@ -1,4 +1,4 @@
-var Car = function(startPosition, image, drivePower, sensors) {
+var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
   var x = startPosition.x;
   var y = startPosition.y;
@@ -12,7 +12,11 @@ var Car = function(startPosition, image, drivePower, sensors) {
   var goalMinY = startPosition.y - 50;
   var goalMaxY = startPosition.y + 50;
 
-  this.image = image;
+  if (tintColor!=null)
+    this.image = createTintedSprite(sourceImage,tintColor);
+  else
+    this.image = sourceImage;
+
   this.isRacing = true;
   this.isGhost = false;
   this.angle = 0;
@@ -136,7 +140,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
   this.draw = function() {
     drawImage(gameContext, Images.head_lights, x, y, this.angle);
 
-    drawImage(gameContext, image, x, y, this.angle);
+    drawImage(gameContext, this.image, x, y, this.angle);
 
     if (isEditing || isEditToggling) {
       for (var s = 0; s < this.sensors.length; s++) {

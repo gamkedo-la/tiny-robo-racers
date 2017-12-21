@@ -67,22 +67,34 @@ function drawText(canvasContext, x, y, color, font, align, baseline, text) {
   canvasContext.fillText(text, x, y);
 }
 
-// reuse the same temp buffer over and over for performance reasons
-var _tintImageCanvas = document.createElement('canvas');
-var _tintImageCTX = _tintImageCanvas.getContext('2d');
-
 // takes an image and colors and fades it as required
 // returns a new canvas we can use as a sprite
+// reuses the same temp buffer over and over for performance reasons
+var _tintImageCanvas = document.createElement('canvas');
+var _tintImageCTX = _tintImageCanvas.getContext('2d');
 function tintImage (image, color) {
   _tintImageCanvas.width = image.width;
   _tintImageCanvas.height = image.height;
-  //_tintImageCTX.clearRect(0,0,image.width,image.height);
   _tintImageCTX.fillStyle = color;
   _tintImageCTX.fillRect(0, 0, _tintImageCanvas.width, _tintImageCanvas.height);
   _tintImageCTX.globalCompositeOperation = 'destination-atop';
   _tintImageCTX.globalAlpha = 1;
   _tintImageCTX.drawImage(image, 0, 0);
   return _tintImageCanvas;
+}
+
+// creates a brand new sprite in a new color
+function createTintedSprite (image, color) {
+  var newCanvas = document.createElement('canvas');
+  var newContext = newCanvas.getContext('2d');
+  newCanvas.width = image.width;
+  newCanvas.height = image.height;
+  newContext.fillStyle = color;
+  newContext.fillRect(0, 0, newCanvas.width, newCanvas.height);
+  newContext.globalCompositeOperation = 'destination-atop';
+  newContext.globalAlpha = 1;
+  newContext.drawImage(image, 0, 0);
+  return newCanvas;
 }
 
 // draw a rotated colored alpha faded sprite! (warning: costly, use sparingly)
