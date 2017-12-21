@@ -61,6 +61,9 @@ function windowOnBlur() {
 }
 
 function gameInitialize(levelIndex) {
+  
+  Sound.playUnlessAlreadyPlaying("Mystery2",true,0.25);
+  
   if (!levels[levelIndex]) {
     alert('No level? ' + levelIndex);
     return;
