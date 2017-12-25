@@ -11,6 +11,8 @@ var Images = new (function() {
     tire_tracks: 'img/tire_tracks.png',
     head_lights: 'img/headlights.png',
     smoke: 'img/smoke.png',
+    editWheel: 'img/edit-wheel.png',
+    editAngle: 'img/edit-angle.png'
   };
 
   this.initialize = function(callback) {
