@@ -55,6 +55,12 @@ function keyUp(event) {
         TRACK_SCREENSHOT = !TRACK_SCREENSHOT;
       }
       break;
+	case KEY_T:
+		  ghost.useSensors([
+			{x: 15, y: -7, length: 80, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
+			{x: 15, y: 7, length: 80, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
+		  ]);
+	  break;
   }
   if (DEBUG) {
     console.log('key ' + event.keyCode);

@@ -25,10 +25,14 @@ var Car = function(startPosition, image, drivePower, sensors) {
   // Clear tracks when creating a new car
   tireTracks.reset();
 
-  for (var s = 0; s < sensors.length; s++) {
-    this.sensors.push(new Sensor(this, sensors[s].x, sensors[s].y, sensors[s].length, sensors[s].angle, sensors[s].steerAngle));
+  this.useSensors = function(sensorList){
+	  this.sensors = [];
+	for (var s = 0; s < sensorList.length; s++) {
+		this.sensors.push(new Sensor(this, sensorList[s].x, sensorList[s].y, sensorList[s].length, sensorList[s].angle, sensorList[s].steerAngle));
+	}  
   }
-
+	this.useSensors(sensors);
+	
   this.getPosition = function() {
     return {
       x: x,
