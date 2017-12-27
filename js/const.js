@@ -15,6 +15,9 @@ const FRAME_RATE_DELTA = 1000 / FRAME_RATE;
 const DRIVE_POWER = 10 / FRAME_RATE_DELTA;
 const GROUNDSPEED_DECAY_MULT = 0.94 / FRAME_RATE_DELTA;
 
+const SENSOR_MIN_LENGTH = 10;
+const SENSOR_MAX_LENGTH = 100;
+
 const GAME_FONT = 'bold 16pt Verdana';
 const GAME_FONT_LARGE = 'bold 36pt Verdana';
 const GAME_FONT_BUTTON = '13pt Verdana';

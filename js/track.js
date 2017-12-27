@@ -85,6 +85,47 @@ var Track = function(levelIndex) {
     gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
   };
 
+  // returns the html rgb code (ignores alpha) of any pixel in the level image
+  this.pixelColor = function(x,y) {
+    
+    x = Math.round(x);
+    y = Math.round(y);
+
+    y -= TRACK_PADDING_TOP; // troublesome bugfix! finally!
+
+    if (!this.trackImageData && Images[imageName].downloaded) // cache it once when available and reuse
+    {
+      
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      var rgb;
+
+      canvas.width = Images[imageName].width;
+      canvas.height = Images[imageName].height;
+      context.drawImage(Images[imageName], 0, 0 );
+      var myData = context.getImageData(0, 0, canvas.width, canvas.height);
+      
+      this.trackImageData = myData.data;
+      //console.log("grabbed track image data");
+    }
+
+    if (!this.trackImageData) // still downloading?
+    {
+      return 'rgb(0,0,0)'; // black default
+    }
+
+    var dataOffset = ((y-1) * Images[imageName].width * 4) + (x*4);
+    rgb = 'rgb(' + 
+    this.trackImageData[dataOffset] + ', ' +
+    this.trackImageData[dataOffset+1] + ', ' + 
+    this.trackImageData[dataOffset+2] + ')';
+
+    //console.log('pixelColor if img wh:'+Images[imageName].width+','+Images[imageName].height+' at dataOffset:'+dataOffset+'/'+this.trackImageData.length+' xy:'+x+','+y+'='+rgb);
+    
+    return rgb;
+
+  }
+  
   this.draw = function() {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
 

@@ -61,6 +61,9 @@ function windowOnBlur() {
 }
 
 function gameInitialize(levelIndex) {
+  
+  Sound.playUnlessAlreadyPlaying("Mystery2",true,0.25);
+  
   if (!levels[levelIndex]) {
     alert('No level? ' + levelIndex);
     return;
@@ -73,14 +76,16 @@ function gameInitialize(levelIndex) {
   }
   track = new Track(levelIndex);
   track.initializeTrack();
+  
   car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
     {x: 15, y: -7, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 15, y: 7, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
-  ]);
+  ],'rgba(10,10,255,0.5)'); // FIXME: tint according the player prefs and ue a B&W source image
+  
   ghost = new Car(track.playerStart, Images.carYellow, DRIVE_POWER, [
     {x: 15, y: -7, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 15, y: 7, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
-  ]);
+  ],'rgba(10,255,10,0.5)'); // FIXME: use radom color for bots?
   ghost.isGhost = true;
 
   if (STRESSTEST_AI) {
@@ -110,6 +115,7 @@ function gameUpdate(delta) {
   track.update(delta);
   sidebar.update(delta);
 
+  particles.update();
   if (STRESSTEST_AI) { 
     manyGhosts.map(function(nextone){nextone.update(delta);});
   }
@@ -147,6 +153,7 @@ function gameDraw(interpolationPercentage) {
     manyGhosts.map(function(nextone){nextone.draw();});
   }
 
+  particles.draw();
   ghost.draw();
   car.draw();
   track.drawOverlay();

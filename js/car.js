@@ -1,4 +1,4 @@
-var Car = function(startPosition, image, drivePower, sensors) {
+var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
   var x = startPosition.x;
   var y = startPosition.y;
@@ -12,7 +12,11 @@ var Car = function(startPosition, image, drivePower, sensors) {
   var goalMinY = startPosition.y - 50;
   var goalMaxY = startPosition.y + 50;
 
-  this.image = image;
+  if (tintColor!=null)
+    this.image = createTintedSprite(sourceImage,tintColor);
+  else
+    this.image = sourceImage;
+
   this.isRacing = true;
   this.isGhost = false;
   this.angle = 0;
@@ -72,7 +76,17 @@ var Car = function(startPosition, image, drivePower, sensors) {
     y += Math.sin(this.angle) * speed;
 
     this.carTrackHandling(delta);
+    
+    // marks on the road when we skid
     this.skidMarkHandling();
+
+    // dirt/gravel/dust particles kicked up by the tires
+    if (Math.random()>0.666) // not every frame
+    {
+      var dustColor = track.pixelColor(x,y);
+      particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1000,64,dustColor);
+    }
+
 //    this.checkGoal();
   };
 
@@ -98,7 +112,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
     }
     // fun idea: we could tint the image for mud/water/oil...
     // the alphas above are now scaled to a tiny range
-    tireTrackAlpha *= this.isGhost ? 0.015 : 0.035;
+    tireTrackAlpha *= this.isGhost ? 0.02 : 0.04;
     tireTracks.add(x, y, this.angle, tireTrackAlpha);
   };
 
@@ -130,7 +144,7 @@ var Car = function(startPosition, image, drivePower, sensors) {
   this.draw = function() {
     drawImage(gameContext, Images.head_lights, x, y, this.angle);
 
-    drawImage(gameContext, image, x, y, this.angle);
+    drawImage(gameContext, this.image, x, y, this.angle);
 
     if (isEditing || isEditToggling) {
       for (var s = 0; s < this.sensors.length; s++) {

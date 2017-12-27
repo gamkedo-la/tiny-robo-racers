@@ -10,6 +10,9 @@ var Images = new (function() {
     carRedBig: 'img/carRed-big.png',
     tire_tracks: 'img/tire_tracks.png',
     head_lights: 'img/headlights.png',
+    smoke: 'img/smoke.png',
+    editWheel: 'img/edit-wheel.png',
+    editAngle: 'img/edit-angle.png'
   };
 
   this.initialize = function(callback) {
@@ -40,6 +43,9 @@ var Images = new (function() {
     var img = document.createElement('img');
     img.src = src;
     this[key] = img;
+    img.onload = function() {
+      this.downloaded = true;
+    }
   };
 
 })();
