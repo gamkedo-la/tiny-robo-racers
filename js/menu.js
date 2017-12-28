@@ -8,15 +8,13 @@ function menuInitialize() {
   showMenu();
 
   $('#wrapper a').on('click', function (event) {
-    event.preventDefault();
+    if (this.hash) {
+      event.preventDefault();
+    }
 
     $activeWrapperScreen.hide();
 
-    if ($(this).hasClass('level-editor')) {
-      showMenu();
-      alert('Level editor is not yet implemented.');
-    }
-    else if ($(this).hasClass('continue')) {
+    if ($(this).hasClass('continue')) {
       continueGame();
     }
     else if (this.hash) {
@@ -37,7 +35,7 @@ function menuInitialize() {
     alert('Deleting of custom levels not yet implemented. (' + this.value + ')');
   });
 
-  if (DEBUG) {
+  if (DEBUG && !IS_EDITOR) {
     // start play now!
     $activeWrapperScreen.hide();
     gameInitialize(0);
@@ -56,6 +54,11 @@ function showMenu() {
 
   if ($activeWrapperScreen) {
     $activeWrapperScreen.hide();
+  }
+
+  if (IS_EDITOR) {
+    // @todo show button only when already editing a level
+    $('#continueEditor').toggle(0);
   }
 
   $activeWrapperScreen = $('#menu').show();
@@ -90,6 +93,12 @@ function continueGame() {
 
 function showLevels() {
   var $list = $('#levels table tbody').empty();
+
+  if (IS_EDITOR) {
+    $list.append($('<tr><th>- New level -</th><td>' +
+      '<button class="load" value="_new">Load</button>' +
+      '</td><tr>'));
+  }
 
   var numLevels = levels.length;
   for (var i = 0; i < numLevels; i++) {

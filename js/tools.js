@@ -49,3 +49,48 @@ function componentToHex(c) {
 function rgbToHex(r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+// Grid functions
+
+
+function coordsAreDriveable(grid, x, y) {
+  var col = Math.floor(x / TRACK_WIDTH);
+  var row = Math.floor((y - TRACK_PADDING_TOP) / TRACK_HEIGHT);
+  var tileHere = getTileTypeAtColRow(grid, col, row);
+
+  return (tileHere === TRACK_ROAD);
+}
+
+function rowColToArrayIndex(col, row) {
+  return col + TRACK_COLS * row;
+}
+
+function coordsToArrayIndex(x, y) {
+  var rowCol = coordsToRowCol(x, y);
+
+  return rowCol.col + TRACK_COLS * rowCol.row;
+}
+
+function getTileTypeAtColRow(grid, col, row) {
+  if (col >= 0 && col < TRACK_COLS && row >= 0 && row < TRACK_ROWS) {
+    var trackIndex = rowColToArrayIndex(col, row);
+
+    return grid[trackIndex];
+  }
+
+  return TRACK_WALL;
+}
+
+function rowColToCoords(col, row) {
+  return {
+    x: col * TRACK_WIDTH + TRACK_WIDTH / 2,
+    y: row * TRACK_HEIGHT + TRACK_PADDING_TOP + TRACK_HEIGHT / 2
+  };
+}
+
+function coordsToRowCol(x, y) {
+  return {
+    col: Math.floor(x / TRACK_WIDTH),
+    row: Math.floor((y - TRACK_PADDING_TOP) / TRACK_HEIGHT)
+  };
+}

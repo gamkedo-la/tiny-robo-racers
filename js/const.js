@@ -3,6 +3,8 @@ var DEBUG = true;
 var TRACK_SCREENSHOT = false;
 const STRESSTEST_AI = false; // add 20 more cars with random attributes
 
+var IS_EDITOR = false;
+
 const KEY_ESC = 27;
 const KEY_D = 68;
 const KEY_E = 69;
@@ -39,3 +41,4 @@ const TRACK_GOALEND = 4;
 var TRACK_IMAGES = [];
 TRACK_IMAGES[TRACK_ROAD] = 'track_road';
 TRACK_IMAGES[TRACK_WALL] = 'track_wall';
+TRACK_IMAGES[TRACK_PLAYERSTART] = 'track_playerstart';

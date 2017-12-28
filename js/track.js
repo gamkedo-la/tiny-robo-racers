@@ -26,15 +26,15 @@ var Track = function(levelIndex) {
       for (var c = 0; c < TRACK_COLS; c++) {
         if (grid[i] === TRACK_PLAYERSTART) {
           grid[i] = TRACK_ROAD;
-          this.playerStart = this.rowColToCoords(c, r);
+          this.playerStart = rowColToCoords(c, r);
         }
         else if (grid[i] === TRACK_GOALSTART) {
           grid[i] = TRACK_ROAD;
-          this.goalStart = this.rowColToCoords(c, r);
+          this.goalStart = rowColToCoords(c, r);
         }
         else if (grid[i] === TRACK_GOALEND) {
           grid[i] = TRACK_ROAD;
-          this.goalEnd = this.rowColToCoords(c, r);
+          this.goalEnd = rowColToCoords(c, r);
         }
 
         i++;
@@ -53,32 +53,7 @@ var Track = function(levelIndex) {
   this.reset = function() {};
 
   this.coordsAreDriveable = function(x, y) {
-    var col = Math.floor(x / TRACK_WIDTH);
-    var row = Math.floor((y - TRACK_PADDING_TOP) / TRACK_HEIGHT);
-    var tileHere = track.getTileTypeAtColRow(col, row);
-
-    return (tileHere === TRACK_ROAD);
-  };
-
-  this.rowColToArrayIndex = function(col, row) {
-    return col + TRACK_COLS * row;
-  };
-
-  this.getTileTypeAtColRow = function(col, row) {
-    if (col >= 0 && col < TRACK_COLS && row >= 0 && row < TRACK_ROWS) {
-      var trackIndex = this.rowColToArrayIndex(col, row);
-
-      return grid[trackIndex];
-    }
-
-    return TRACK_WALL;
-  };
-
-  this.rowColToCoords = function(col, row) {
-    return {
-      x: col * TRACK_WIDTH + TRACK_WIDTH / 2,
-      y: row * TRACK_HEIGHT + TRACK_PADDING_TOP + TRACK_HEIGHT / 2
-    };
+    return coordsAreDriveable(grid, x, y);
   };
 
   this.drawOverlay = function() { // the lights, scaffolding, clouds: anything drawn above cars
@@ -124,7 +99,7 @@ var Track = function(levelIndex) {
     
     return rgb;
 
-  }
+  };
   
   this.draw = function() {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);

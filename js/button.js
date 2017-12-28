@@ -31,7 +31,7 @@ var Button = function(canvasContext, x, y, text, font, callback) {
   };
 
   this.draw = function() {
-    editContext.drawImage(buttonCanvas, 0, isHover ? boxHeight : 0, boxWidth, boxHeight, x, y, boxWidth, boxHeight);
+    canvasContext.drawImage(buttonCanvas, 0, isHover ? boxHeight : 0, boxWidth, boxHeight, x, y, boxWidth, boxHeight);
   };
 
   function createButtonCanvas(imageActive, imageInactive, boxWidth, boxHeight) {

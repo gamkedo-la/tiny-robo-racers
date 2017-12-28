@@ -10,17 +10,17 @@ document.oncontextmenu = function() {
 };
 
 function setupInput() {
-  document.addEventListener('keydown', keyDown);
-  document.addEventListener('keyup', keyUp);
+  $(document).on('keydown', keyDown)
+    .on('keyup', keyUp);
 
-  drawCanvas.addEventListener('mousemove', updateMousePosition);
-  drawCanvas.addEventListener('mousedown', clickOrTouch);
-  drawCanvas.addEventListener('mouseup', clickOrTouchEnd);
+  $(drawCanvas).on('mousemove', updateMousePosition)
+    .on('mousedown', clickOrTouch)
+    .on('mouseup', clickOrTouchEnd);
 
-  drawCanvas.addEventListener('touchmove', updateMousePosition);
-  drawCanvas.addEventListener('touchstart', clickOrTouch);
-  drawCanvas.addEventListener('touchend', clickOrTouchEnd);
-  drawCanvas.addEventListener('touchcancel', clickOrTouchEnd);
+  $(drawCanvas).on('touchmove', updateMousePosition)
+    .on('touchstart', clickOrTouch)
+    .on('touchend', clickOrTouchEnd)
+    .on('touchcancel', clickOrTouchEnd);
 }
 
 function keyDown(event) {
@@ -29,7 +29,10 @@ function keyDown(event) {
 function keyUp(event) {
   switch (event.keyCode) {
     case KEY_ESC:
-      if (isPaused) {
+      if (IS_EDITOR) {
+        showMenu();
+      }
+      else if (isPaused) {
         continueGame();
       }
       else if (isPlaying) {

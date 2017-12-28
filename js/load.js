@@ -5,6 +5,7 @@ var Images = new (function() {
     button_active: 'img/buttonActive.png',
     track_wall: 'img/track_wall.png',
     track_road: 'img/track_road.png',
+    track_playerstart: 'img/track_playerstart.png',
     carYellow: 'img/carYellow.png',
     carRed: 'img/carRed.png',
     carRedBig: 'img/carRed-big.png',
