@@ -16,12 +16,12 @@ var Sidebar = function(image) {
 
   this.editingAnimationPercentage = isEditing ? 1 : minPercentage;
 
-  var btnReset = new ButtonText(editContext, 60, 700, 'Reset car', GAME_FONT_BUTTON, resetCar);
-  var btnStart = new ButtonText(editContext, 200, 700, 'Start race!', GAME_FONT_BUTTON, startRace);
+  var btnReset = new ButtonText(editContext, 60, 700, 'Reset car', GAME_FONT_BUTTON, false, false, resetCar);
+  var btnStart = new ButtonText(editContext, 200, 700, 'Start race!', GAME_FONT_BUTTON, false, false, startRace);
 
   var dialogBox = new Drawbox(editContext, Images.button_inactive, 200, 300);
-  var btnSave = new ButtonText(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, saveSensor);
-  var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, cancelEditSensor);
+  var btnSave = new ButtonText(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, false, false, saveSensor);
+  var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, false, false, cancelEditSensor);
 
   function resetCar() {
     car.reset();

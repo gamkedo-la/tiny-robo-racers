@@ -50,6 +50,7 @@ function rgbToHex(r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
+var fontHeightCache = [];
 function determineFontHeight(font) {
   var result = fontHeightCache[font];
 
