@@ -50,9 +50,27 @@ function rgbToHex(r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
+function determineFontHeight(font) {
+  var result = fontHeightCache[font];
+
+  if (!result) {
+    var body = document.getElementsByTagName('body')[0];
+    var dummy = document.createElement('div');
+
+    var dummyText = document.createTextNode('(AbqMjgL');
+    dummy.appendChild(dummyText);
+    dummy.setAttribute('style', 'font:' + font + ';position:absolute;top:0;left:0;margin:0;padding:0');
+    body.appendChild(dummy);
+    result = dummy.offsetHeight;
+
+    fontHeightCache[font] = result;
+    body.removeChild(dummy);
+  }
+
+  return result;
+}
+
 // Grid functions
-
-
 function coordsAreDriveable(grid, x, y) {
   var col = Math.floor(x / TRACK_WIDTH);
   var row = Math.floor((y - TRACK_PADDING_TOP) / TRACK_HEIGHT);

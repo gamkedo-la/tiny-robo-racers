@@ -35,10 +35,10 @@ function menuInitialize() {
     alert('Deleting of custom levels not yet implemented. (' + this.value + ')');
   });
 
-  if (DEBUG && !IS_EDITOR) {
+  if (DEBUG) {
     // start play now!
     $activeWrapperScreen.hide();
-    gameInitialize(0);
+    gameInitialize(IS_EDITOR ? '_new' : 0);
   }
 }
 
