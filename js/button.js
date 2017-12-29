@@ -1,37 +1,25 @@
 var fontHeightCache = [];
 
-var Button = function(canvasContext, x, y, text, font, callback) {
+var ButtonText = function(canvasContext, x, y, text, font, callback) {
 
   canvasContext.font = font;
 
   var boxWidth = 20 + canvasContext.measureText(text).width;
   var boxHeight = 20 + determineFontHeight(font);
 
-  var isHover = 0;
-  var callbackFired = false;
   var normalColor = '#fff';
   var activeColor = '#fff';
 
   var buttonCanvas = createButtonCanvas(Images.button_active, Images.button_inactive, boxWidth, boxHeight);
 
-  this.update = function(delta) {
-    isHover = (x < mouse.x && mouse.x < x + boxWidth && y < mouse.y && mouse.y < y + boxHeight);
-    // @todo fix cursor: only works for "last button"
-    drawCanvas.style.cursor = isHover ? 'pointer' : 'default';
+  var button = new _Button(canvasContext, x, y, buttonCanvas, callback);
 
-    if (isHover && mouse.button === 0) {
-      if (!callbackFired) {
-        callbackFired = true;
-        callback();
-      }
-    }
-    else {
-      callbackFired = false;
-    }
+  this.update = function(delta) {
+    button.update(delta);
   };
 
   this.draw = function() {
-    canvasContext.drawImage(buttonCanvas, 0, isHover ? boxHeight : 0, boxWidth, boxHeight, x, y, boxWidth, boxHeight);
+    button.draw();
   };
 
   function createButtonCanvas(imageActive, imageInactive, boxWidth, boxHeight) {
@@ -70,5 +58,68 @@ var Button = function(canvasContext, x, y, text, font, callback) {
 
     return result;
   }
+
+};
+
+var ButtonImage = function(canvasContext, x, y, image, callback) {
+
+  var buttonCanvas = createButtonCanvas(Images.button_active, Images.button_inactive);
+
+  var button = new _Button(canvasContext, x, y, buttonCanvas, callback);
+
+  this.update = function(delta) {
+    button.update(delta);
+  };
+
+  this.draw = function() {
+    button.draw();
+  };
+
+  function createButtonCanvas(imageActive, imageInactive, width, height) {
+    var buttonCanvas = document.createElement('canvas');
+    buttonCanvas.width = image.width;
+    buttonCanvas.height = image.height * 2;
+    var buttonContext = buttonCanvas.getContext('2d');
+
+    var centerX = Math.floor(image.width / 2);
+    var centerY = Math.floor(image.height / 2);
+
+    (new Drawbox(buttonContext, imageInactive, image.width, image.height)).draw(0, 0);
+    drawImage(buttonContext, image, centerX, centerY);
+    (new Drawbox(buttonContext, imageActive, image.width, image.height)).draw(0, image.height);
+    drawImage(buttonContext, image, centerX, centerY + image.height);
+
+    return buttonCanvas;
+  }
+
+};
+
+var _Button = function(canvasContext, x, y, image, callback) {
+
+  var width = image.width;
+  var height = image.height / 2;
+
+  var isHover = 0;
+  var callbackFired = false;
+
+  this.update = function(delta) {
+    isHover = (x < mouse.x && mouse.x < x + width && y < mouse.y && mouse.y < y + height);
+    // @todo fix cursor: only works for "last button"
+    drawCanvas.style.cursor = isHover ? 'pointer' : 'default';
+
+    if (isHover && mouse.button === 0) {
+      if (!callbackFired) {
+        callbackFired = true;
+        callback();
+      }
+    }
+    else {
+      callbackFired = false;
+    }
+  };
+
+  this.draw = function() {
+    canvasContext.drawImage(image, 0, isHover ? height : 0, width, height, x, y, width, height);
+  };
 
 };

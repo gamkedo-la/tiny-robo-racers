@@ -3,6 +3,13 @@ var Images = new (function() {
     // key: 'img/image_name.png'
     button_inactive: 'img/buttonInactive.png',
     button_active: 'img/buttonActive.png',
+    button_pencil: 'img/icons/editor-pencil.png',
+    button_bucket: 'img/icons/editor-bucket.png',
+    button_save: 'img/icons/editor-save.png',
+    button_reset: 'img/icons/editor-reset.png',
+    button_1: 'img/icons/editor-1x1.png',
+    button_2: 'img/icons/editor-2x2.png',
+    button_4: 'img/icons/editor-4x4.png',
     track_wall: 'img/track_wall.png',
     track_road: 'img/track_road.png',
     track_playerstart: 'img/track_playerstart.png',
