@@ -5,6 +5,9 @@ const STRESSTEST_AI = false; // add 20 more cars with random attributes
 
 var IS_EDITOR = false;
 
+const EDITOR_PENCIL = 1;
+const EDITOR_BUCKET = 2;
+
 const KEY_ESC = 27;
 const KEY_D = 68;
 const KEY_E = 69;
