@@ -146,7 +146,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
     drawImage(gameContext, this.image, x, y, this.angle);
 
-    if (isEditing || isEditToggling) {
+    if (!this.isGhost && (isEditing || isEditToggling)) {
       for (var s = 0; s < this.sensors.length; s++) {
         this.sensors[s].draw();
       }
