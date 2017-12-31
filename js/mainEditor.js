@@ -25,6 +25,8 @@ window.onload = function() {
   settings = new LocalStorage('trr', 'settings');
   levelsList = new LocalStorage('trr', 'levelsList');
 
+  loadCustomLevels();
+
   initDrawingCanvas();
 
   MainLoop

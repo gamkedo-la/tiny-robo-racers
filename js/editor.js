@@ -1,15 +1,27 @@
 var Editor = function(levelIndex) {
 
+  var imageName = false;
+  var imageNameOverlay = false;
   var grid = [];
 
   this.size = 1;
   this.type = TRACK_ROAD;
 
-  // @todo load levels from localStorage, not levels variable
   if (levels[levelIndex]) {
     grid = levels[levelIndex].grid.slice();
+    imageName = levels[levelIndex].image;
+    imageNameOverlay = imageName + '-overlay';
+
+    if (!Images[imageName]) {
+      Images.loadImage(imageName, 'img/tracks/' + imageName + '.png');
+    }
+
+    if (!Images[imageNameOverlay]) {
+      Images.loadImage(imageNameOverlay, 'img/tracks/' + imageNameOverlay + '.png');
+    }
   }
-  else {
+
+  if (grid.length === 0) {
     var i = 0;
     for (var r = 0; r < TRACK_ROWS; r++) {
       for (var c = 0; c < TRACK_COLS; c++) {
@@ -20,6 +32,31 @@ var Editor = function(levelIndex) {
   }
 
   var grid_original = grid.slice();
+
+  this.saveTrack = function() {
+    if (!this.validateGrid()) {
+      return;
+    }
+
+    if (levels[levelIndex] && !levels[levelIndex].custom) {
+      // Output level grid for saving in levels.js
+      prompt('Save grid in levels.js', JSON.stringify(grid));
+      return;
+    }
+
+    if (levels[levelIndex] && levels[levelIndex].custom) {
+      saveCustomLevel(levels[levelIndex].label, grid, levels[levelIndex].index);
+      return;
+    }
+
+    var label = prompt('Level label?', '');
+    if (!label) {
+      alert('Type a proper label for this level.');
+      return this.saveTrack();
+    }
+
+    saveCustomLevel(label, grid);
+  };
 
   this.selectTrackType = function(type) {
     this.type = type;
@@ -37,8 +74,13 @@ var Editor = function(levelIndex) {
     this.tool = tool;
   };
 
+  this.validateGrid = function() {
+    alert('Validation not implemented yet');
+    return true;
+  };
+
   var buttons = [
-    new ButtonImage(gameContext, 10, 10, Images.button_save, false, false, function(){}),
+    new ButtonImage(gameContext, 10, 10, Images.button_save, false, false, this.saveTrack.bind(this)),
     new ButtonImage(gameContext, 60, 10, Images.button_reset, false, false, this.resetGrid.bind(this)),
     new ButtonImage(gameContext, 110, 10, Images.button_pencil, 'draw', true, this.selectTool.bind(this, EDITOR_PENCIL)),
     new ButtonImage(gameContext, 160, 10, Images.button_bucket, 'draw', false, this.selectTool.bind(this, EDITOR_BUCKET)),
@@ -65,8 +107,14 @@ var Editor = function(levelIndex) {
   };
 
   this.draw = function() {
-    for (var b = 0; b < buttons.length; b++) {
-      buttons[b].draw();
+    gameContext.save();
+    if (imageName) {
+      gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
+      if (imageNameOverlay) {
+        gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
+      }
+
+      gameContext.globalAlpha = 0.5;
     }
 
     var i = 0, x = 0, y = TRACK_PADDING_TOP;
@@ -74,7 +122,7 @@ var Editor = function(levelIndex) {
       for (var c = 0; c < TRACK_COLS; c++) {
         var type = TRACK_IMAGES[grid[i]];
 
-        if (Images[type]) {
+        if (0 <= type && Images[type]) {
           gameContext.drawImage(Images[type], x, y);
         }
         else {
@@ -85,6 +133,12 @@ var Editor = function(levelIndex) {
       }
       x = 0;
       y += TRACK_HEIGHT;
+    }
+
+    gameContext.restore();
+
+    for (var b = 0; b < buttons.length; b++) {
+      buttons[b].draw();
     }
 
     if (TRACK_PADDING_TOP <= mouse.y) {

@@ -1,8 +1,50 @@
 var levels = [];
 
+// Appends all custom levels to the levels list
+function loadCustomLevels() {
+  levels = _levels.slice();
+
+  var numLevels = _levels.length;
+  var customLevels = levelsList.get('levels', []);
+  var numCustomLevels = customLevels.length;
+  for (var i = 0; i < numCustomLevels; i++) {
+    levels[numLevels + i] = {
+      custom: true,
+      index: i,
+      label: customLevels[i].label,
+      grid: customLevels[i].grid
+    };
+  }
+}
+
+function saveCustomLevel(label, grid, index) {
+  var customLevels = levelsList.get('levels', []);
+  if (!index) {
+    index = customLevels.length;
+  }
+
+  customLevels[index] = {
+    label: label,
+    grid: grid
+  };
+
+  levelsList.set('levels', customLevels);
+}
+
+function deleteCustomLevel(index) {
+  if (!levels[index] || !levels[index].custom) {
+    return;
+  }
+
+  var customLevels = levelsList.get('levels', []);
+  customLevels.splice(levels[index].index, 1);
+  levelsList.set('levels', customLevels);
+}
+
 // 120 x 74
 
-levels[0] = {
+var _levels = [];
+_levels[0] = {
   label: 'Track 01',
   image: 'track-01',
   grid: [
@@ -82,7 +124,7 @@ levels[0] = {
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 ]
 };
 
-levels[1] = {
+_levels[1] = {
   label: 'Track 02',
   image: 'track-02',
   grid: [
@@ -162,3 +204,11 @@ levels[1] = {
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
   ]
 };
+
+// To add a new track, just copy and uncomment this above this comment and use the correct index for [x]:
+
+//_levels[x] = {
+//  label: 'A nice label',
+//  image: 'image-filename-without-extension',
+//  grid: []
+//};

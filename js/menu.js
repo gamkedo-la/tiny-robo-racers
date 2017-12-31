@@ -32,7 +32,10 @@ function menuInitialize() {
   });
 
   $('#levels').on('click', 'button.delete', function(event) {
-    alert('Deleting of custom levels not yet implemented. (' + this.value + ')');
+    if (confirm('Are you sure?')) {
+      deleteCustomLevel(this.value);
+    }
+    $('#wrapper a[href="#levels"]').trigger('click');
   });
 
   if (DEBUG) {
@@ -92,6 +95,7 @@ function continueGame() {
 }
 
 function showLevels() {
+  loadCustomLevels();
   var $list = $('#levels table tbody').empty();
 
   if (IS_EDITOR) {
@@ -102,10 +106,15 @@ function showLevels() {
 
   var numLevels = levels.length;
   for (var i = 0; i < numLevels; i++) {
-    $list.append($('<tr><th>' + levels[i].label + '</th><td>' +
-      '<button class="load" value="' + i + '">Load</button>' +
-//      '<button class="delete" value="' + i + '">Delete</button>' +
-      '</td><tr>'));
+    var row = '<tr><th>' + levels[i].label + '</th><td>' +
+      '<button class="load" value="' + i + '">Load</button>';
+
+    if (levels[i].custom) {
+      row += '<button class="delete" value="' + i + '">Delete</button>';
+    }
+    row += '</td><tr>';
+
+    $list.append($(row));
   }
 }
 

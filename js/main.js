@@ -39,6 +39,8 @@ window.onload = function() {
   settings = new LocalStorage('trr', 'settings');
   levelsList = new LocalStorage('trr', 'levelsList');
 
+  loadCustomLevels();
+
   initDrawingCanvas();
 
   MainLoop
@@ -63,7 +65,7 @@ function windowOnBlur() {
 function gameInitialize(levelIndex) {
   
   Sound.playUnlessAlreadyPlaying("Mystery2",true,0.25);
-  
+
   if (!levels[levelIndex]) {
     alert('No level? ' + levelIndex);
     return;
