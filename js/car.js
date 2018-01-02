@@ -94,18 +94,23 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   this.checkGoal = function(){
     if(x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20){
       //goal
+      var seconds = Math.floor(this.lapTime/1000)
+      var minutes = Math.floor(seconds/60)
+      if(minutes < 10)
+        minutes = "0"+minutes
+      var leftOverSeconds = seconds%60
+      if(leftOverSeconds < 10)
+        leftOverSeconds = "0"+leftOverSeconds
+
       if(!this.isGhost){
-        var seconds = Math.floor(this.lapTime/1000)
-        var minutes = Math.floor(seconds/60)
-        if(minutes < 10)
-          minutes = "0"+minutes
-        var leftOverSeconds = seconds%60
-        if(leftOverSeconds < 10)
-          leftOverSeconds = "0"+leftOverSeconds
+        
         lapTime = this.lapTime;
         lapTimeStr = minutes + ":" +leftOverSeconds;
         //TODO: remove this line, it speeds up the car for testing
         drivePower += .21
+      } else {
+        ghostLapTime = this.lapTime;
+        ghostLapTimeStr = minutes + ":" +leftOverSeconds;
       }
       this.lapTime = 0;
     }
