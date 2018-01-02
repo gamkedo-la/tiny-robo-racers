@@ -50,7 +50,12 @@ var Editor = function(levelIndex) {
     }
 
     var label = prompt('Level label?', '');
-    if (!label) {
+    if (label === null) {
+      alert('Saving canceled');
+      return;
+    }
+
+    if (label === '') {
       alert('Type a proper label for this level.');
       return this.saveTrack();
     }
@@ -122,7 +127,7 @@ var Editor = function(levelIndex) {
       for (var c = 0; c < TRACK_COLS; c++) {
         var type = TRACK_IMAGES[grid[i]];
 
-        if (0 <= type && Images[type]) {
+        if (0 <= grid[i] && Images[type]) {
           gameContext.drawImage(Images[type], x, y);
         }
         else {
