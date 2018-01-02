@@ -26,6 +26,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   this.isTurning = false; // used for skid marks
   this.lapTime = 0;
 
+
   // Clear tracks when creating a new car
   tireTracks.reset();
 
@@ -87,14 +88,24 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1000,64,dustColor);
     }
 
-//    this.checkGoal();
+    this.checkGoal();
   };
 
   this.checkGoal = function(){
     if(x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20){
       //goal
       if(!this.isGhost){
+        var seconds = Math.floor(this.lapTime/1000)
+        var minutes = Math.floor(seconds/60)
+        if(minutes < 10)
+          minutes = "0"+minutes
+        var leftOverSeconds = seconds%60
+        if(leftOverSeconds < 10)
+          leftOverSeconds = "0"+leftOverSeconds
         lapTime = this.lapTime;
+        lapTimeStr = minutes + ":" +leftOverSeconds;
+        //TODO: remove this line, it speeds up the car for testing
+        drivePower += .21
       }
       this.lapTime = 0;
     }

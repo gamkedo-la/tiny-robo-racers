@@ -1,4 +1,5 @@
 var lapTime = 0;
+var lapTimeStr = "00:00"
 var Track = function(levelIndex) {
 
   var showCountdown = false;
@@ -105,7 +106,7 @@ var Track = function(levelIndex) {
     gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
 
     drawText(gameContext, 0, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: 01');
-    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + lapTime);
+    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + lapTimeStr);
     drawText(gameContext, 260, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: 00:00');
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'top', 'Track: ' + label);
     // @todo how to read this 'car.speed' some conversion to mph/kph?
