@@ -106,11 +106,17 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
         
         lapTime = this.lapTime;
         lapTimeStr = minutes + ":" +leftOverSeconds;
+        playerLapTime.set("LapTime", lapTimeStr);
+
         //TODO: remove this line, it speeds up the car for testing
         drivePower += .21
+        
+  
+  
       } else {
         ghostLapTime = this.lapTime;
         ghostLapTimeStr = minutes + ":" +leftOverSeconds;
+        ghostLapTimeSave.set("LapTime", ghostLapTimeStr);
       }
       this.lapTime = 0;
     }
