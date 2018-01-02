@@ -103,7 +103,12 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
         leftOverSeconds = "0"+leftOverSeconds
 
       if(!this.isGhost){
-        
+        //save to ghost if better
+        if(this.lapTime < lapTime){
+          ghostSave.set("Sensors", car.sensors);
+          this.transferSensorData(ghost)
+        }
+
         lapTime = this.lapTime;
         lapTimeStr = minutes + ":" +leftOverSeconds;
         playerLapTime.set("LapTime", lapTimeStr);
@@ -116,12 +121,18 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       } else {
         ghostLapTime = this.lapTime;
         ghostLapTimeStr = minutes + ":" +leftOverSeconds;
-        ghostLapTimeSave.set("LapTime", ghostLapTimeStr);
+        ghostSave.set("LapTime", ghostLapTimeStr);
       }
       this.lapTime = 0;
     }
   };
-
+  this.transferSensorData = function(transferToCar){
+    for(var i in this.sensors){
+      transferToCar.sensors[i].length = this.sensors[i].length;
+      transferToCar.sensors[i].steerAngle = this.sensors[i].steerAngle;
+      transferToCar.sensors[i].angle = this.sensors[i].angle;
+    }
+  }
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range
