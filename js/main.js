@@ -83,13 +83,13 @@ function gameInitialize(levelIndex) {
   track = new Track(levelIndex);
   track.initializeTrack();
 
-  lapTimeStr = playerLapTime.get("LapTime") || "00:00";
+  lapTimeStr = playerLapTime.get("LapTime", "00:00");
   car = new Car(track.playerStart, Images.carRed, DRIVE_POWER, [
     {x: 15, y: -7, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 15, y: 7, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA}
   ],'rgba(10,10,255,0.5)'); // FIXME: tint according the player prefs and ue a B&W source image
   
-  ghostLapTimeStr = ghostLapTimeSave.get("LapTime") || "00:00";
+  ghostLapTimeStr = ghostLapTimeSave.get("LapTime", "00:00");
   ghost = new Car(track.playerStart, Images.carYellow, DRIVE_POWER, [
     {x: 15, y: -7, length: 40, angle: -Math.PI / 10, steerAngle: 0.04 / FRAME_RATE_DELTA},
     {x: 15, y: 7, length: 40, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
