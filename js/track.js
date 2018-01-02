@@ -1,7 +1,7 @@
 var lapTime = 0;
-var lapTimeStr = "00:00"
+var lapTimeStr = "00:00";
 var ghostLapTime = 0;
-var ghostLapTimeStr = "00:00"
+var ghostLapTimeStr = "00:00";
 var Track = function(levelIndex) {
 
   var showCountdown = false;
@@ -10,7 +10,7 @@ var Track = function(levelIndex) {
   var label = levels[levelIndex].label;
   var grid = levels[levelIndex].grid.slice();
   var imageName = levels[levelIndex].image;
-  var imageNameOverlay = imageName+"-overlay";
+  var imageNameOverlay = imageName ? imageName + '-overlay' : false;
   this.goalStart;
   this.goalEnd;
   this.playerStart;
@@ -60,6 +60,9 @@ var Track = function(levelIndex) {
   };
 
   this.drawOverlay = function() { // the lights, scaffolding, clouds: anything drawn above cars
+    if (!imageNameOverlay) {
+      return;
+    }
     gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
   };
 
@@ -105,7 +108,9 @@ var Track = function(levelIndex) {
   };
   
   this.draw = function() {
-    gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
+    if (imageName) {
+      gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
+    }
 
     drawText(gameContext, 0, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: 01');
     drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + lapTimeStr);
@@ -127,7 +132,9 @@ var Track = function(levelIndex) {
         for (var c = 0; c < TRACK_COLS; c++) {
           var type = TRACK_IMAGES[grid[i]];
 
-          gameContext.drawImage(Images[type], x, y);
+          if (type && Images[type]) {
+            gameContext.drawImage(Images[type], x, y);
+          }
           i++;
           x += TRACK_WIDTH;
         }

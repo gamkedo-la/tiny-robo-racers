@@ -103,11 +103,13 @@ var Editor = function(levelIndex) {
       buttons[b].update(delta);
     }
 
-    if (mouse.button !== -1) {
-      var index = coordsToArrayIndex(mouse.x, mouse.y);
-      if (0 <= index && index < grid.length) {
-        grid[index] = this.type;
-      }
+    if (TRACK_PADDING_TOP <= mouse.y && mouse.button !== -1) {
+      this.d(function(col, row) {
+        var index = rowColToArrayIndex(col, row);
+        if (0 <= index && index < grid.length) {
+          grid[index] = this.type;
+        }
+      }.bind(this));
     }
   };
 
@@ -147,9 +149,30 @@ var Editor = function(levelIndex) {
     }
 
     if (TRACK_PADDING_TOP <= mouse.y) {
-      var rowCol = coordsToRowCol(mouse.x, mouse.y);
-      drawStrokeRect(gameContext, rowCol.col * TRACK_WIDTH, rowCol.row * TRACK_HEIGHT + TRACK_PADDING_TOP, TRACK_WIDTH, TRACK_HEIGHT, '#fff', 1);
+      this.d(function(col, row) {
+        drawStrokeRect(gameContext, col * TRACK_WIDTH, row * TRACK_HEIGHT + TRACK_PADDING_TOP, TRACK_WIDTH, TRACK_HEIGHT, '#fff', 1);
+      });
     }
   };
+
+  this.d = function(callback) {
+    var rowCol = coordsToRowCol(mouse.x, mouse.y);
+    var s = (this.tool === EDITOR_BUCKET) ? 0 : this.size - 1;
+    var startCol = rowCol.col - s;
+    var startRow = rowCol.row - s;
+
+    if (startCol < 0) {
+      startCol = 0;
+    }
+    if (startRow < 0) {
+      startRow = 0;
+    }
+
+    for (var tc = 0; tc <= s; tc++) {
+      for (var tr = 0; tr <= s; tr++) {
+        callback(startCol + tc, startRow + tr);
+      }
+    }
+  }
 
 };
