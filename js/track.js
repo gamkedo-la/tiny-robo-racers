@@ -2,6 +2,20 @@ var lapTime = 0;
 var lapTimeStr = "00:00";
 var ghostLapTime = 0;
 var ghostLapTimeStr = "00:00";
+
+const ROAD_SURFACE_UNKNOWN = 0;
+const ROAD_SURFACE_ASPHALT = 1;
+const ROAD_SURFACE_GRAVEL = 2;
+const ROAD_SURFACE_CONCRETE = 3;
+const ROAD_SURFACE_DRY_MUD = 4;
+const ROAD_SURFACE_WET_MUD = 5;
+const ROAD_SURFACE_GRASS = 6;
+const ROAD_SURFACE_WATER = 7;
+const ROAD_SURFACE_OIL = 8;
+const ROAD_SURFACE_GLUE = 9;
+const ROAD_SURFACE_SPEEDBOOST = 10;
+const ROAD_SURFACE_STRINGS = ['UNKNOWN','ASPHALT','GRAVEL','CONCRETE','MUD','WET MUD','GRASS','WATER','OIL','SPEED BOOST'];
+
 var Track = function(levelIndex) {
 
   var showCountdown = false;
@@ -64,6 +78,54 @@ var Track = function(levelIndex) {
       return;
     }
     gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
+  };
+
+// find Euclidian distance from the pixel color to the specified color 
+function colorDistance(colorRed,colorGreen,colorBlue,pixelRed,pixelGreen,pixelBlue){
+  var diffR,diffG,diffB;
+  diffR=( colorRed - pixelRed );
+  diffG=( colorGreen - pixelGreen );
+  diffB=( colorBlue - pixelBlue );
+  return(Math.sqrt(diffR*diffR + diffG*diffG + diffB*diffB));
+}
+
+// returns one of ROAD_SURFACE_*  
+this.testRoadSurface = function(x,y) { 
+    x = Math.round(x);
+    y = Math.round(y);
+    y -= TRACK_PADDING_TOP;
+    var surfaceDetected = ROAD_SURFACE_ASPHALT;
+    if (this.trackImageData) // read one pixel
+    {
+      var dataOffset = ((y-1) * Images[imageName].width * 4) + (x*4);
+      var r = this.trackImageData[dataOffset];
+      var g = this.trackImageData[dataOffset+1];
+      var b = this.trackImageData[dataOffset+2];
+      var a = this.trackImageData[dataOffset+3];
+      //console.log('road: ' +r+','+g+','+b);
+      
+      // brownish
+      if (colorDistance(r,g,b,70,45,25)<30)
+      {
+        surfaceDetected = ROAD_SURFACE_DRY_MUD;
+      }
+      // blueish puddle
+      else if (colorDistance(r,g,b,70,70,100)<30)
+      {
+        surfaceDetected = ROAD_SURFACE_WATER;
+      }
+      // light beige
+      else if (colorDistance(r,g,b,85,75,55)<30)
+      {
+        surfaceDetected = ROAD_SURFACE_GRAVEL;
+      }
+      // assume asphalt (could detect greys and blacks)
+      else 
+      {
+        surfaceDetected = ROAD_SURFACE_GRAVEL;
+      }
+    }
+    return surfaceDetected;
   };
 
   // returns the html rgb code (ignores alpha) of any pixel in the level image

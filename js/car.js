@@ -86,6 +86,9 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     {
       var dustColor = track.pixelColor(x,y);
       particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1000,64,dustColor);
+
+      // check SAME pixel rgb again! (FIXME!) to determine track surface type
+      this.tireSurface = track.testRoadSurface(x,y); // eg ROAD_SURFACE_ASPHALT
     }
 
     this.checkGoal();
@@ -180,6 +183,12 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     drawImage(gameContext, this.image, x, y, this.angle);
 
     if (!this.isGhost && (isEditing || isEditToggling)) {
+
+      // tire surface debug text - FIXME / remove?
+      if (this.tireSurface) {
+        drawText(gameContext, x+24, y, "WHITE", "12px arial", "left", 0, ROAD_SURFACE_STRINGS[this.tireSurface]);
+      }
+
       for (var s = 0; s < this.sensors.length; s++) {
         this.sensors[s].draw();
       }
