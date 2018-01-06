@@ -144,18 +144,64 @@ var Editor = function(levelIndex) {
     new ButtonText(gameContext, 510, 10, 'start', GAME_FONT, 'type', false, this.selectTrackType.bind(this, TRACK_PLAYERSTART)),
   ];
 
+  this.drawPencil = function(col, row) {
+    var index = rowColToArrayIndex(col, row);
+    if (0 <= index && index < grid.length) {
+      grid[index] = this.type;
+    }
+  };
+
+  this.drawBucket = function(col, row) {
+    if (col < 0 || TRACK_COLS <= col) {
+      return;
+    }
+    if (row < 0 || TRACK_ROWS <= row) {
+      return;
+    }
+    var type = getTileTypeAtColRow(grid, col, row);
+    var index = rowColToArrayIndex(col, row);
+
+    if (grid[index] !== type || grid[index] === this.type) {
+      return;
+    }
+
+    var q = [];
+    q.push(index);
+
+    while (q.length) {
+      var curIndex = q.pop();
+
+      var minIndex = curIndex - (curIndex % TRACK_COLS);
+      var maxIndex = minIndex + TRACK_COLS;
+
+      var westIndex = curIndex, eastIndex = curIndex;
+      while(grid[westIndex] === type && minIndex < westIndex) {
+        westIndex--;
+      }
+      while(grid[eastIndex] === type && eastIndex < maxIndex) {
+        eastIndex++;
+      }
+
+      for (var i = westIndex + 1; i < eastIndex; i++) {
+        grid[i] = this.type;
+
+        if (0 <= (i - TRACK_COLS) && grid[i - TRACK_COLS] === type) {
+          q.push(i - TRACK_COLS);
+        }
+        if ((i + TRACK_COLS) < grid.length && grid[i + TRACK_COLS] === type) {
+          q.push(i + TRACK_COLS);
+        }
+      }
+    }
+  };
+
   this.update = function(delta) {
     for (var b = 0; b < buttons.length; b++) {
       buttons[b].update(delta);
     }
 
     if (TRACK_PADDING_TOP <= mouse.y && mouse.button !== -1) {
-      this.d(function(col, row) {
-        var index = rowColToArrayIndex(col, row);
-        if (0 <= index && index < grid.length) {
-          grid[index] = this.type;
-        }
-      }.bind(this));
+      this.drawCallback((this.tool === EDITOR_BUCKET ? this.drawBucket : this.drawPencil).bind(this));
     }
   };
 
@@ -195,13 +241,13 @@ var Editor = function(levelIndex) {
     }
 
     if (TRACK_PADDING_TOP <= mouse.y) {
-      this.d(function(col, row) {
+      this.drawCallback(function(col, row) {
         drawStrokeRect(gameContext, col * TRACK_WIDTH, row * TRACK_HEIGHT + TRACK_PADDING_TOP, TRACK_WIDTH, TRACK_HEIGHT, '#fff', 1);
       });
     }
   };
 
-  this.d = function(callback) {
+  this.drawCallback = function(callback) {
     var rowCol = coordsToRowCol(mouse.x, mouse.y);
     var s = (this.tool === EDITOR_BUCKET) ? 0 : this.size - 1;
     var startCol = rowCol.col - s;
