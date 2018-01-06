@@ -161,11 +161,13 @@ this.testRoadSurface = function(x,y) {
       return 'rgb(0,0,0)'; // black default
     }
 
+    var lightenDust = 30; // make more white like in real life due to density
+
     var dataOffset = ((y-1) * Images[imageName].width * 4) + (x*4);
     rgb = 'rgb(' + 
-    this.trackImageData[dataOffset] + ', ' +
-    this.trackImageData[dataOffset+1] + ', ' + 
-    this.trackImageData[dataOffset+2] + ')';
+    Math.min(this.trackImageData[dataOffset]+lightenDust,255)+ ', ' +
+    Math.min(this.trackImageData[dataOffset+1]+lightenDust,255) + ', ' + 
+    Math.min(this.trackImageData[dataOffset+2]+lightenDust,255) + ')';
 
     //console.log('pixelColor if img wh:'+Images[imageName].width+','+Images[imageName].height+' at dataOffset:'+dataOffset+'/'+this.trackImageData.length+' xy:'+x+','+y+'='+rgb);
     

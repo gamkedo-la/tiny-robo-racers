@@ -119,7 +119,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     if (Math.random()>0.666) // not every frame
     {
       var dustColor = track.pixelColor(x,y);
-      particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1000,64,dustColor);
+      particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1500,80,dustColor);
 
       // check SAME pixel rgb again! (FIXME!) to determine track surface type
       this.tireSurface = track.testRoadSurface(x,y); // eg ROAD_SURFACE_ASPHALT
