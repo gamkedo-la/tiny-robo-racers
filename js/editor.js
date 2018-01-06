@@ -80,9 +80,30 @@ var Editor = function(levelIndex) {
   };
 
   this.validateGrid = function() {
-    alert('Validation not implemented yet');
+    if (!validateSingleStart()) {
+      return false;
+    }
+
+    alert('Validation not fully implemented yet');
     return true;
   };
+
+  function validateSingleStart() {
+    var hasStart = false;
+
+    for (var i = 0; i < grid.length; i++) {
+      if (grid[i] === TRACK_PLAYERSTART) {
+        if (hasStart) {
+          alert('Only a single Player start should be added');
+          return false;
+        }
+
+        hasStart = true;
+      }
+    }
+
+    return hasStart;
+  }
 
   var buttons = [
     new ButtonImage(gameContext, 10, 10, Images.button_save, false, false, this.saveTrack.bind(this)),
