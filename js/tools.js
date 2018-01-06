@@ -72,12 +72,12 @@ function determineFontHeight(font) {
 }
 
 // Grid functions
-function coordsAreDriveable(grid, x, y) {
-  var col = Math.floor(x / TRACK_WIDTH);
-  var row = Math.floor((y - TRACK_PADDING_TOP) / TRACK_HEIGHT);
-  var tileHere = getTileTypeAtColRow(grid, col, row);
+function indexIsDriveable(grid, index) {
+  return DRIVEABLE_TILES.indexOf(grid[index]) !== -1;
+}
 
-  return (tileHere === TRACK_ROAD);
+function coordsAreDriveable(grid, x, y) {
+  return indexIsDriveable(grid, coordsToArrayIndex(x, y));
 }
 
 function rowColToArrayIndex(col, row) {

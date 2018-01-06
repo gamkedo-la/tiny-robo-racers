@@ -84,7 +84,12 @@ var Editor = function(levelIndex) {
       return false;
     }
 
-    alert('Validation not fully implemented yet');
+    if (!validateDriveableTiles()) {
+      return false;
+    }
+
+    // @todo validate checkpoints?
+
     return true;
   };
 
@@ -102,7 +107,27 @@ var Editor = function(levelIndex) {
       }
     }
 
+    if (!hasStart) {
+      alert('No Player start found');
+    }
     return hasStart;
+  }
+
+  function validateDriveableTiles() {
+    // Require at least 10% driveable tiles?
+    var numDriveableTiles = Math.floor(grid.length * .10);
+
+    for (var i = 0; i < grid.length; i++) {
+      if (indexIsDriveable(grid, i)) {
+        numDriveableTiles--;
+        if (numDriveableTiles <= 0) {
+          return true;
+        }
+      }
+    }
+
+    alert('Not enough driveable area!?');
+    return false;
   }
 
   var buttons = [

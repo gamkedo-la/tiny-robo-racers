@@ -41,6 +41,9 @@ const TRACK_PLAYERSTART = 2;
 const TRACK_GOALSTART = 3;
 const TRACK_GOALEND = 4;
 
+// All track types that are driveable
+const DRIVEABLE_TILES = [TRACK_ROAD, TRACK_PLAYERSTART, TRACK_GOALSTART, TRACK_GOALEND];
+
 var TRACK_IMAGES = [];
 TRACK_IMAGES[TRACK_ROAD] = 'track_road';
 TRACK_IMAGES[TRACK_WALL] = 'track_wall';
