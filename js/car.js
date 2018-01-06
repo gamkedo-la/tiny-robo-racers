@@ -61,10 +61,26 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   // maybe we could affect the turnangle and add some randomness
   // as if we are bumping around on a rough track surface
   this.roadSurfaceDrag = function(currentSpeed) {
-    if (!this.tireSurface)
+
+    if (!this.tireSurface) // sanity check
       return currentSpeed;
-    else
-      return currentSpeed * ROAD_SURFACE_FRICTION[this.tireSurface];
+
+    return currentSpeed * ROAD_SURFACE_FRICTION[this.tireSurface]; // scale it
+
+  }
+
+  // wobble the car's angle based on surface bumpiness
+  this.roadSurfaceWobble = function() {
+
+    if (!this.tireSurface) // sanity check
+      return 0.0;
+
+    // plus or minus half the size
+    var thisMuchWobble = Math.random() * ROAD_SURFACE_ROUGHNESS[this.tireSurface] - (ROAD_SURFACE_ROUGHNESS[this.tireSurface]/2); 
+    //console.log("ROAD_SURFACE_ROUGHNESS["+this.tireSurface+"]:"+ROAD_SURFACE_ROUGHNESS[this.tireSurface]+ ' thisMuchWobble='+thisMuchWobble);
+
+    return thisMuchWobble;
+
   }
 
   this.update = function(delta) {
@@ -87,9 +103,12 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
     // terrain affects driving forces
     speed = this.roadSurfaceDrag(speed);
+    var angleWobble = this.roadSurfaceWobble();
 
-    x += Math.cos(this.angle) * speed;
-    y += Math.sin(this.angle) * speed;
+    //console.log('speed='+speed+' angleWobble='+angleWobble);
+
+    x += Math.cos(this.angle+angleWobble) * speed;
+    y += Math.sin(this.angle+angleWobble) * speed;
 
     this.carTrackHandling(delta);
     
