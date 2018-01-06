@@ -14,7 +14,9 @@ const ROAD_SURFACE_WATER = 7;
 const ROAD_SURFACE_OIL = 8;
 const ROAD_SURFACE_GLUE = 9;
 const ROAD_SURFACE_SPEEDBOOST = 10;
-const ROAD_SURFACE_STRINGS = ['UNKNOWN','ASPHALT','GRAVEL','CONCRETE','MUD','WET MUD','GRASS','WATER','OIL','SPEED BOOST'];
+const ROAD_SURFACE_STRINGS =  ['UNKNOWN','ASPHALT','GRAVEL','CONCRETE','MUD','WET MUD','GRASS','WATER','OIL','SPEED BOOST'];
+const ROAD_SURFACE_FRICTION = [ 1.0,      1.0,      1.0,     1.0,       0.6,  0.4,      0.2,    0.1,    1.1,  2.0];
+
 
 var Track = function(levelIndex) {
 

@@ -56,6 +56,17 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 //    tireTracks.reset();
   };
 
+  // currently reduces speed based on what is under the tires
+  // but what we REALLY want is turning slipping and drifting too FIXME TODO
+  // maybe we could affect the turnangle and add some randomness
+  // as if we are bumping around on a rough track surface
+  this.roadSurfaceDrag = function(currentSpeed) {
+    if (!this.tireSurface)
+      return currentSpeed;
+    else
+      return currentSpeed * ROAD_SURFACE_FRICTION[this.tireSurface];
+  }
+
   this.update = function(delta) {
     if (!this.isRacing) {
       return;
@@ -64,8 +75,8 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     this.lapTime += delta;
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
-
     this.isTurning = false; // did ANY sensor trigger a steering change?
+
     for (var s = 0; s < this.sensors.length; s++) {
       this.sensors[s].update(delta);
     }
@@ -73,6 +84,10 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     var speed = this.speed * (delta / 1000);
     lastX = x;
     lastY = y;
+
+    // terrain affects driving forces
+    speed = this.roadSurfaceDrag(speed);
+
     x += Math.cos(this.angle) * speed;
     y += Math.sin(this.angle) * speed;
 
@@ -90,6 +105,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       // check SAME pixel rgb again! (FIXME!) to determine track surface type
       this.tireSurface = track.testRoadSurface(x,y); // eg ROAD_SURFACE_ASPHALT
     }
+
 
     this.checkGoal();
   };
