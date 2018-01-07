@@ -27,6 +27,7 @@ var Track = function(levelIndex) {
 
   var label = levels[levelIndex].label;
   var grid = levels[levelIndex].grid.slice();
+  var isCustomLevel = !!levels[levelIndex].custom;
   var imageName = levels[levelIndex].image;
   var imageNameOverlay = imageName ? imageName + '-overlay' : false;
   this.goalStart;
@@ -189,9 +190,9 @@ this.testRoadSurface = function(x,y) {
     // @todo replace with 2 wheels
     drawText(gameContext, 150, 30, '#fff', GAME_FONT, 'left', 'top', 'Angle: ' + Math.round(car.angle / DEC2RAD) + '°');
 
-    if (DEBUG) {
+    if (DEBUG || isCustomLevel) {
       gameContext.save();
-      if (!TRACK_SCREENSHOT) {
+      if (!TRACK_SCREENSHOT && !isCustomLevel) {
         gameContext.globalAlpha = 0.5;
       }
 
