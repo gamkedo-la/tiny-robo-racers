@@ -19,7 +19,7 @@ function loadCustomLevels() {
 
 function saveCustomLevel(label, grid, index) {
   var customLevels = levelsList.get('levels', []);
-  if (!index) {
+  if (index === undefined) {
     index = customLevels.length;
   }
 
@@ -29,6 +29,8 @@ function saveCustomLevel(label, grid, index) {
   };
 
   levelsList.set('levels', customLevels);
+
+  return index;
 }
 
 function deleteCustomLevel(index) {

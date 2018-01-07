@@ -46,6 +46,7 @@ var Editor = function(levelIndex) {
 
     if (levels[levelIndex] && levels[levelIndex].custom) {
       saveCustomLevel(levels[levelIndex].label, grid, levels[levelIndex].index);
+      alert('Level saved');
       return;
     }
 
@@ -56,11 +57,21 @@ var Editor = function(levelIndex) {
     }
 
     if (label === '') {
-      alert('Type a proper label for this level.');
+      alert('Type a proper label for this level');
       return this.saveTrack();
     }
 
-    saveCustomLevel(label, grid);
+    var customIndex = saveCustomLevel(label, grid);
+
+    levelIndex = levels.length;
+    levels[levelIndex] = {
+      custom: true,
+      index: customIndex,
+      label: label,
+      grid: grid
+    };
+
+    alert('Level saved');
   };
 
   this.selectTrackType = function(type) {
