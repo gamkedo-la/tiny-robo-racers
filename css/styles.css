@@ -130,3 +130,19 @@ ul {
   background: transparent;
   border: 0;
 }
+
+#logo {
+  position:absolute; top:50%; left:50%; width:512px; height:256px;  
+  margin-top:-128px; margin-left:-256px;
+  background:url(../img/titlescreen.png); 
+  animation:3s fade_out linear; 
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade_out { 
+  0% { opacity:0; left:-512px; }
+  20% { opacity:1; left:50%; }
+  80% { opacity:1; left:50%; }
+  100% { opacity:0; left:100%; }
+}
