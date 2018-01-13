@@ -55,19 +55,22 @@ function SoundSystem() {
         }
         if (!this.mute) // we still download even if muted
             sounds[samplename].play();
-        };
 
-        this.stop = function(samplename) {
-            if (debug_sound) console.log("soundSystem.stop "+samplename);
-            if (sounds[samplename])
-                sounds[samplename].stop();
-        };
+        // return the howler object ready for realtime tweaking AFTER it loads (careful!)
+        return sounds[samplename]; // warning: sound may not have finishing downloading yet
+    };
 
-        this.pause = function(samplename) {
-            if (debug_sound) console.log("soundSystem.stop "+samplename);
-            if (sounds[samplename])
-                sounds[samplename].pause();
-        };
+    this.stop = function(samplename) {
+        if (debug_sound) console.log("soundSystem.stop "+samplename);
+        if (sounds[samplename])
+            sounds[samplename].stop();
+    };
+
+    this.pause = function(samplename) {
+        if (debug_sound) console.log("soundSystem.stop "+samplename);
+        if (sounds[samplename])
+            sounds[samplename].pause();
+    };
 
     // can be called often and it will only play one at a time max
     this.playUnlessAlreadyPlaying = function(samplename,looping,vol,rate,pan)

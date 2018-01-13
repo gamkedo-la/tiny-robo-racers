@@ -68,7 +68,8 @@ function windowOnBlur() {
 
 function gameInitialize(levelIndex) {
   
-  Sound.playUnlessAlreadyPlaying("menu",true,0.25);
+  // music works, but interferes with debugging
+  // Sound.playUnlessAlreadyPlaying("menu",true,0.25);
 
   if (!levels[levelIndex]) {
     alert('No level? ' + levelIndex);

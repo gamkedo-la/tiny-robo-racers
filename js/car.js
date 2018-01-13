@@ -1,3 +1,5 @@
+const SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO = 1.0;
+
 var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
   var x = startPosition.x;
@@ -29,6 +31,9 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
   // Clear tracks when creating a new car
   tireTracks.reset();
+
+  // Start your engines!
+  this.engineSound = Sound.play('carSound',true,0.1); // looped
 
   this.useSensors = function(sensorList){
 	  this.sensors = [];
@@ -123,6 +128,17 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
       // check SAME pixel rgb again! (FIXME!) to determine track surface type
       this.tireSurface = track.testRoadSurface(x,y); // eg ROAD_SURFACE_ASPHALT
+
+      // pitch shift the engine sound loop based on speed
+      if (this.engineSound)
+      {
+        var sampleRate = speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO;
+        console.log('sampleRate:'+sampleRate);
+        if (sampleRate<0.5) sampleRate=0.5;
+        if (sampleRate>3.0) sampleRate=3.0;
+        this.engineSound.rate(sampleRate);
+      }
+
     }
 
 
