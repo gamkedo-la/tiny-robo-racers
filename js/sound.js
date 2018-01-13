@@ -24,6 +24,8 @@ function SoundSystem() {
 
     this.mute = false;   // if true ignore all play()
 
+    this.lastChannelID = 0; // used for realtime samplerate manipulation in car.js
+
     // playback function
     this.play = function(samplename,looping,vol,rate,pan)
     {
@@ -53,12 +55,29 @@ function SoundSystem() {
                 pan: pan
             });
         }
-        if (!this.mute) // we still download even if muted
-            sounds[samplename].play();
+        
+        var playID = null;
 
-        // return the howler object ready for realtime tweaking AFTER it loads (careful!)
+        if (!this.mute) // we still download even if muted
+            playID = sounds[samplename].play();
+
+        this.lastChannelID = playID; // remember the last used sound channel for realtime tweaking
+        
+            // return the howler object ready for realtime tweaking AFTER it loads (careful!)
         return sounds[samplename]; // warning: sound may not have finishing downloading yet
+
     };
+
+    this.getHowlerSoundObjectByName = function(name)
+    {
+        if (sounds[name])
+            return sounds[name];
+        else
+        {
+            console.log('missing sample:'+name);
+            return null;
+        }
+    }
 
     this.stop = function(samplename) {
         if (debug_sound) console.log("soundSystem.stop "+samplename);

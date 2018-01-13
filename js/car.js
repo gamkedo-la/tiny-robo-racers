@@ -33,8 +33,9 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   tireTracks.reset();
 
   // Start your engines!
-  this.engineSound = Sound.play('carSound',true,0.1); // looped
-
+  this.engineSound = Sound.play('carSound',true,0.1); // the sample may be playing on >1 channel
+  this.engineSoundplayID =  Sound.lastChannelID; // so we know WHICH one is this car
+  
   this.useSensors = function(sensorList){
 	  this.sensors = [];
 	for (var s = 0; s < sensorList.length; s++) {
@@ -133,10 +134,10 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       if (this.engineSound)
       {
         var sampleRate = speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO;
-        //console.log('sampleRate:'+sampleRate);
+        console.log('sampleRate:'+sampleRate);
         if (sampleRate<0.5) sampleRate=0.5;
         if (sampleRate>3.0) sampleRate=3.0;
-        this.engineSound.rate(sampleRate);
+        this.engineSound.rate(sampleRate,this.engineSoundplayID);
       }
 
     }
