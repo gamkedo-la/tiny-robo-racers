@@ -73,6 +73,7 @@ function stopGameForMenu() {
     isPlaying = false;
     isGameOver = false;
     MainLoop.stop();
+    $(document).trigger('stopGame');
     clearCanvas();
   }
 }
@@ -85,12 +86,14 @@ function showGameOver() {
 function showGamePause() {
   isPaused = true;
   MainLoop.stop();
+  $(document).trigger('pause');
   $activeWrapperScreen = $('#gamePause').show();
 }
 
 function continueGame() {
   isPaused = false;
   MainLoop.start();
+  $(document).trigger('play');
   $activeWrapperScreen = $('#gamePause').hide();
 }
 

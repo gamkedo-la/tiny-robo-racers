@@ -35,13 +35,30 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   // Start your engines!
   this.engineSound = Sound.play('carSound',true,0.1); // the sample may be playing on >1 channel
   this.engineSoundplayID =  Sound.lastChannelID; // so we know WHICH one is this car
+
+  $(document).on('stopGame', function() {
+    if (this.engineSound) {
+      this.engineSound.stop();
+    }
+  }.bind(this));
+  $(document).on('pause', function() {
+    if (this.engineSound) {
+      this.engineSound.pause();
+    }
+  }.bind(this));
+  $(document).on('play', function() {
+    if (this.engineSound) {
+      this.engineSound.play();
+    }
+  }.bind(this));
   
   this.useSensors = function(sensorList){
 	  this.sensors = [];
-	for (var s = 0; s < sensorList.length; s++) {
-		this.sensors.push(new Sensor(this, sensorList[s].x, sensorList[s].y, sensorList[s].length, sensorList[s].angle, sensorList[s].steerAngle));
-	}  
-  }
+    for (var s = 0; s < sensorList.length; s++) {
+      this.sensors.push(new Sensor(this, sensorList[s].x, sensorList[s].y, sensorList[s].length, sensorList[s].angle, sensorList[s].steerAngle));
+    }
+  };
+
 	this.useSensors(sensors);
 	
   this.getPosition = function() {
@@ -73,7 +90,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
     return currentSpeed * ROAD_SURFACE_FRICTION[this.tireSurface]; // scale it
 
-  }
+  };
 
   // wobble the car's angle based on surface bumpiness
   this.roadSurfaceWobble = function() {
@@ -87,7 +104,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
 
     return thisMuchWobble;
 
-  }
+  };
 
   this.update = function(delta) {
     if (!this.isRacing) {
@@ -134,14 +151,13 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       if (this.engineSound)
       {
         var sampleRate = speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO;
-        console.log('sampleRate:'+sampleRate);
+        //console.log('sampleRate:'+sampleRate);
         if (sampleRate<0.5) sampleRate=0.5;
         if (sampleRate>3.0) sampleRate=3.0;
         this.engineSound.rate(sampleRate,this.engineSoundplayID);
       }
 
     }
-
 
     this.checkGoal();
   };
@@ -187,7 +203,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       transferToCar.sensors[i].steerAngle = this.sensors[i].steerAngle;
       transferToCar.sensors[i].angle = this.sensors[i].angle;
     }
-  }
+  };
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range
