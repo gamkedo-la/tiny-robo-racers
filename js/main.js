@@ -53,11 +53,7 @@ window.onload = function() {
     .setUpdate(gameUpdate)
     .setDraw(gameDraw);
 
-  Sounds.initialize(function() {
-    Music.initialize(function() {
-      Images.initialize(menuInitialize);
-    })
-  });
+  Images.initialize(menuInitialize);
 };
 
 function windowOnBlur() {
