@@ -28,7 +28,9 @@ function menuInitialize() {
   $('#levels').on('click', 'button.load', function(event) {
     event.preventDefault();
     $activeWrapperScreen.hide();
-    Sound.stop('menu');
+    if (!IS_EDITOR) {
+      Sound.stop('menu');
+    }
     gameInitialize(this.value);
   });
 
@@ -76,9 +78,9 @@ function stopGameForMenu() {
     MainLoop.stop();
     $(document).trigger('stopGame');
     clearCanvas();
-
-    Sound.playUnlessAlreadyPlaying('menu', true, 0.25);
   }
+
+  Sound.playUnlessAlreadyPlaying('menu', true, 0.25);
 }
 
 function showGameOver() {
