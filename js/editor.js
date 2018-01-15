@@ -4,6 +4,8 @@ var Editor = function(levelIndex) {
   var imageNameOverlay = false;
   var grid = [];
 
+  var drawingBucket = false;
+
   this.size = 1;
   this.type = TRACK_ROAD;
 
@@ -165,6 +167,11 @@ var Editor = function(levelIndex) {
   };
 
   this.drawBucket = function(col, row) {
+    if (drawingBucket) {
+      return;
+    }
+    drawingBucket = true;
+
     if (col < 0 || TRACK_COLS <= col) {
       return;
     }
@@ -188,10 +195,10 @@ var Editor = function(levelIndex) {
       var maxIndex = minIndex + TRACK_COLS;
 
       var westIndex = curIndex, eastIndex = curIndex;
-      while(grid[westIndex] === type && minIndex < westIndex) {
+      while (grid[westIndex] === type && minIndex <= westIndex) {
         westIndex--;
       }
-      while(grid[eastIndex] === type && eastIndex < maxIndex) {
+      while (grid[eastIndex] === type && eastIndex < maxIndex) {
         eastIndex++;
       }
 
@@ -215,6 +222,9 @@ var Editor = function(levelIndex) {
 
     if (TRACK_PADDING_TOP <= mouse.y && mouse.button !== -1) {
       this.drawCallback((this.tool === EDITOR_BUCKET ? this.drawBucket : this.drawPencil).bind(this));
+    }
+    else {
+      drawingBucket = false;
     }
   };
 
