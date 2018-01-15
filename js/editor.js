@@ -144,15 +144,17 @@ var Editor = function(levelIndex) {
   var buttons = [
     new ButtonImage(gameContext, 10, 10, Images.button_save, false, false, this.saveTrack.bind(this)),
     new ButtonImage(gameContext, 60, 10, Images.button_reset, false, false, this.resetGrid.bind(this)),
-    new ButtonImage(gameContext, 110, 10, Images.button_pencil, 'draw', true, this.selectTool.bind(this, EDITOR_PENCIL)),
-    new ButtonImage(gameContext, 160, 10, Images.button_bucket, 'draw', false, this.selectTool.bind(this, EDITOR_BUCKET)),
-    new ButtonImage(gameContext, 210, 10, Images.button_1, 'size', true, this.selectSize.bind(this, 1)),
-    new ButtonImage(gameContext, 260, 10, Images.button_2, 'size', false, this.selectSize.bind(this, 2)),
-    new ButtonImage(gameContext, 310, 10, Images.button_4, 'size', false, this.selectSize.bind(this, 4)),
 
-    new ButtonText(gameContext, 370, 10, 'road', GAME_FONT, 'type', true, this.selectTrackType.bind(this, TRACK_ROAD)),
-    new ButtonText(gameContext, 440, 10, 'wall', GAME_FONT, 'type', false, this.selectTrackType.bind(this, TRACK_WALL)),
-    new ButtonText(gameContext, 510, 10, 'start', GAME_FONT, 'type', false, this.selectTrackType.bind(this, TRACK_PLAYERSTART)),
+    new ButtonImage(gameContext, 120, 10, Images.button_pencil, 'draw', true, this.selectTool.bind(this, EDITOR_PENCIL)),
+    new ButtonImage(gameContext, 170, 10, Images.button_bucket, 'draw', false, this.selectTool.bind(this, EDITOR_BUCKET)),
+
+    new ButtonImage(gameContext, 230, 10, Images.button_1, 'size', true, this.selectSize.bind(this, 1)),
+    new ButtonImage(gameContext, 280, 10, Images.button_2, 'size', false, this.selectSize.bind(this, 2)),
+    new ButtonImage(gameContext, 330, 10, Images.button_4, 'size', false, this.selectSize.bind(this, 4)),
+
+    new ButtonImage(gameContext, 400, 10, Images['button_' + TRACK_IMAGES[TRACK_ROAD]], 'type', true, this.selectTrackType.bind(this, TRACK_ROAD)),
+    new ButtonImage(gameContext, 450, 10, Images['button_' + TRACK_IMAGES[TRACK_WALL]], 'type', false, this.selectTrackType.bind(this, TRACK_WALL)),
+    new ButtonImage(gameContext, 500, 10, Images['button_' + TRACK_IMAGES[TRACK_PLAYERSTART]], 'type', false, this.selectTrackType.bind(this, TRACK_PLAYERSTART)),
   ];
 
   this.drawPencil = function(col, row) {
@@ -256,6 +258,12 @@ var Editor = function(levelIndex) {
         drawStrokeRect(gameContext, col * TRACK_WIDTH, row * TRACK_HEIGHT + TRACK_PADDING_TOP, TRACK_WIDTH, TRACK_HEIGHT, '#fff', 1);
       });
     }
+
+    var label = '- new level -';
+    if (levels[levelIndex] && levels[levelIndex].label) {
+      label = levels[levelIndex].label;
+    }
+    drawText(gameContext, gameCanvas.width, 10, '#fff', GAME_FONT, 'right', 'top', 'Track: ' + label);
   };
 
   this.drawCallback = function(callback) {
