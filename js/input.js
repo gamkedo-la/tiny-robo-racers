@@ -64,21 +64,6 @@ function keyUp(event) {
 			{x: 15, y: 7, length: 80, angle: Math.PI / 10, steerAngle: -0.04 / FRAME_RATE_DELTA}
 		  ]);
 	  break;
-    case KEY_M: // mute music toggle
-      if (window.MutingMusic) // just a bool for the toggling
-      {
-        Sound.unMuteSoundByName('music');
-        Sound.unMuteSoundByName('menu');
-        window.MutingMusic = false;
-      }
-      else // might be undefined at this point
-      {
-        Sound.muteSoundByName('music');
-        Sound.muteSoundByName('menu');
-        window.MutingMusic = true;
-      }
-      console.log('[M] Mute Music: ' + window.MutingMusic);
-      break;
   }
   if (DEBUG) {
     console.log('key ' + event.keyCode);

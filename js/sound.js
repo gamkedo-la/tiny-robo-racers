@@ -80,7 +80,7 @@ function SoundSystem() {
             console.log('missing sample:'+name);
             return null;
         }
-    }
+    };
 
     this.stop = function(samplename) {
         if (debug_sound) console.log("soundSystem.stop "+samplename);
@@ -111,7 +111,7 @@ function SoundSystem() {
     {
         if (!this.isPlaying(samplename))
             this.play(samplename,looping,vol,rate,pan);
-    }
+    };
     
         // returns true if a sample is currently playing
     this.isPlaying = function(samplename) {

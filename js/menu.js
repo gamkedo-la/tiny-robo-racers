@@ -44,8 +44,14 @@ function menuInitialize() {
   if (DEBUG) {
     // start play now!
     $activeWrapperScreen.hide();
+    if (!IS_EDITOR) {
+      Sound.stop('menu');
+    }
     gameInitialize(IS_EDITOR ? '_new' : 0);
   }
+
+  // Initialize music setting
+  toggleMuteMusic(!settings.get('music', true));
 }
 
 function callShowMenuScreen(screen) {
@@ -144,10 +150,17 @@ function showHiscore() {
 }
 
 function showSettings() {
-  settingImgToggle($('#settingSound'), 'sound', 'img/icons/sound-');
-  settingImgToggle($('#settingMusic'), 'music', 'img/icons/music-');
+  var $settingsWrapper = $('#settings');
+  if ($settingsWrapper.data('initialized')) {
+    return;
+  }
+  $settingsWrapper.data('initialized', true);
 
-  function settingImgToggle($button, settingName, src) {
+  settingImgToggle($('#settingSound'), 'sound', 'img/icons/sound-');
+  settingImgToggle($('#settingMusic'), 'music', 'img/icons/music-', toggleMuteMusic.bind(null, true), toggleMuteMusic.bind(null, false));
+
+  function settingImgToggle($button, settingName, src, enableCallback, disableCallback) {
+    console.log('toggle', settingName);
     var $img = $('img', $button);
     $button
       .on('show', function() {
@@ -156,9 +169,38 @@ function showSettings() {
       .on('click', function(event) {
         event.preventDefault();
 
-        settings.set(settingName, !settings.get(settingName, true));
+        console.log('set', settingName, !settings.get(settingName, true));
+        if (settings.set(settingName, !settings.get(settingName, true))) {
+          if (enableCallback) {
+            enableCallback();
+          }
+        }
+        else if (disableCallback) {
+          disableCallback();
+        }
         $button.trigger('show');
       })
       .trigger('show');
   }
+}
+
+function toggleMuteMusic(force) {
+  if (force !== undefined) {
+    window.PlayingMusic = !force;
+  }
+
+  if (window.PlayingMusic) // just a bool for the toggling
+  {
+    Sound.muteSoundByName('music');
+    Sound.muteSoundByName('menu');
+    window.PlayingMusic = false;
+  }
+  else // might be undefined at this point
+  {
+    Sound.unMuteSoundByName('music');
+    Sound.unMuteSoundByName('menu');
+    window.PlayingMusic = true;
+  }
+
+  settings.set('music', window.PlayingMusic);
 }
