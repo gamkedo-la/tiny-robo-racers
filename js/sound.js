@@ -1,4 +1,4 @@
-// SOUND SYSTEM MODULE v3
+// SOUND SYSTEM MODULE v3.1
 // by Christer "McFunkypants" Kaitila for http://gamkedo.com
 
 // Requires https://github.com/goldfire/howler.js
@@ -7,6 +7,9 @@
 // Sound.play("boom"); // it will download boom.mp3 once
 // Sound.mute();
 // Sound.unmute();
+// to mute only one sound:
+// Sound.muteSoundByName('explosion');
+// Sound.unMuteSoundByName('explosion');
 
 "use strict";
 
@@ -83,6 +86,18 @@ function SoundSystem() {
         if (debug_sound) console.log("soundSystem.stop "+samplename);
         if (sounds[samplename])
             sounds[samplename].stop();
+    };
+
+    this.muteSoundByName = function(samplename) {
+        if (debug_sound) console.log("soundSystem.muteSoundByName "+samplename);
+        if (sounds[samplename])
+            sounds[samplename].mute(true);
+    };
+
+    this.unMuteSoundByName = function(samplename) {
+        if (debug_sound) console.log("soundSystem.unMuteSoundByName "+samplename);
+        if (sounds[samplename])
+            sounds[samplename].mute(false);
     };
 
     this.pause = function(samplename) {
