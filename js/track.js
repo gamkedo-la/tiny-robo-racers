@@ -1,8 +1,3 @@
-var lapTime = 0;
-var lapTimeStr = "00:00";
-var ghostLapTime = 0;
-var ghostLapTimeStr = "00:00";
-
 const ROAD_SURFACE_UNKNOWN = 0;
 const ROAD_SURFACE_ASPHALT = 1;
 const ROAD_SURFACE_GRAVEL = 2;
@@ -62,6 +57,15 @@ var Track = function(levelIndex) {
         i++;
       }
     }
+  };
+
+  var trackHash = 0;
+  this.getKey = function() {
+    if (trackHash === 0) {
+      trackHash = JSON.stringify(levels[levelIndex]).hashCode();
+    }
+
+    return trackHash;
   };
 
   this.startRace = function() {
@@ -173,7 +177,6 @@ this.testRoadSurface = function(x,y) {
     //console.log('pixelColor if img wh:'+Images[imageName].width+','+Images[imageName].height+' at dataOffset:'+dataOffset+'/'+this.trackImageData.length+' xy:'+x+','+y+'='+rgb);
     
     return rgb;
-
   };
   
   this.draw = function() {
@@ -182,8 +185,8 @@ this.testRoadSurface = function(x,y) {
     }
 
     drawText(gameContext, 0, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: 01');
-    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + lapTimeStr);
-    drawText(gameContext, 260, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' + ghostLapTimeStr);
+    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + car.lapTimeString);
+    drawText(gameContext, 300, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' +  ghost.lapTimeString);
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'top', 'Track: ' + label);
     // @todo how to read this 'car.speed' some conversion to mph/kph?
     drawText(gameContext, 0, 30, '#fff', GAME_FONT, 'left', 'top', 'Speed: ' + Math.round(car.speed));

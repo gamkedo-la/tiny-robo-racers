@@ -15,6 +15,16 @@ var Sensor = function(car, x, y, length, angle, steerAngle) {
 
   var scale = sidebar.image.width / car.image.height;
 
+  this.getSensorData = function() {
+    return {
+      x: x,
+      y: y,
+      length: this.length,
+      angle: this.angle,
+      steerAngle: this.steerAngle
+    };
+  };
+
   this.addAngle = function(addAngle) {
     this.angle += addAngle;
   };

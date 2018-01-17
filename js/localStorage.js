@@ -9,12 +9,16 @@ var LocalStorage = function(prefix, name) {
     settings = _settings;
   }
 
-  this.set = function(key, data) {
-    settings[key] = data;
-
+  function saveSettings() {
     if (localStorage && localStorage.setItem) {
       localStorage.setItem(storageName, JSON.stringify(settings));
     }
+  }
+
+  this.set = function(key, data) {
+    settings[key] = data;
+
+    saveSettings();
 
     return settings[key];
   };
@@ -26,4 +30,12 @@ var LocalStorage = function(prefix, name) {
 
     return defaultData;
   };
+
+  this.del = function(key) {
+    if (settings.hasOwnProperty(key)) {
+      delete settings[key];
+      saveSettings();
+    }
+  };
+
 };

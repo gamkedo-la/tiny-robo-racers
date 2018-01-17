@@ -1,6 +1,14 @@
 const SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO = 1.0;
 
-var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
+var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColor) {
+
+  this.setSetting = function(name, value) {
+    return carSettings.set(track.getKey() + '--' + name, value);
+  };
+
+  this.getSetting = function(name, defaultValue) {
+    return carSettings.get(track.getKey() + '--' + name, defaultValue);
+  };
 
   var x = startPosition.x;
   var y = startPosition.y;
@@ -14,7 +22,7 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   var goalMinY = startPosition.y - 50;
   var goalMaxY = startPosition.y + 50;
 
-  if (tintColor!=null)
+  if (tintColor != null)
     this.image = createTintedSprite(sourceImage,tintColor);
   else
     this.image = sourceImage;
@@ -27,7 +35,8 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
   this.isBraking = false; // used for tire tracks
   this.isTurning = false; // used for skid marks
   this.lapTime = 0;
-
+  this.bestLapTime = this.getSetting('lapTime', 0);
+  this.lapTimeString = '00:00.000';
 
   // Clear tracks when creating a new car
   tireTracks.reset();
@@ -59,7 +68,10 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     }
   };
 
-	this.useSensors(sensors);
+  this.useSensors(this.getSetting('sensors', [
+    { x: 15, y: -7, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA },
+    { x: 15, y: 7, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA }
+  ]));
 	
   this.getPosition = function() {
     return {
@@ -89,7 +101,6 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
       return currentSpeed;
 
     return currentSpeed * ROAD_SURFACE_FRICTION[this.tireSurface]; // scale it
-
   };
 
   // wobble the car's angle based on surface bumpiness
@@ -103,7 +114,6 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     //console.log("ROAD_SURFACE_ROUGHNESS["+this.tireSurface+"]:"+ROAD_SURFACE_ROUGHNESS[this.tireSurface]+ ' thisMuchWobble='+thisMuchWobble);
 
     return thisMuchWobble;
-
   };
 
   this.update = function(delta) {
@@ -162,48 +172,44 @@ var Car = function(startPosition, sourceImage, drivePower, sensors, tintColor) {
     this.checkGoal();
   };
 
+  this.getSensorData = function() {
+    var d = [];
+
+    for (var s = 0; s < this.sensors.length; s++) {
+      d.push(this.sensors[s].getSensorData());
+    }
+
+    return d;
+  };
+
   this.checkGoal = function(){
-    if(x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20){
-      //goal
-      var seconds = Math.floor(this.lapTime/1000)
-      var minutes = Math.floor(seconds/60)
-      if(minutes < 10)
-        minutes = "0"+minutes
-      var leftOverSeconds = seconds%60
-      if(leftOverSeconds < 10)
-        leftOverSeconds = "0"+leftOverSeconds
-
-      if(!this.isGhost){
-        //save to ghost if better
-        if(this.lapTime < lapTime){
-          ghostSave.set("Sensors", car.sensors);
-          this.transferSensorData(ghost)
-        }
-
-        lapTime = this.lapTime;
-        lapTimeStr = minutes + ":" +leftOverSeconds;
-        playerLapTime.set("LapTime", lapTimeStr);
-
-        //TODO: remove this line, it speeds up the car for testing
-        drivePower += .21
-        
-  
-  
-      } else {
-        ghostLapTime = this.lapTime;
-        ghostLapTimeStr = minutes + ":" +leftOverSeconds;
-        ghostSave.set("LapTime", ghostLapTimeStr);
+    if (x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20) {
+      // Save best lap time and copy sensors to ghost if better
+      if (this.bestLapTime === 0 || this.lapTime < this.bestLapTime) {
+        ghost.useSensors(this.getSensorData());
+        ghost.setSetting('lapTime', this.lapTime);
+        ghost.setSetting('sensors', this.getSensorData());
+        this.setSetting('lapTime', this.lapTime);
+        this.setSetting('sensors', this.getSensorData());
+        this.bestLapTime = this.lapTime;
       }
+
+      var seconds = Math.floor(this.lapTime / 1000);
+      var thousands = Math.round(this.lapTime - seconds * 1000);
+      var minutes = Math.floor(seconds / 60);
+      if (minutes < 10) {
+        minutes = '0' + minutes;
+      }
+      var leftOverSeconds = seconds % 60;
+      if (leftOverSeconds < 10) {
+        leftOverSeconds = '0' + leftOverSeconds;
+      }
+
+      this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
       this.lapTime = 0;
     }
   };
-  this.transferSensorData = function(transferToCar){
-    for(var i in this.sensors){
-      transferToCar.sensors[i].length = this.sensors[i].length;
-      transferToCar.sensors[i].steerAngle = this.sensors[i].steerAngle;
-      transferToCar.sensors[i].angle = this.sensors[i].angle;
-    }
-  };
+
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range
