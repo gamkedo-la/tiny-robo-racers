@@ -13,6 +13,7 @@ var Images = new (function() {
     button_track_wall: 'img/icons/editor-track_wall.png',
     button_track_road: 'img/icons/editor-track_road.png',
     button_track_playerstart: 'img/icons/editor-track_playerstart.png',
+    button_pause: 'img/icons/pause.png',
     track_wall: 'img/track_wall.png',
     track_road: 'img/track_road.png',
     track_playerstart: 'img/track_playerstart.png',

@@ -21,6 +21,8 @@ var sidebar;
 var car;
 var ghost;
 
+var btnPause, btnEdit;
+
 if (STRESSTEST_AI) {
   var manyGhosts = [];
 }
@@ -76,6 +78,9 @@ function gameInitialize(levelIndex) {
   track = new Track(levelIndex);
   track.initializeTrack();
 
+  btnPause = new ButtonImage(drawContext, 0, 0, Images.button_pause, false, false, showGamePause);
+  btnEdit = new ButtonImage(drawContext, 44, 0, Images.button_pencil, false, false, sidebar.toggle.bind(sidebar));
+
   car = new Car(track.playerStart, playerSettings, Images.carRed, DRIVE_POWER, 'rgba(10,10,255,0.5)'); // FIXME: tint according the player prefs and use a B&W source image
 
   ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER, 'rgba(10,255,10,0.5)'); // FIXME: use random color for bots?
@@ -107,6 +112,9 @@ function gameUpdate(delta) {
   // Call the update methods of all objects.
   track.update(delta);
   sidebar.update(delta);
+
+  btnPause.update(delta);
+  btnEdit.update(delta);
 
   particles.update();
   if (STRESSTEST_AI) { 
@@ -153,6 +161,9 @@ function gameDraw(interpolationPercentage) {
 
   gameContext.restore();
   redrawCanvas();
+
+  btnPause.draw();
+  btnEdit.draw();
 }
 
 function clearCanvas() {

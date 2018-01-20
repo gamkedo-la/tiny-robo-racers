@@ -184,14 +184,19 @@ this.testRoadSurface = function(x,y) {
       gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
     }
 
-    drawText(gameContext, 0, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: 01');
-    drawText(gameContext, 100, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + car.lapTimeString);
-    drawText(gameContext, 300, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' +  ghost.lapTimeString);
+    var offset = 90;
+    if (isEditing || isEditToggling) {
+      offset *= (1 - sidebar.editingAnimationPercentage);
+    }
+
+    drawText(gameContext, offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: 01');
+    drawText(gameContext, 100 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + car.lapTimeString);
+    drawText(gameContext, 300 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' +  ghost.lapTimeString);
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'top', 'Track: ' + label);
     // @todo how to read this 'car.speed' some conversion to mph/kph?
-    drawText(gameContext, 0, 30, '#fff', GAME_FONT, 'left', 'top', 'Speed: ' + Math.round(car.speed));
+    drawText(gameContext, offset, 30, '#fff', GAME_FONT, 'left', 'top', 'Speed: ' + Math.round(car.speed));
     // @todo replace with 2 wheels
-    drawText(gameContext, 150, 30, '#fff', GAME_FONT, 'left', 'top', 'Angle: ' + Math.round(car.angle / DEC2RAD) + '°');
+    drawText(gameContext, 150 + offset, 30, '#fff', GAME_FONT, 'left', 'top', 'Angle: ' + Math.round(car.angle / DEC2RAD) + '°');
 
     if (DEBUG || isCustomLevel) {
       gameContext.save();
