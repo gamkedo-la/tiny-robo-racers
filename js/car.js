@@ -130,6 +130,8 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.speed += drivePower * delta;
     this.isTurning = false; // did ANY sensor trigger a steering change?
 
+    this.updateLapTime(); // gui
+
     for (var s = 0; s < this.sensors.length; s++) {
       this.sensors[s].update(delta);
     }
@@ -186,6 +188,22 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     return d;
   };
 
+  this.updateLapTime = function() {
+
+    var seconds = Math.floor(this.lapTime / 1000);
+    var thousands = Math.round(this.lapTime - seconds * 1000);
+    var minutes = Math.floor(seconds / 60);
+    if (minutes < 10) {
+      minutes = '0' + minutes;
+    }
+    var leftOverSeconds = seconds % 60;
+    if (leftOverSeconds < 10) {
+      leftOverSeconds = '0' + leftOverSeconds;
+    }
+    this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
+
+  }
+
   this.checkGoal = function(){
     if (x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20) {
       // Save best lap time and copy sensors to ghost if better
@@ -198,18 +216,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
         this.bestLapTime = this.lapTime;
       }
 
-      var seconds = Math.floor(this.lapTime / 1000);
-      var thousands = Math.round(this.lapTime - seconds * 1000);
-      var minutes = Math.floor(seconds / 60);
-      if (minutes < 10) {
-        minutes = '0' + minutes;
-      }
-      var leftOverSeconds = seconds % 60;
-      if (leftOverSeconds < 10) {
-        leftOverSeconds = '0' + leftOverSeconds;
-      }
-
-      this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
+      this.updateLapTime();     
       this.lapTime = 0;
 
       this.lapCounter++;

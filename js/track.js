@@ -190,8 +190,8 @@ this.testRoadSurface = function(x,y) {
     }
 
     drawText(gameContext, offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: ' + car.lapNumberString);
-    drawText(gameContext, 100 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + car.lapTimeString);
-    drawText(gameContext, 300 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' +  ghost.lapTimeString);
+    drawText(gameContext, 120 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + car.lapTimeString);
+    drawText(gameContext, 330 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' +  ghost.lapTimeString);
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'top', 'Track: ' + label);
     // @todo how to read this 'car.speed' some conversion to mph/kph?
     drawText(gameContext, offset, 30, '#fff', GAME_FONT, 'left', 'top', 'Speed: ' + Math.round(car.speed));
