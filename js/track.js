@@ -189,7 +189,7 @@ this.testRoadSurface = function(x,y) {
       offset *= (1 - sidebar.editingAnimationPercentage);
     }
 
-    drawText(gameContext, offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: 01');
+    drawText(gameContext, offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Lap: ' + car.lapNumberString);
     drawText(gameContext, 100 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Time: ' + car.lapTimeString);
     drawText(gameContext, 300 + offset, 0, '#fff', GAME_FONT, 'left', 'top', 'Ghost: ' +  ghost.lapTimeString);
     drawText(gameContext, gameCanvas.width, 0, '#fff', GAME_FONT, 'right', 'top', 'Track: ' + label);

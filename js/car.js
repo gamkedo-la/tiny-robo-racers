@@ -1,4 +1,5 @@
 const SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO = 1.0;
+const RACE_LAP_COUNT = 3; // max laps to reach win
 
 var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColor) {
 
@@ -37,6 +38,8 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   this.lapTime = 0;
   this.bestLapTime = this.getSetting('lapTime', 0);
   this.lapTimeString = '00:00.000';
+  this.lapCounter = 1; // in a race you start on lap 1
+  this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 
   // Clear tracks when creating a new car
   tireTracks.reset();
@@ -88,6 +91,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.isBraking = false;
     this.isTurning = false;
     this.lapTime = 0;
+    this.lapCounter = 0;
 //    tireTracks.reset();
   };
 
@@ -207,6 +211,19 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
 
       this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
       this.lapTime = 0;
+
+      this.lapCounter++;
+      this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
+
+      if (this.lapCounter > RACE_LAP_COUNT) // HIT THE FINISH LINE ON FINAL LAP
+      {
+        console.log('FINAL LAP COMPLETED!')
+        // TODO: handle game over
+        // quick hack to prove it triggered
+        document.getElementById('RACE_OVER').style.display = 'block';
+        // TODO: turn this off later
+      }
+
     }
   };
 
