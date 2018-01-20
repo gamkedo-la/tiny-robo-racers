@@ -188,7 +188,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     return d;
   };
 
-  this.updateLapTime = function() {
+  this.updateLapTimeString = function() {
 
     var seconds = Math.floor(this.lapTime / 1000);
     var thousands = Math.round(this.lapTime - seconds * 1000);
@@ -216,7 +216,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
         this.bestLapTime = this.lapTime;
       }
 
-      this.updateLapTime();     
+      this.updateLapTimeString();     
       this.lapTime = 0;
 
       this.lapCounter++;
@@ -226,9 +226,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
       {
         console.log('FINAL LAP COMPLETED!')
         // TODO: handle game over
-        // quick hack to prove it triggered
-        document.getElementById('RACE_OVER').style.display = 'block';
-        // TODO: turn this off later
+        document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
       }
 
     }
