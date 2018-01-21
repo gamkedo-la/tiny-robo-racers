@@ -130,7 +130,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.speed += drivePower * delta;
     this.isTurning = false; // did ANY sensor trigger a steering change?
 
-    this.updateLapTime(); // gui
+    //this.updateLapTime(); // gui
 
     for (var s = 0; s < this.sensors.length; s++) {
       this.sensors[s].update(delta);
