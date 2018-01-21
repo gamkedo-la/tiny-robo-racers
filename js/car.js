@@ -202,7 +202,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     }
     this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
 
-  }
+  };
 
   this.checkGoal = function(){
     if (x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20) {
@@ -222,13 +222,12 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
       this.lapCounter++;
       this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 
-      if (this.lapCounter > RACE_LAP_COUNT) // HIT THE FINISH LINE ON FINAL LAP
+      if (!this.isGhost && RACE_LAP_COUNT < this.lapCounter) // HIT THE FINISH LINE ON FINAL LAP
       {
-        console.log('FINAL LAP COMPLETED!')
+        console.log('FINAL LAP COMPLETED!');
         // TODO: handle game over
         document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
       }
-
     }
   };
 
