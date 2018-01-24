@@ -159,6 +159,7 @@ function gameDraw(interpolationPercentage) {
   ghost.draw();
   car.draw();
   track.drawOverlay();
+  track.drawText();
 
   gameContext.restore();
   redrawCanvas();
