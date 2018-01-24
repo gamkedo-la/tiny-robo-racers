@@ -19,6 +19,8 @@ var Track = function(levelIndex) {
 
   var showCountdown = false;
   var countdownRemaining = 0;
+  var showFinalLap = false;
+  var finalLapRemaining = 0;
 
   var label = levels[levelIndex].label;
   var grid = levels[levelIndex].grid.slice();
@@ -70,10 +72,17 @@ var Track = function(levelIndex) {
 
   this.startRace = function() {
     this.reset();
-    car.isRacing = false;
-    ghost.isRacing = false;
+    car.isDriving = false;
+    ghost.isDriving = false;
     showCountdown = true;
-    countdownRemaining = 3000;
+    countdownRemaining = RACE_COUNTDOWN;
+    showFinalLap = false;
+    finalLapRemaining = 0;
+  };
+
+  this.showFinalLap = function() {
+    showFinalLap = true;
+    finalLapRemaining = FINAL_LAP_COUNTDOWN;
   };
 
   this.reset = function() {};
@@ -89,17 +98,17 @@ var Track = function(levelIndex) {
     gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
   };
 
-// find Euclidian distance from the pixel color to the specified color 
-function colorDistance(colorRed,colorGreen,colorBlue,pixelRed,pixelGreen,pixelBlue){
-  var diffR,diffG,diffB;
-  diffR=( colorRed - pixelRed );
-  diffG=( colorGreen - pixelGreen );
-  diffB=( colorBlue - pixelBlue );
-  return(Math.sqrt(diffR*diffR + diffG*diffG + diffB*diffB));
-}
+  // find Euclidian distance from the pixel color to the specified color
+  function colorDistance(colorRed,colorGreen,colorBlue,pixelRed,pixelGreen,pixelBlue){
+    var diffR,diffG,diffB;
+    diffR=( colorRed - pixelRed );
+    diffG=( colorGreen - pixelGreen );
+    diffB=( colorBlue - pixelBlue );
+    return(Math.sqrt(diffR*diffR + diffG*diffG + diffB*diffB));
+  }
 
-// returns one of ROAD_SURFACE_*  
-this.testRoadSurface = function(x,y) { 
+  // returns one of ROAD_SURFACE_*
+  this.testRoadSurface = function(x,y) {
     x = Math.round(x);
     y = Math.round(y);
     y -= TRACK_PADDING_TOP;
@@ -222,23 +231,45 @@ this.testRoadSurface = function(x,y) {
       gameContext.restore();
     }
 
-    if (showCountdown) {
+    if (showCountdown || showFinalLap) {
       gameContext.shadowBlur = 6;
       gameContext.shadowColor = '#222';
-      drawText(gameContext, gameCanvas.width / 2, gameCanvas.height / 2, '#fff', GAME_FONT_LARGE, 'center', 'middle', 'Starting race in: ' + Math.ceil(countdownRemaining / 1000));
+      var alpha = 1;
+      var text = '';
+      if (showCountdown) {
+        text = 'Starting race in: ' + Math.ceil(countdownRemaining / 1000);
+        alpha = countdownRemaining / RACE_COUNTDOWN;
+      }
+      else if (showFinalLap) {
+        text = 'Final lap!';
+        alpha = finalLapRemaining / FINAL_LAP_COUNTDOWN;
+      }
+      drawText(gameContext, gameCanvas.width / 2, gameCanvas.height / 2, '#fff', GAME_FONT_LARGE, 'center', 'middle', text, clamp(alpha, 0.2, 1));
       gameContext.shadowBlur = 0;
       gameContext.shadowColor = 'transparent';
     }
   };
 
   this.update = function(delta) {
-    if (showCountdown && !isEditToggling) {
+    if (isEditToggling) {
+      return;
+    }
+
+    if (showCountdown) {
       countdownRemaining -= delta;
       if (countdownRemaining <= 0) {
         countdownRemaining = 0;
         showCountdown = false;
         car.isRacing = true;
-        ghost.isRacing = true;
+        car.isDriving = true;
+        ghost.isDriving = true;
+      }
+    }
+    else if (showFinalLap) {
+      finalLapRemaining -= delta;
+      if (finalLapRemaining <= 0) {
+        showFinalLap = false;
+        finalLapRemaining = 0;
       }
     }
   };

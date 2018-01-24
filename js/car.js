@@ -1,6 +1,3 @@
-const SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO = 1.0;
-const RACE_LAP_COUNT = 3; // max laps to reach win
-
 var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColor) {
 
   this.setSetting = function(name, value) {
@@ -28,7 +25,8 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   else
     this.image = sourceImage;
 
-  this.isRacing = true;
+  this.isRacing = false;
+  this.isDriving = true;
   this.isGhost = false;
   this.angle = 0;
   this.speed = 0;
@@ -91,7 +89,8 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.isBraking = false;
     this.isTurning = false;
     this.lapTime = 0;
-    this.lapCounter = 0;
+    this.lapCounter = 1;
+    this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 //    tireTracks.reset();
   };
 
@@ -121,7 +120,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   };
 
   this.update = function(delta) {
-    if (!this.isRacing) {
+    if (!this.isDriving) {
       return;
     }
 
@@ -129,8 +128,6 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
     this.isTurning = false; // did ANY sensor trigger a steering change?
-
-    //this.updateLapTime(); // gui
 
     for (var s = 0; s < this.sensors.length; s++) {
       this.sensors[s].update(delta);
@@ -155,8 +152,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.skidMarkHandling();
 
     // dirt/gravel/dust particles kicked up by the tires
-    if (Math.random()>0.666) // not every frame
-    {
+    if (Math.random()>0.666) { // not every frame
       var dustColor = track.pixelColor(x,y);
       particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1500,80,dustColor);
 
@@ -164,15 +160,13 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
       this.tireSurface = track.testRoadSurface(x,y); // eg ROAD_SURFACE_ASPHALT
 
       // pitch shift the engine sound loop based on speed
-      if (this.engineSound)
-      {
+      if (this.engineSound) {
         var sampleRate = speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO;
         //console.log('sampleRate:'+sampleRate);
         if (sampleRate<0.5) sampleRate=0.5;
         if (sampleRate>3.0) sampleRate=3.0;
         this.engineSound.rate(sampleRate,this.engineSoundplayID);
       }
-
     }
 
     this.checkGoal();
@@ -189,7 +183,6 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   };
 
   this.updateLapTimeString = function() {
-
     var seconds = Math.floor(this.lapTime / 1000);
     var thousands = Math.round(this.lapTime - seconds * 1000);
     var minutes = Math.floor(seconds / 60);
@@ -201,13 +194,13 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
       leftOverSeconds = '0' + leftOverSeconds;
     }
     this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
-
   };
 
-  this.checkGoal = function(){
+  this.checkGoal = function() {
+    // @todo don't use lap time but total time!
     if (x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20) {
       // Save best lap time and copy sensors to ghost if better
-      if (this.bestLapTime === 0 || this.lapTime < this.bestLapTime) {
+      if (this.isRacing && !this.isGhost && (this.bestLapTime === 0 || this.lapTime < this.bestLapTime)) {
         ghost.useSensors(this.getSensorData());
         ghost.setSetting('lapTime', this.lapTime);
         ghost.setSetting('sensors', this.getSensorData());
@@ -222,11 +215,20 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
       this.lapCounter++;
       this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 
-      if (!this.isGhost && RACE_LAP_COUNT < this.lapCounter) // HIT THE FINISH LINE ON FINAL LAP
-      {
-        console.log('FINAL LAP COMPLETED!');
-        // TODO: handle game over
-        document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
+      if (this.isRacing && !this.isGhost) {
+        if (RACE_LAP_COUNT === this.lapCounter) {
+          console.log('FINAL LAP!');
+
+          track.showFinalLap();
+        }
+        else if (RACE_LAP_COUNT < this.lapCounter) {
+          this.reset();
+          ghost.reset();
+
+          // TODO: handle game over
+          console.log('FINAL LAP COMPLETED!');
+          document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
+        }
       }
     }
   };
@@ -280,7 +282,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     if (!this.isGhost && (isEditing || isEditToggling)) {
 
       // tire surface debug text - FIXME / remove?
-      if (this.tireSurface) {
+      if (this.tireSurface && DEBUG) {
         drawText(gameContext, x+24, y, "WHITE", "12px arial", "left", 0, ROAD_SURFACE_STRINGS[this.tireSurface]);
       }
 

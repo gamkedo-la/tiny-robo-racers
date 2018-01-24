@@ -59,12 +59,21 @@ function drawLines(canvasContext, color, lineWidth, points) {
   canvasContext.stroke();
 }
 
-function drawText(canvasContext, x, y, color, font, align, baseline, text) {
+function drawText(canvasContext, x, y, color, font, align, baseline, text, alpha) {
+  if (alpha !== undefined) {
+    canvasContext.save();
+    canvasContext.globalAlpha = alpha;
+  }
+
   canvasContext.font = font;
   canvasContext.textBaseline = baseline;
   canvasContext.textAlign = align;
   canvasContext.fillStyle = color;
   canvasContext.fillText(text, x, y);
+
+  if (alpha !== undefined) {
+    canvasContext.restore();
+  }
 }
 
 // takes an image and colors and fades it as required

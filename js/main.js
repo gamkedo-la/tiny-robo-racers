@@ -72,9 +72,6 @@ function gameInitialize(levelIndex) {
   isPlaying = true;
 
   sidebar = new Sidebar(Images.carRedBig);
-  if (DEBUG) {
-    sidebar.toggle();
-  }
   track = new Track(levelIndex);
   track.initializeTrack();
 
@@ -85,6 +82,10 @@ function gameInitialize(levelIndex) {
 
   ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER, 'rgba(10,255,10,0.5)'); // FIXME: use random color for bots?
   ghost.isGhost = true;
+
+  if (DEBUG) {
+    sidebar.toggle();
+  }
 
   if (STRESSTEST_AI) {
     for (var nextone, loop=0; loop<20; loop++) {

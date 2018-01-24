@@ -33,6 +33,10 @@ function isString(obj) {
   return (Object.prototype.toString.call(obj) === '[object String]');
 }
 
+function clamp(n, min, max) {
+  return Math.min(Math.max(n, min), max);
+}
+
 if (!console) {
   var console = {};
 }

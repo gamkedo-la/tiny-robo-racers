@@ -55,6 +55,8 @@ var Sidebar = function(image) {
       return;
     }
 
+    car.isRacing = false;
+
     isEditToggling = true;
 
     var p = {
