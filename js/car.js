@@ -39,6 +39,8 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   this.lapCounter = 1; // in a race you start on lap 1
   this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 
+  var ghostAlphaDistanceSquared = Math.pow(this.image.width, 2) + Math.pow(this.image.height, 2);
+
   // Clear tracks when creating a new car
   tireTracks.reset();
 
@@ -147,14 +149,18 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     y += Math.sin(this.angle+angleWobble) * speed;
 
     this.carTrackHandling(delta);
-    
-    // marks on the road when we skid
-    this.skidMarkHandling();
+
+    if (!this.isGhost) {
+      // marks on the road when we skid
+      this.skidMarkHandling();
+    }
 
     // dirt/gravel/dust particles kicked up by the tires
     if (Math.random()>0.666) { // not every frame
-      var dustColor = track.pixelColor(x,y);
-      particles.add(x+Math.random()*20-10,y+Math.random()*20-10,Images.smoke,1500,80,dustColor);
+      if (!this.isGhost) {
+        var dustColor = track.pixelColor(x, y);
+        particles.add(x + Math.random() * 20 - 10, y + Math.random() * 20 - 10, Images.smoke, 1500, 80, dustColor);
+      }
 
       // check SAME pixel rgb again! (FIXME!) to determine track surface type
       this.tireSurface = track.testRoadSurface(x,y); // eg ROAD_SURFACE_ASPHALT
@@ -275,9 +281,21 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   };
 
   this.draw = function() {
+    if (this.isGhost) {
+      var carPosition = car.getPosition();
+      var dist = distanceBetweenPointsSquared({x: carPosition.x, y: carPosition.y}, {x: x, y: y});
+      if (dist < ghostAlphaDistanceSquared) {
+        gameContext.save();
+        gameContext.globalAlpha = 0.3 + (dist / ghostAlphaDistanceSquared);
+      }
+    }
     drawImage(gameContext, Images.head_lights, x, y, this.angle);
 
     drawImage(gameContext, this.image, x, y, this.angle);
+
+    if (this.isGhost && dist < ghostAlphaDistanceSquared) {
+      gameContext.restore();
+    }
 
     if (!this.isGhost && (isEditing || isEditToggling)) {
 

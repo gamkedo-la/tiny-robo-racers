@@ -53,10 +53,8 @@ function particleSystem() {
 
                 p.age = timestamp-p.birth;
                 //console.log('particle age: ' + p.age);
-                var lifePercent = (p.age/p.life);
+                var lifePercent = clamp(p.age/p.life, 0, 1);
                 //console.log('particle lifepercent: ' + lifePercent);
-                if (lifePercent>1) lifePercent = 1;
-                if (lifePercent<0) lifePercent = 0;
 
                 //console.log('p.death: ' + p.death);
                 //console.log('timestamp: ' + timestamp);
