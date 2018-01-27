@@ -1,5 +1,5 @@
 // Debug
-var DEBUG = true;
+var DEBUG = false;
 var TRACK_SCREENSHOT = false;
 const STRESSTEST_AI = false; // add 20 more cars with random attributes
 

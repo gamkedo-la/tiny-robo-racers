@@ -38,13 +38,11 @@ ul {
   height: 100%;
 }
 
-#loading {
-  height: 60px;
-}
-
 #wrapper {
   position: absolute;
-  left: 0; top: 25%; right: 0;
+  left: 0;
+  top: 10%;
+  right: 0;
 }
 
 .menu {
@@ -131,13 +129,8 @@ ul {
   border: 0;
 }
 
-#logo {
-  position:absolute; top:50%; left:50%; width:512px; height:256px;  
-  margin-top:-128px; margin-left:-256px;
-  background:url(../img/titlescreen.png); 
-  animation:3s fade_out linear; 
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+.logo {
+  margin-top: -20px;
 }
 
 #RACE_OVER {

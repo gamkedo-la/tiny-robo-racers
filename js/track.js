@@ -91,13 +91,6 @@ var Track = function(levelIndex) {
     return coordsAreDriveable(grid, x, y);
   };
 
-  this.drawOverlay = function() { // the lights, scaffolding, clouds: anything drawn above cars
-    if (!imageNameOverlay) {
-      return;
-    }
-    gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
-  };
-
   // find Euclidian distance from the pixel color to the specified color
   function colorDistance(colorRed,colorGreen,colorBlue,pixelRed,pixelGreen,pixelBlue){
     var diffR,diffG,diffB;
@@ -148,7 +141,6 @@ var Track = function(levelIndex) {
 
   // returns the html rgb code (ignores alpha) of any pixel in the level image
   this.pixelColor = function(x,y) {
-    
     x = Math.round(x);
     y = Math.round(y);
 
@@ -230,6 +222,13 @@ var Track = function(levelIndex) {
 
       gameContext.restore();
     }
+  };
+
+  this.drawOverlay = function() { // the lights, scaffolding, clouds: anything drawn above cars
+    if (!imageNameOverlay) {
+      return;
+    }
+    gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
   };
 
   this.drawText = function() {
