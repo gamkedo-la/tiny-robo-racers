@@ -96,6 +96,18 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
 //    tireTracks.reset();
   };
 
+  this.startRace = function() {
+    this.isDriving = true;
+    if (!this.isGhost) {
+      this.isRacing = true;
+    }
+  };
+
+  this.stopRacing = function() {
+    this.lapCounter = 1;
+    this.isRacing = false;
+  };
+
   // currently reduces speed based on what is under the tires
   // but what we REALLY want is turning slipping and drifting too FIXME TODO
   // maybe we could affect the turnangle and add some randomness
@@ -218,7 +230,9 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
       this.updateLapTimeString();     
       this.lapTime = 0;
 
-      this.lapCounter++;
+      if (this.isRacing) {
+        this.lapCounter++;
+      }
       this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 
       if (this.isRacing && !this.isGhost) {

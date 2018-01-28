@@ -1,8 +1,12 @@
-var Sidebar = function(image) {
+var Sidebar = function(image, tintColor) {
 
   var that = this;
 
-  this.image = image;
+  if (tintColor != null)
+    this.image = createTintedSprite(image, tintColor);
+  else
+    this.image = image;
+
   this.carX = 180;
   this.carY = 350;
 
@@ -55,7 +59,7 @@ var Sidebar = function(image) {
       return;
     }
 
-    car.isRacing = false;
+    car.stopRacing();
 
     isEditToggling = true;
 
@@ -154,7 +158,10 @@ var Sidebar = function(image) {
 
     editContext.clearRect(0, 0, editCanvas.width, editCanvas.height);
 
-    drawImage(editContext, image, this.carX, this.carY);
+    drawText(editContext, 180, 50, '#fff', GAME_FONT, 'center', 'top', 'Click a sensor');
+    drawText(editContext, 180, 70, '#fff', GAME_FONT, 'center', 'top', 'to configure it');
+
+    drawImage(editContext, this.image, this.carX, this.carY);
 
     if (editingSensor) {
       // ------------

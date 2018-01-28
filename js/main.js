@@ -71,21 +71,22 @@ function gameInitialize(levelIndex) {
   }
   isPlaying = true;
 
-  sidebar = new Sidebar(Images.carRedBig);
+  // FIXME: 'rgba(10,10,255,0.5)' tint according the player prefs and use a B&W source image
+  var tintColor = null;
+
+  sidebar = new Sidebar(Images.carRedBig, tintColor);
   track = new Track(levelIndex);
   track.initializeTrack();
 
   btnPause = new ButtonImage(drawContext, 0, 0, Images.button_pause, false, false, showGamePause);
   btnEdit = new ButtonImage(drawContext, 44, 0, Images.button_pencil, false, false, sidebar.toggle.bind(sidebar));
 
-  car = new Car(track.playerStart, playerSettings, Images.carRed, DRIVE_POWER, 'rgba(10,10,255,0.5)'); // FIXME: tint according the player prefs and use a B&W source image
+  car = new Car(track.playerStart, playerSettings, Images.carRed, DRIVE_POWER, tintColor);
 
-  ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER, 'rgba(10,255,10,0.5)'); // FIXME: use random color for bots?
+  ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER);
   ghost.isGhost = true;
 
-  if (DEBUG) {
-    sidebar.toggle();
-  }
+  sidebar.toggle();
 
   if (STRESSTEST_AI) {
     for (var nextone, loop=0; loop<20; loop++) {

@@ -261,9 +261,8 @@ var Track = function(levelIndex) {
       if (countdownRemaining <= 0) {
         countdownRemaining = 0;
         showCountdown = false;
-        car.isRacing = true;
-        car.isDriving = true;
-        ghost.isDriving = true;
+        car.startRace();
+        ghost.startRace();
       }
     }
     else if (showFinalLap) {
