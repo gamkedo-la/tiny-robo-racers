@@ -24,8 +24,8 @@ var Sidebar = function(image, tintColor) {
   var btnStart = new ButtonText(editContext, 200, 700, 'Start race!', GAME_FONT_BUTTON, false, false, startRace);
 
   var dialogBox = new Drawbox(editContext, Images.button_inactive, 200, 300);
-  var btnSave = new ButtonText(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, false, false, saveSensor.bind(this));
-  var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, false, false, cancelEditSensor.bind(this));
+  var btnSave = new ButtonText(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, false, false, saveSensor);
+  var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, false, false, cancelEditSensor);
 
   function resetCar() {
     car.reset();
@@ -41,16 +41,16 @@ var Sidebar = function(image, tintColor) {
   }
 
   function saveSensor() {
-    this.editingSensor = false;
+    that.editingSensor = false;
     mouse.button = -1;
   }
 
   function cancelEditSensor() {
-    this.editingSensor.angle = prevAngle;
-    this.editingSensor.steerAngle = prevSteerAngle;
-    this.editingSensor.length = prevlength;
+    that.editingSensor.angle = prevAngle;
+    that.editingSensor.steerAngle = prevSteerAngle;
+    that.editingSensor.length = prevlength;
 
-    this.editingSensor = false;
+    that.editingSensor = false;
     mouse.button = -1;
   }
 

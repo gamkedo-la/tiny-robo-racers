@@ -179,10 +179,8 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
 
       // pitch shift the engine sound loop based on speed
       if (this.engineSound) {
-        var sampleRate = speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO;
+        var sampleRate = clamp(speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO, 0.5, 3.0);
         //console.log('sampleRate:'+sampleRate);
-        if (sampleRate<0.5) sampleRate=0.5;
-        if (sampleRate>3.0) sampleRate=3.0;
         this.engineSound.rate(sampleRate,this.engineSoundplayID);
       }
     }
