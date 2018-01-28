@@ -87,11 +87,13 @@ var Sensor = function(car, x, y, length, angle, steerAngle) {
 
 
     if (!car.isGhost && (isEditing || isEditToggling)) {
-      // Also draw it in the sidebar
-      drawLines(editContext, c, 4, [
-        {x: edit_start_x, y: edit_start_y},
-        {x: edit_end_x, y: edit_end_y}
-      ]);
+      if (!sidebar.editingSensor || this === sidebar.editingSensor) {
+        // Also draw it in the sidebar
+        drawLines(editContext, c, 4, [
+          { x: edit_start_x, y: edit_start_y },
+          { x: edit_end_x, y: edit_end_y }
+        ]);
+      }
     }
   };
 

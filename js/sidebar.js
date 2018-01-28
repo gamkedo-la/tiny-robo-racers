@@ -10,7 +10,7 @@ var Sidebar = function(image, tintColor) {
   this.carX = 180;
   this.carY = 350;
 
-  var editingSensor = false;
+  this.editingSensor = false;
   var prevAngle, prevSteerAngle, prevlength;
   var editingAngle = false;
   var editingSteerAngle = false;
@@ -24,8 +24,8 @@ var Sidebar = function(image, tintColor) {
   var btnStart = new ButtonText(editContext, 200, 700, 'Start race!', GAME_FONT_BUTTON, false, false, startRace);
 
   var dialogBox = new Drawbox(editContext, Images.button_inactive, 200, 300);
-  var btnSave = new ButtonText(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, false, false, saveSensor);
-  var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, false, false, cancelEditSensor);
+  var btnSave = new ButtonText(editContext, 200, 700, 'Save', GAME_FONT_BUTTON, false, false, saveSensor.bind(this));
+  var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, false, false, cancelEditSensor.bind(this));
 
   function resetCar() {
     car.reset();
@@ -41,16 +41,16 @@ var Sidebar = function(image, tintColor) {
   }
 
   function saveSensor() {
-    editingSensor = false;
+    this.editingSensor = false;
     mouse.button = -1;
   }
 
   function cancelEditSensor() {
-    editingSensor.angle = prevAngle;
-    editingSensor.steerAngle = prevSteerAngle;
-    editingSensor.length = prevlength;
+    this.editingSensor.angle = prevAngle;
+    this.editingSensor.steerAngle = prevSteerAngle;
+    this.editingSensor.length = prevlength;
 
-    editingSensor = false;
+    this.editingSensor = false;
     mouse.button = -1;
   }
 
@@ -86,22 +86,22 @@ var Sidebar = function(image, tintColor) {
     }
 
     // @todo fix selecting of sensor
-    if (!editingSensor && mouse.button !== -1) {
+    if (!this.editingSensor && mouse.button !== -1) {
       for (var s = 0; s < car.sensors.length; s++) {
         var b = car.sensors[s].getEditBounds();
         if (b.left < mouse.x && mouse.x < b.right && b.top < mouse.y && mouse.y < b.bottom) {
-          editingSensor = car.sensors[s];
+          this.editingSensor = car.sensors[s];
 
-          prevAngle = editingSensor.angle;
-          prevSteerAngle = editingSensor.steerAngle;
-          prevlength = editingSensor.length;
+          prevAngle = this.editingSensor.angle;
+          prevSteerAngle = this.editingSensor.steerAngle;
+          prevlength = this.editingSensor.length;
 
           return;
         }
       }
     }
 
-    if (editingSensor) {
+    if (this.editingSensor) {
       if (mouse.button !== -1 && 80 < mouse.x && mouse.x < 280) {
         var dX = mouse.x - 180;
 
@@ -111,7 +111,7 @@ var Sidebar = function(image, tintColor) {
             editingAngle = true;
           }
           else if (dX !== 0) {
-            editingSensor.addAngle((dX / Math.abs(dX)) / 50);
+            this.editingSensor.addAngle((dX / Math.abs(dX)) / 50);
           }
         }
 
@@ -121,7 +121,7 @@ var Sidebar = function(image, tintColor) {
             editingSteerAngle = true;
           }
           else if (dX !== 0) {
-            editingSensor.addSteerAngle((dX / Math.abs(dX)) / 50000);
+            this.editingSensor.addSteerAngle((dX / Math.abs(dX)) / 50000);
           }
         }
 
@@ -131,7 +131,7 @@ var Sidebar = function(image, tintColor) {
             editingLength = true;
           }
           else if (dX !== 0) {
-            editingSensor.addLength((dX / Math.abs(dX)) / 5);
+            this.editingSensor.addLength((dX / Math.abs(dX)) / 5);
           }
         }
       }
@@ -163,7 +163,7 @@ var Sidebar = function(image, tintColor) {
 
     drawImage(editContext, this.image, this.carX, this.carY);
 
-    if (editingSensor) {
+    if (this.editingSensor) {
       // ------------
       // | Angle    |
       // |<   \    >|
@@ -178,17 +178,17 @@ var Sidebar = function(image, tintColor) {
       drawText(editContext, 90, 410, '#fff', GAME_FONT, 'left', 'middle', 'Angle');
       drawText(editContext, 90, 465, '#fff', GAME_FONT, 'left', 'middle', '<');
       drawText(editContext, 270, 465, '#fff', GAME_FONT, 'right', 'middle', '>');
-      drawImageRotatedAlpha(editContext, Images.editAngle, 180, 500, editingSensor.angle, 1);
+      drawImageRotatedAlpha(editContext, Images.editAngle, 180, 500, this.editingSensor.angle, 1);
 
       drawText(editContext, 90, 520, '#fff', GAME_FONT, 'left', 'middle', 'Steering angle');
       drawText(editContext, 90, 575, '#fff', GAME_FONT, 'left', 'middle', '<');
       drawText(editContext, 270, 575, '#fff', GAME_FONT, 'right', 'middle', '>');
-      drawImageRotatedAlpha(editContext, Images.editWheel, 180, 580, editingSensor.steerAngle * 100, 1);
+      drawImageRotatedAlpha(editContext, Images.editWheel, 180, 580, this.editingSensor.steerAngle * 100, 1);
 
       drawText(editContext, 90, 630, '#fff', GAME_FONT, 'left', 'middle', 'Length');
       drawText(editContext, 90, 665, '#fff', GAME_FONT, 'left', 'middle', '<');
       drawText(editContext, 270, 665, '#fff', GAME_FONT, 'right', 'middle', '>');
-      drawFillRect(editContext, 120, 662, 10 + (110 * (editingSensor.length / SENSOR_MAX_LENGTH)), 6, '#fff');
+      drawFillRect(editContext, 120, 662, 10 + (110 * (this.editingSensor.length / SENSOR_MAX_LENGTH)), 6, '#fff');
 
       btnSave.draw();
       btnCancel.draw();
