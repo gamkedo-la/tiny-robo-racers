@@ -134,27 +134,3 @@ ul {
 .logo {
   margin-top: -20px;
 }
-
-#RACE_OVER {
-  display:none;
-  position:absolute; top:50%; left:50%; width:512px; height:256px;  
-  margin-top:-128px; margin-left:-256px;
-  background:rgba(255,180,160,0.3);
-  border:4px solid rgba(201, 75, 40, 0.7);
-  border-radius:32px;
-  color:white;
-  text-shadow:1px 1px 1px rgba(0,0,0,0.3);
-  font-size:32px;
-  line-height:256px;
-  text-align:center;
-  animation:3s fade_out linear; 
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fade_out { 
-  0% { opacity:0; left:-512px; }
-  20% { opacity:1; left:50%; }
-  80% { opacity:1; left:50%; }
-  100% { opacity:0; left:100%; }
-}
