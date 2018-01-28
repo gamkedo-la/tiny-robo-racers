@@ -72,8 +72,8 @@ var Track = function(levelIndex) {
 
   this.startRace = function() {
     this.reset();
-    car.isDriving = false;
-    ghost.isDriving = false;
+    car.stopDriving();
+    ghost.stopDriving();
     showCountdown = true;
     countdownRemaining = RACE_COUNTDOWN;
     showFinalLap = false;
@@ -85,7 +85,10 @@ var Track = function(levelIndex) {
     finalLapRemaining = FINAL_LAP_COUNTDOWN;
   };
 
-  this.reset = function() {};
+  this.reset = function() {
+    car.reset();
+    ghost.reset();
+  };
 
   this.coordsAreDriveable = function(x, y) {
     return coordsAreDriveable(grid, x, y);

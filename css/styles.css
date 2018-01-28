@@ -62,6 +62,7 @@ ul {
 
 .back,
 .continue,
+.race-again,
 .quit {
   width: 40%;
   text-align: center;
@@ -79,6 +80,7 @@ ul {
   margin-left: 30%;
 }
 
+.race-again,
 .continue {
   float: left;
   margin-left: 5%;

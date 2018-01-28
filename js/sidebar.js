@@ -28,8 +28,7 @@ var Sidebar = function(image, tintColor) {
   var btnCancel = new ButtonText(editContext, 100, 700, 'Cancel', GAME_FONT_BUTTON, false, false, cancelEditSensor);
 
   function resetCar() {
-    car.reset();
-    ghost.reset();
+    track.reset();
     mouse.button = -1;
   }
 

@@ -97,7 +97,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   };
 
   this.startRace = function() {
-    this.isDriving = true;
+    this.startDriving();
     if (!this.isGhost) {
       this.isRacing = true;
     }
@@ -106,6 +106,21 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   this.stopRacing = function() {
     this.lapCounter = 1;
     this.isRacing = false;
+  };
+
+  this.startDriving = function() {
+    this.isDriving = true;
+    if (this.engineSound) {
+      this.engineSound.play();
+    }
+  };
+
+  this.stopDriving = function() {
+    this.isRacing = false;
+    this.isDriving = false;
+    if (this.engineSound) {
+      this.engineSound.stop();
+    }
   };
 
   // currently reduces speed based on what is under the tires
@@ -240,12 +255,14 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
           track.showFinalLap();
         }
         else if (RACE_LAP_COUNT < this.lapCounter) {
-          this.reset();
-          ghost.reset();
+          this.stopDriving();
+          ghost.stopDriving();
 
           // TODO: handle game over
+          showGameOver();
+
           console.log('FINAL LAP COMPLETED!');
-          document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
+//          document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
         }
       }
     }

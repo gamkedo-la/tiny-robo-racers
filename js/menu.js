@@ -17,6 +17,9 @@ function menuInitialize() {
     if ($(this).hasClass('continue')) {
       continueGame();
     }
+    else if ($(this).hasClass('race-again')) {
+      raceAgain();
+    }
     else if (this.hash) {
       stopGameForMenu();
       callShowMenuScreen(this.hash.substr(1));
@@ -90,8 +93,18 @@ function stopGameForMenu() {
 }
 
 function showGameOver() {
+  isPaused = true;
   MainLoop.stop();
+  $(document).trigger('pause');
   $activeWrapperScreen = $('#gameOver').show();
+}
+
+function raceAgain() {
+  isPaused = false;
+  MainLoop.start();
+  $(document).trigger('play');
+  $activeWrapperScreen = $('#gameOver').hide();
+  track.startRace();
 }
 
 function showGamePause() {
