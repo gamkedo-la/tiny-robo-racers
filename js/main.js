@@ -81,10 +81,9 @@ function gameInitialize(levelIndex) {
   btnPause = new ButtonImage(drawContext, 0, 0, Images.button_pause, false, false, showGamePause);
   btnEdit = new ButtonImage(drawContext, 44, 0, Images.button_pencil, false, false, sidebar.toggle.bind(sidebar));
 
-  car = new Car(track.playerStart, playerSettings, Images.carRed, DRIVE_POWER, tintColor);
+  car = new Car(track.playerStart, playerSettings, Images.carRed, DRIVE_POWER, false, tintColor);
 
-  ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER);
-  ghost.isGhost = true;
+  ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER, true);
 
   sidebar.toggle();
 

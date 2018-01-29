@@ -1,4 +1,4 @@
-var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColor) {
+var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost, tintColor) {
 
   this.setSetting = function(name, value) {
     return carSettings.set(track.getKey() + '--' + name, value);
@@ -27,7 +27,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
 
   this.isRacing = false;
   this.isDriving = true;
-  this.isGhost = false;
+  this.isGhost = isGhost;
   this.angle = 0;
   this.speed = 0;
   this.sensors = [];
@@ -45,8 +45,11 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
   tireTracks.reset();
 
   // Start your engines!
-  this.engineSound = Sound.play('carSound',true,0.1); // the sample may be playing on >1 channel
-  this.engineSoundplayID =  Sound.lastChannelID; // so we know WHICH one is this car
+  this.engineSound = false;
+  if (!this.isGhost) {
+    this.engineSound = Sound.play('carSound', true, 0.1); // the sample may be playing on >1 channel
+    this.engineSoundplayID = Sound.lastChannelID; // so we know WHICH one is this car
+  }
 
   $(document).on('stopGame', function() {
     if (this.engineSound) {
@@ -119,7 +122,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, tintColo
     this.isRacing = false;
     this.isDriving = false;
     if (this.engineSound) {
-      this.engineSound.stop();
+      this.engineSound.pause();
     }
   };
 
