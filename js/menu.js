@@ -97,6 +97,16 @@ function showGameOver() {
   MainLoop.stop();
   $(document).trigger('pause');
   $activeWrapperScreen = $('#gameOver').show();
+
+  $('#bestTime').html(makeTimeString(car.bestRaceTime));
+  $('#currentTime').html(makeTimeString(car.raceTime));
+  $('#gameOverWon, #gameOverLost').hide();
+
+  var resultId = '#gameOverLost';
+  if (car.raceTime < car.bestRaceTime) {
+    resultId = '#gameOverWon';
+  }
+  $(resultId).show();
 }
 
 function raceAgain() {

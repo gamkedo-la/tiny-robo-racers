@@ -110,6 +110,11 @@ ul {
   text-align: left;
 }
 
+.menu table th.center,
+.menu table td.center {
+  text-align: center;
+}
+
 .menu table tr + tr th,
 .menu table tr + tr td {
   border-top: solid 1px white;

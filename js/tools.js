@@ -86,6 +86,26 @@ function determineFontHeight(font) {
   return result;
 }
 
+function makeTimeString(t) {
+  var seconds = Math.floor(t / 1000);
+  var thousands = Math.round(t - seconds * 1000);
+  var minutes = Math.floor(seconds / 60);
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  var leftOverSeconds = seconds % 60;
+  if (leftOverSeconds < 10) {
+    leftOverSeconds = '0' + leftOverSeconds;
+  }
+  if (thousands < 10) {
+    thousands = '00' + thousands;
+  }
+  else if (thousands < 100) {
+    thousands = '0' + thousands;
+  }
+  return minutes + ':' + leftOverSeconds + '.' + thousands;
+}
+
 // Grid functions
 function indexIsDriveable(grid, index) {
   return DRIVEABLE_TILES.indexOf(grid[index]) !== -1;

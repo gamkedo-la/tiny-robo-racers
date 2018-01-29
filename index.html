@@ -25,7 +25,6 @@
     <h2>Tiny Robo Racers</h2>
     <ul>
       <li><a href="#levels">Levels</a></li>
-      <li><a href="#hiscore">Hiscore</a></li>
       <li><a href="#settings">Settings</a></li>
       <li><a href="editor.html">Level editor</a></li>
       <li><a href="#credits">Credits</a></li>
@@ -63,7 +62,24 @@
 
   <div class="menu" id="gameOver">
     <h2>Game over!</h2>
-    some info about the race?<br>
+    <table>
+      <tbody>
+      <tr>
+        <th>Best time</th>
+        <td id="bestTime">00:00.000</td>
+      </tr>
+      <tr>
+        <th>Time</th>
+        <td id="currentTime">00:00.000</td>
+      </tr>
+      <tr>
+        <th colspan="2" class="center" id="gameOverWon">You won!</th>
+      </tr>
+      <tr>
+        <th colspan="2" class="center" id="gameOverLost">You lost...</th>
+      </tr>
+      </tbody>
+    </table>
     <a href="#" class="race-again">Race again</a>
     <a href="#menu" class="quit">Quit</a>
   </div>
@@ -72,15 +88,6 @@
     <h2>Game paused!</h2>
     <a href="#" class="continue">Continue</a>
     <a href="#menu" class="quit">Quit</a>
-  </div>
-
-  <div class="menu" id="hiscore">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Hiscore</h2>
-    <table>
-      <tbody></tbody>
-    </table>
-    <a href="#menu" class="back">Back</a>
   </div>
 
   <div class="menu" id="credits">

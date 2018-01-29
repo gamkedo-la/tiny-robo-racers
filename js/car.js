@@ -33,8 +33,9 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
   this.sensors = [];
   this.isBraking = false; // used for tire tracks
   this.isTurning = false; // used for skid marks
+  this.raceTime = 0;
   this.lapTime = 0;
-  this.bestLapTime = this.getSetting('lapTime', 0);
+  this.bestRaceTime = this.getSetting('bestTime', 0);
   this.lapTimeString = '00:00.000';
   this.lapCounter = 1; // in a race you start on lap 1
   this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
@@ -93,6 +94,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
     this.speed = 0;
     this.isBraking = false;
     this.isTurning = false;
+    this.raceTime = 0;
     this.lapTime = 0;
     this.lapCounter = 1;
     this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
@@ -100,6 +102,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
   };
 
   this.startRace = function() {
+    this.raceTime = 0;
     this.startDriving();
     if (!this.isGhost) {
       this.isRacing = true;
@@ -216,56 +219,40 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
     return d;
   };
 
-  this.updateLapTimeString = function() {
-    var seconds = Math.floor(this.lapTime / 1000);
-    var thousands = Math.round(this.lapTime - seconds * 1000);
-    var minutes = Math.floor(seconds / 60);
-    if (minutes < 10) {
-      minutes = '0' + minutes;
-    }
-    var leftOverSeconds = seconds % 60;
-    if (leftOverSeconds < 10) {
-      leftOverSeconds = '0' + leftOverSeconds;
-    }
-    this.lapTimeString = minutes + ':' + leftOverSeconds + '.' + thousands;
-  };
-
   this.checkGoal = function() {
-    // @todo don't use lap time but total time!
     if (x >= goalX && lastX <= goalX && y > goalMinY && y < goalMaxY && this.lapTime > 20) {
-      // Save best lap time and copy sensors to ghost if better
-      if (this.isRacing && !this.isGhost && (this.bestLapTime === 0 || this.lapTime < this.bestLapTime)) {
-        ghost.useSensors(this.getSensorData());
-        ghost.setSetting('lapTime', this.lapTime);
-        ghost.setSetting('sensors', this.getSensorData());
-        this.setSetting('lapTime', this.lapTime);
-        this.setSetting('sensors', this.getSensorData());
-        this.bestLapTime = this.lapTime;
-      }
+      this.raceTime += this.lapTime;
 
-      this.updateLapTimeString();     
+      this.lapTimeString = makeTimeString(this.lapTime);
       this.lapTime = 0;
 
-      if (this.isRacing) {
-        this.lapCounter++;
-      }
-      this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
-
       if (this.isRacing && !this.isGhost) {
-        if (RACE_LAP_COUNT === this.lapCounter) {
-          console.log('FINAL LAP!');
+        if (this.lapCounter < RACE_LAP_COUNT) {
+          this.lapCounter++;
+          this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
+        }
 
+        if (RACE_LAP_COUNT === this.lapCounter) {
+          this.lapCounter++;
+          //console.log('FINAL LAP!');
           track.showFinalLap();
         }
         else if (RACE_LAP_COUNT < this.lapCounter) {
-          this.stopDriving();
-          ghost.stopDriving();
-
-          // TODO: handle game over
           showGameOver();
 
-          console.log('FINAL LAP COMPLETED!');
-//          document.getElementById('RACE_OVER').style.display = 'block'; // the css animation will make it go away for us
+          // Save best lap time and copy sensors to ghost if better
+          if (this.isRacing && !this.isGhost && (this.bestRaceTime === 0 || this.raceTime < this.bestRaceTime)) {
+            ghost.useSensors(this.getSensorData());
+            ghost.setSetting('bestTime', this.raceTime);
+            ghost.setSetting('sensors', this.getSensorData());
+            this.setSetting('bestTime', this.raceTime);
+            this.setSetting('sensors', this.getSensorData());
+            this.bestRaceTime = this.raceTime;
+            console.log('stored best race time');
+          }
+
+          this.stopDriving();
+          ghost.stopDriving();
         }
       }
     }
