@@ -48,7 +48,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
   // Start your engines!
   this.engineSound = false;
   if (!this.isGhost) {
-    this.engineSound = Sound.play('carSound', true, 0.1); // the sample may be playing on >1 channel
+    this.engineSound = Sound.play('carSound', true, 0.04); // the sample may be playing on >1 channel
     this.engineSoundplayID = Sound.lastChannelID; // so we know WHICH one is this car
   }
 
@@ -200,7 +200,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
 
       // pitch shift the engine sound loop based on speed
       if (this.engineSound) {
-        var sampleRate = clamp(speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO, 0.5, 3.0);
+        var sampleRate = clamp(speed*SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO, 0.15, 2.0);
         //console.log('sampleRate:'+sampleRate);
         this.engineSound.rate(sampleRate,this.engineSoundplayID);
       }
