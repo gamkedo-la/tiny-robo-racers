@@ -21,6 +21,10 @@ const FRAME_RATE_DELTA = 1000 / FRAME_RATE;
 const DRIVE_POWER = 10 / FRAME_RATE_DELTA;
 const GROUNDSPEED_DECAY_MULT = 0.94 / FRAME_RATE_DELTA;
 
+// additional slowdown when isTurning, (set to 1.0 / FRAME_RATE_DELTA for no effect)
+// this makes it feel like cars hit the gas on the straight-aways
+const CORNERING_SPEED_DECAY_MULT = 0.9 / FRAME_RATE_DELTA; 
+
 const SPEED_TO_ENGINE_SOUND_SAMPLERATE_RATIO = 0.2;//1.0;
 const RACE_LAP_COUNT = 3;
 

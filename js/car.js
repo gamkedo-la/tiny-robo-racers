@@ -161,6 +161,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
 
     this.lapTime += delta;
     this.speed *= GROUNDSPEED_DECAY_MULT * delta;
+    if (this.isTurning) this.speed *= CORNERING_SPEED_DECAY_MULT * delta;
     this.speed += drivePower * delta;
     this.isTurning = false; // did ANY sensor trigger a steering change?
 
@@ -261,16 +262,21 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
   this.skidMarkHandling = function() {
     // draw tire tracks / skid marks
     //console.log(this.speed); // normally in the 160 range
-    var tireTrackAlpha = this.speed / 3200;
+    var tireTrackAlpha = 0.1; //this.speed / 1600; // 0.1ish
+    // at start of race, when we are going sow, we make a lot of marks
+    if (this.speed<100) // really slow
+    {
+      tireTrackAlpha += 0.025*(100-this.speed); // fade out as we accell
+    }
     if (this.isTurning) {
-      tireTrackAlpha = 0.75;
+      tireTrackAlpha = 0.7;
     }
     else if (this.isBraking) {
-      tireTrackAlpha = 1.0;
+      tireTrackAlpha = 0.9;
     }
     // fun idea: we could tint the image for mud/water/oil...
     // the alphas above are now scaled to a tiny range
-    tireTrackAlpha *= this.isGhost ? 0.02 : 0.04;
+    tireTrackAlpha *= this.isGhost ? 0.035 : 0.065;
     tireTracks.add(x, y, this.angle, tireTrackAlpha);
   };
 
