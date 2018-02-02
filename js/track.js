@@ -64,7 +64,7 @@ var Track = function(levelIndex) {
   var trackHash = 0;
   this.getKey = function() {
     if (trackHash === 0) {
-      trackHash = JSON.stringify(levels[levelIndex]).hashCode();
+      trackHash = getLevelHash(levelIndex);
     }
 
     return trackHash;

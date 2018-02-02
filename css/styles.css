@@ -47,6 +47,7 @@ ul {
 
 .menu {
   display: none;
+  min-width: 510px;
 }
 
 .menu,
@@ -98,7 +99,7 @@ ul {
 
 .menu table th,
 .menu table td {
-  width: 50%;
+  width: 40%;
   padding: 3px 6px 6px 6px;
 }
 
@@ -108,6 +109,12 @@ ul {
 
 .menu table td {
   text-align: left;
+}
+
+.menu table td.time {
+  width: 20%;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .menu table th.center,

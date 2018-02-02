@@ -143,11 +143,17 @@ function showLevels() {
 
   var numLevels = levels.length;
   for (var i = 0; i < numLevels; i++) {
-    var row = '<tr><th>' + levels[i].label + '</th><td>' +
-      '<button class="load" value="' + i + '">Load</button>';
+    var timeString = '(no time)';
+    var bestTime = playerSettings.get(getLevelHash(i) + '--bestTime');
+    if (bestTime) {
+      timeString = makeTimeString(bestTime);
+    }
+    var row = '<tr><th>' + levels[i].label + '</th>' +
+      '<td class="time">' + timeString + '</td>' +
+      '<td><button class="load" value="' + i + '">Load</button>';
 
     if (levels[i].custom) {
-      row += '<button class="delete" value="' + i + '">Delete</button>';
+      row += '&nbsp;<button class="delete" value="' + i + '">Delete</button>';
     }
     row += '</td><tr>';
 
