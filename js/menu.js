@@ -8,22 +8,31 @@ function menuInitialize() {
   showMenu();
 
   $('#wrapper a').on('click', function (event) {
+    var $this = $(this);
     if (this.hash) {
       event.preventDefault();
     }
 
     $activeWrapperScreen.hide();
 
-    if ($(this).hasClass('continue')) {
+    if ($this.hasClass('continue')) {
       continueGame();
     }
-    else if ($(this).hasClass('race-again')) {
+    else if ($this.hasClass('race-again')) {
       raceAgain();
     }
     else if (this.hash) {
       stopGameForMenu();
       callShowMenuScreen(this.hash.substr(1));
       $activeWrapperScreen = $(this.hash).show();
+    }
+  });
+
+  $('#resetTrackData').on('click', function(event) {
+    event.preventDefault();
+    if (confirm('Are you sure you want to set all track data?')) {
+      playerSettings.clear();
+      ghostSettings.clear();
     }
   });
 
@@ -35,10 +44,9 @@ function menuInitialize() {
       Sound.stop('menu');
     }
     gameInitialize(this.value);
-  });
-
-  $('#levels').on('click', 'button.delete', function(event) {
-    if (confirm('Are you sure?')) {
+  }).on('click', 'button.delete', function(event) {
+    var label = levels[this.value].label;
+    if (confirm('Are you sure you want to delete level "' + label + '"?')) {
       deleteCustomLevel(this.value);
     }
     $('#wrapper a[href="#levels"]').trigger('click');

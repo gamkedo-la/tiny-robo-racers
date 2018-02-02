@@ -62,9 +62,10 @@ ul {
 }
 
 .back,
+.left,
+.right,
 .continue,
-.race-again,
-.quit {
+.race-again {
   width: 40%;
   text-align: center;
   margin-top: 40px;
@@ -81,13 +82,14 @@ ul {
   margin-left: 30%;
 }
 
+.left,
 .race-again,
 .continue {
   float: left;
   margin-left: 5%;
 }
 
-.quit {
+.right {
   float: right;
   margin-right: 5%;
 }

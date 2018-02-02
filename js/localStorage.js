@@ -38,4 +38,10 @@ var LocalStorage = function(prefix, name) {
     }
   };
 
+  this.clear = function() {
+    settings = {};
+
+    saveSettings();
+  };
+
 };
