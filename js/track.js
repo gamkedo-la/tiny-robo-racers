@@ -103,6 +103,10 @@ var Track = function(levelIndex) {
     return(Math.sqrt(diffR*diffR + diffG*diffG + diffB*diffB));
   }
 
+  this.shouldTestRoadSurface = function() {
+    return !!levels[levelIndex].testRoadSurface;
+  };
+
   // returns one of ROAD_SURFACE_*
   this.testRoadSurface = function(x,y) {
     x = Math.round(x);

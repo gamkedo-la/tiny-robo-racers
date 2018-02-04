@@ -173,9 +173,12 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
     lastX = x;
     lastY = y;
 
-    // terrain affects driving forces
-    speed = this.roadSurfaceDrag(speed);
-    var angleWobble = this.roadSurfaceWobble();
+    var angleWobble = 0;
+    if (track.shouldTestRoadSurface()) {
+      // terrain affects driving forces
+      speed = this.roadSurfaceDrag(speed);
+      angleWobble = this.roadSurfaceWobble();
+    }
 
     //console.log('speed='+speed+' angleWobble='+angleWobble);
 
@@ -190,7 +193,7 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
     }
 
     // dirt/gravel/dust particles kicked up by the tires
-    if (Math.random()>0.666) { // not every frame
+    if (track.shouldTestRoadSurface() && Math.random()>0.666) { // not every frame
       if (!this.isGhost) {
         var dustColor = track.pixelColor(x, y);
         particles.add(x + Math.random() * 20 - 10, y + Math.random() * 20 - 10, Images.smoke, 1500, 80, dustColor);
