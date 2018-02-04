@@ -44,7 +44,7 @@ window.onload = function() {
   levelsList = new LocalStorage('trr', 'levelsList');
   playerSettings = new LocalStorage('trr', 'player');
   ghostSettings = new LocalStorage('trr', 'ghost');
-
+  
   loadCustomLevels();
 
   initDrawingCanvas();

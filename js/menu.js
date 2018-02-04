@@ -149,6 +149,8 @@ function showLevels() {
       '</td><tr>'));
   }
 
+  playerSettings = new LocalStorage('trr', 'player');
+
   var numLevels = levels.length;
   for (var i = 0; i < numLevels; i++) {
     var timeString = '(no time)';
