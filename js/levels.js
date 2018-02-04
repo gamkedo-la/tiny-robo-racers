@@ -45,37 +45,56 @@ function deleteCustomLevel(index) {
 
 function makeChallengeCode(index) {
   if (!levels[index]) {
+    alert('Level index does not exist?');
     return;
   }
 
-  var data = {};
   var level = levels[index];
+  var label = level.label;
+  var levelKey = getLevelHash(index);
+
+  var sensors = playerSettings.get(levelKey + '--sensors', false);
+  if (!sensors) {
+    alert('No sensor data for level ' + label + '?');
+    return;
+  }
+
+  var bestTime = playerSettings.get(levelKey + '--bestTime', false);
+  if (!sensors) {
+    alert('No best time for level ' + label + '?');
+    return;
+  }
+
+  var data = {
+    sensors: sensors,
+    bestTime: bestTime
+  };
 
   if (level.custom) {
-    // also add track data
+    // Custom level, so we need the complete track data
     data.level = clone(level);
   }
   else {
+    // Pre-defined level, so we only need the index
     data.index = index;
   }
 
   var challengeCode = LZString.compressToEncodedURIComponent(JSON.stringify(data));
   //var data = JSON.parse(LZString.decompressFromEncodedURIComponent(challengeCode));
 
-  var label = level.label;
-  if (challengeCode) {
-    prompt('Copy this code and challenge someone to beat your best time for level "' + label + '".', challengeCode);
-  }
-  else {
+  if (!challengeCode) {
     alert('Could not create a challenge code.');
+    return;
   }
+
+  prompt('Copy this code and challenge someone to beat your best time for level "' + label + '".', challengeCode);
 }
 
 // 120 x 74
 
 var _levels = [];
 _levels[0] = {
-  label: 'Track 01',
+  label: 'Dirtopolis',
   image: 'track-01',
   grid: [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -155,7 +174,7 @@ _levels[0] = {
 };
 
 _levels[1] = {
-  label: 'Track 02',
+  label: 'Speed City',
   image: 'track-02',
   grid: [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
