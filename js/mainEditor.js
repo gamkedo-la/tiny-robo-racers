@@ -15,6 +15,7 @@ var isGameOver = false;
 
 var settings;
 var levelsList;
+var playerSettings;
 
 var editor;
 
@@ -24,6 +25,7 @@ window.onload = function() {
 
   settings = new LocalStorage('trr', 'settings');
   levelsList = new LocalStorage('trr', 'levelsList');
+  playerSettings = new LocalStorage('trr', 'player');
 
   loadCustomLevels();
 

@@ -144,12 +144,10 @@ function showLevels() {
   var $list = $('#levels table tbody').empty();
 
   if (IS_EDITOR) {
-    $list.append($('<tr><th>- New level -</th><td>' +
+    $list.append($('<tr><th>- New level -</th><td></td><td>' +
       '<button class="load" value="_new">Load</button>' +
       '</td><tr>'));
   }
-
-  playerSettings = new LocalStorage('trr', 'player');
 
   var numLevels = levels.length;
   for (var i = 0; i < numLevels; i++) {
