@@ -2,6 +2,7 @@ var Editor = function(levelIndex) {
 
   var imageName = false;
   var imageNameOverlay = false;
+  var drawOverlay = true;
   var grid = [];
 
   var drawingBucket = false;
@@ -90,6 +91,10 @@ var Editor = function(levelIndex) {
 
   this.selectTool = function(tool) {
     this.tool = tool;
+  };
+
+  this.toggleOverlay = function() {
+    drawOverlay = !drawOverlay;
   };
 
   this.validateGrid = function() {
@@ -232,7 +237,7 @@ var Editor = function(levelIndex) {
     gameContext.save();
     if (imageName) {
       gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
-      if (imageNameOverlay) {
+      if (drawOverlay && imageNameOverlay) {
         gameContext.drawImage(Images[imageNameOverlay], 0, TRACK_PADDING_TOP);
       }
 

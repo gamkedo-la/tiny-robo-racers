@@ -14,6 +14,7 @@ const KEY_E = 69;
 const KEY_S = 83;
 const KEY_T = 84;
 const KEY_M = 77;
+const KEY_O = 79;
 
 const FRAME_RATE = 60;
 const FRAME_RATE_DELTA = 1000 / FRAME_RATE;

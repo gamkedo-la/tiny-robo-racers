@@ -53,6 +53,11 @@ function keyUp(event) {
         sidebar.toggle();
       }
       break;
+    case KEY_O:
+      if (IS_EDITOR && editor) {
+        editor.toggleOverlay();
+      }
+      break;
     case KEY_S:
       if (isPlaying && DEBUG) {
         TRACK_SCREENSHOT = !TRACK_SCREENSHOT;
