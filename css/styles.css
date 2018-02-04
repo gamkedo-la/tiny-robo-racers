@@ -101,22 +101,26 @@ ul {
 
 .menu table th,
 .menu table td {
-  width: 40%;
   padding: 3px 6px 6px 6px;
-}
-
-.menu table th {
   text-align: right;
 }
 
-.menu table td {
-  text-align: left;
+.menu table td.time,
+.menu table td.buttons {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.menu table td.buttons {
+  width: 175px;
 }
 
 .menu table td.time {
-  width: 20%;
-  text-align: center;
-  white-space: nowrap;
+  width: 100px;
+}
+
+.menu table td.buttons button {
+  width: 82px;
 }
 
 .menu table th.center,

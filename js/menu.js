@@ -146,8 +146,8 @@ function showLevels() {
   var $list = $('#levels table tbody').empty();
 
   if (IS_EDITOR) {
-    $list.append($('<tr><th>- New level -</th><td></td><td>' +
-      '<button class="load" value="_new">Load</button>' +
+    $list.append($('<tr><th>- New level -</th><td class="time"></td>' +
+      '<td class="buttons"><button class="load" value="_new">Load</button>' +
       '</td><tr>'));
   }
 
@@ -160,13 +160,13 @@ function showLevels() {
     }
     var row = '<tr><th>' + levels[i].label + '</th>' +
       '<td class="time">' + timeString + '</td>' +
-      '<td><button class="load" value="' + i + '">Load</button>';
+      '<td class="buttons"><button class="load" value="' + i + '">Load</button>';
 
-    if (bestTime) {
+    if (bestTime && !IS_EDITOR) {
       row += '&nbsp;<button class="challenge" value="' + i + '">Challenge</button>';
     }
 
-    if (levels[i].custom) {
+    if (levels[i].custom && IS_EDITOR) {
       row += '&nbsp;<button class="delete" value="' + i + '">Delete</button>';
     }
     row += '</td><tr>';
