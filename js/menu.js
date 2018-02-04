@@ -44,6 +44,8 @@ function menuInitialize() {
       Sound.stop('menu');
     }
     gameInitialize(this.value);
+  }).on('click', 'button.challenge', function(event) {
+    makeChallengeCode(this.value);
   }).on('click', 'button.delete', function(event) {
     var label = levels[this.value].label;
     if (confirm('Are you sure you want to delete level "' + label + '"?')) {
@@ -111,7 +113,7 @@ function showGameOver() {
   $('#gameOverWon, #gameOverLost').hide();
 
   var resultId = '#gameOverLost';
-  if (car.raceTime < car.bestRaceTime) {
+  if (car.bestRaceTime === 0 || car.raceTime < car.bestRaceTime) {
     resultId = '#gameOverWon';
   }
   $(resultId).show();
@@ -159,6 +161,10 @@ function showLevels() {
     var row = '<tr><th>' + levels[i].label + '</th>' +
       '<td class="time">' + timeString + '</td>' +
       '<td><button class="load" value="' + i + '">Load</button>';
+
+    if (bestTime) {
+      row += '&nbsp;<button class="challenge" value="' + i + '">Challenge</button>';
+    }
 
     if (levels[i].custom) {
       row += '&nbsp;<button class="delete" value="' + i + '">Delete</button>';

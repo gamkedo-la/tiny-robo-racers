@@ -43,6 +43,34 @@ function deleteCustomLevel(index) {
   levelsList.set('levels', customLevels);
 }
 
+function makeChallengeCode(index) {
+  if (!levels[index]) {
+    return;
+  }
+
+  var data = {};
+  var level = levels[index];
+
+  if (level.custom) {
+    // also add track data
+    data.level = clone(level);
+  }
+  else {
+    data.index = index;
+  }
+
+  var challengeCode = LZString.compressToEncodedURIComponent(JSON.stringify(data));
+  //var data = JSON.parse(LZString.decompressFromEncodedURIComponent(challengeCode));
+
+  var label = level.label;
+  if (challengeCode) {
+    prompt('Copy this code and challenge someone to beat your best time for level "' + label + '".', challengeCode);
+  }
+  else {
+    alert('Could not create a challenge code.');
+  }
+}
+
 // 120 x 74
 
 var _levels = [];

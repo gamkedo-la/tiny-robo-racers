@@ -249,7 +249,6 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
             this.setSetting('bestTime', this.raceTime);
             this.setSetting('sensors', this.getSensorData());
             this.bestRaceTime = this.raceTime;
-            console.log('stored best race time');
           }
 
           this.stopDriving();
