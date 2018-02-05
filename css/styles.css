@@ -94,6 +94,12 @@ ul {
   margin-right: 5%;
 }
 
+#gameOver .left,
+#gameOver .continue,
+#gameOver .race-again {
+  width: 23%;
+}
+
 .menu table {
   border-collapse: collapse;
   width: 100%;

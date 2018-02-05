@@ -43,15 +43,30 @@ function deleteCustomLevel(index) {
   levelsList.set('levels', customLevels);
 }
 
-function makeChallengeCode(index) {
-  if (!levels[index]) {
+function makeChallengeCode(index, challengeData) {
+  if (!levels[index] && !challengeData) {
     alert('Level index does not exist?');
     return;
   }
 
-  var level = levels[index];
+  if (challengeData && challengeData.index) {
+    index = challengeData.index;
+  }
+
+  var level;
+  if (levels[index]) {
+    level = levels[index];
+  }
+  else if (challengeData.level) {
+    level = challengeData.level;
+  }
+  else {
+    alert('No level data?');
+    return;
+  }
+
   var label = level.label;
-  var levelKey = getLevelHash(index);
+  var levelKey = getLevelHash(index, challengeData);
 
   var sensors = playerSettings.get(levelKey + '--sensors', false);
   if (!sensors) {

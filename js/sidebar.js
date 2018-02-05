@@ -53,6 +53,12 @@ var Sidebar = function(image, tintColor) {
     mouse.button = -1;
   }
 
+  this.show = function() {
+    if (!isEditing && !isEditToggling) {
+      this.toggle();
+    }
+  };
+
   this.toggle = function() {
     if (isEditToggling) {
       return;

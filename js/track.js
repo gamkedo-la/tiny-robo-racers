@@ -15,18 +15,36 @@ const ROAD_SURFACE_FRICTION = [ 1.0,      1.0,      1.0,     1.0,       0.6,  0.
 // how much the angle is perturbed when driving on this surface
 const ROAD_SURFACE_ROUGHNESS = [0.0,      0.0,      0.1,     0.0,       1.0, 2.0,     0.0,    0.0,    4.0, 0.0];
 
-var Track = function(levelIndex) {
+var Track = function(levelIndex, challengeData) {
 
   var showCountdown = false;
   var countdownRemaining = 0;
   var showFinalLap = false;
   var finalLapRemaining = 0;
 
-  var label = levels[levelIndex].label;
-  var grid = levels[levelIndex].grid.slice();
-  var isCustomLevel = !!levels[levelIndex].custom;
-  var imageName = levels[levelIndex].image;
-  var imageNameOverlay = imageName ? imageName + '-overlay' : false;
+  var label;
+  var grid;
+  var isCustomLevel = true;
+  var imageName = false;
+  var imageNameOverlay = false;
+
+  if (challengeData && challengeData.index) {
+    levelIndex = challengeData.index;
+  }
+
+  if (levels[levelIndex]) {
+    label = levels[levelIndex].label;
+    grid = levels[levelIndex].grid.slice();
+    isCustomLevel = !!levels[levelIndex].custom;
+    imageName = levels[levelIndex].image;
+    imageNameOverlay = imageName ? imageName + '-overlay' : false;
+  }
+  else if (challengeData.level) {
+    label = challengeData.level.label;
+    grid = challengeData.level.grid.slice();
+    isCustomLevel = true;
+  }
+
   this.goalStart;
   this.goalEnd;
   this.playerStart;
@@ -64,10 +82,14 @@ var Track = function(levelIndex) {
   var trackHash = 0;
   this.getKey = function() {
     if (trackHash === 0) {
-      trackHash = getLevelHash(levelIndex);
+      trackHash = getLevelHash(levelIndex, challengeData);
     }
 
     return trackHash;
+  };
+
+  this.makeChallengeCode = function() {
+    makeChallengeCode(levelIndex, challengeData);
   };
 
   this.startRace = function() {
@@ -104,7 +126,7 @@ var Track = function(levelIndex) {
   }
 
   this.shouldTestRoadSurface = function() {
-    return !!levels[levelIndex].testRoadSurface;
+    return levelIndex && !!levels[levelIndex].testRoadSurface;
   };
 
   // returns one of ROAD_SURFACE_*
