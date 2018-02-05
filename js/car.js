@@ -1,4 +1,4 @@
-var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost, tintColor) {
+var Car = function(startPosition, challengeData, carSettings, sourceImage, drivePower, isGhost, tintColor) {
 
   this.setSetting = function(name, value) {
     return carSettings.set(track.getKey() + '--' + name, value);
@@ -75,11 +75,16 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
     }
   };
 
-  this.useSensors(this.getSetting('sensors', [
-    { x: 15, y: -7, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA },
-    { x: 15, y: 7, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA }
-  ]));
-	
+  if (!this.isGhost || !challengeData) {
+    this.useSensors(this.getSetting('sensors', [
+      { x: 15, y: -7, length: 40, angle: -Math.PI / 4, steerAngle: 0.04 / FRAME_RATE_DELTA },
+      { x: 15, y: 7, length: 40, angle: Math.PI / 4, steerAngle: -0.04 / FRAME_RATE_DELTA }
+    ]));
+  }
+  else {
+    this.useSensors(challengeData.sensors);
+  }
+
   this.getPosition = function() {
     return {
       x: x,
@@ -246,9 +251,12 @@ var Car = function(startPosition, carSettings, sourceImage, drivePower, isGhost,
 
           // Save best lap time and copy sensors to ghost if better
           if (this.isRacing && !this.isGhost && (this.bestRaceTime === 0 || this.raceTime < this.bestRaceTime)) {
-            ghost.useSensors(this.getSensorData());
-            ghost.setSetting('bestTime', this.raceTime);
-            ghost.setSetting('sensors', this.getSensorData());
+            // Don't save ghost-settings if racing a challenge
+            if (!challengeData) {
+              ghost.useSensors(this.getSensorData());
+              ghost.setSetting('bestTime', this.raceTime);
+              ghost.setSetting('sensors', this.getSensorData());
+            }
             this.setSetting('bestTime', this.raceTime);
             this.setSetting('sensors', this.getSensorData());
             this.bestRaceTime = this.raceTime;

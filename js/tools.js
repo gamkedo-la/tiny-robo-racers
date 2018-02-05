@@ -56,12 +56,16 @@ function random(min, max, isFloat) {
   return min + Math.floor(Math.random() * (max - min + 1));
 }
 
-function getLevelHash(levelIndex) {
-  if (!levels[levelIndex]) {
-    return 0;
+function getLevelHash(levelIndex, challengeData) {
+  if (levels[levelIndex]) {
+    return JSON.stringify(levels[levelIndex]).hashCode();
   }
 
-  return JSON.stringify(levels[levelIndex]).hashCode();
+  if (challengeData) {
+    return JSON.stringify(challengeData.level).hashCode();
+  }
+
+  return 0;
 }
 
 function componentToHex(c) {

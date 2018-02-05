@@ -21,10 +21,11 @@ function menuInitialize() {
     else if ($this.hasClass('race-again')) {
       raceAgain();
     }
+    else if ($this.hasClass('challenge')) {
+      loadChallenge();
+    }
     else if (this.hash) {
-      stopGameForMenu();
-      callShowMenuScreen(this.hash.substr(1));
-      $activeWrapperScreen = $(this.hash).show();
+      callShowMenuScreen(this.hash);
     }
   });
 
@@ -33,6 +34,13 @@ function menuInitialize() {
     if (confirm('Are you sure you want to set all track data?')) {
       playerSettings.clear();
       ghostSettings.clear();
+    }
+  });
+
+  $('#makeChallenge').show().on('click', function(event) {
+    event.preventDefault();
+    if (track) {
+      track.makeChallengeCode();
     }
   });
 
@@ -67,11 +75,35 @@ function menuInitialize() {
   toggleMuteMusic(!settings.get('music', true));
 }
 
-function callShowMenuScreen(screen) {
-  var functionName = 'show' + screen.ucFirst();
+function callShowMenuScreen(hash) {
+  stopGameForMenu();
+  var functionName = 'show' + hash.substr(1).ucFirst();
   if (typeof window[functionName] === 'function') {
     window[functionName]();
   }
+  $activeWrapperScreen = $(hash).show();
+}
+
+function loadChallenge() {
+  var challengeCode = prompt('Paste here your Challenge code:');
+  if (!challengeCode) {
+    return callShowMenuScreen('#menu');
+  }
+
+  var challengeData = null;
+  try {
+    challengeData = JSON.parse(LZString.decompressFromEncodedURIComponent(challengeCode));
+  }
+  catch (e) {}
+
+  if (!challengeData || (!challengeData.level && !challengeData.index) || !challengeData.bestTime || !challengeData.sensors) {
+    alert('Invalid Challenge code?');
+    return callShowMenuScreen('#menu');
+  }
+
+  setTimeout(function () {
+    gameInitialize(null, challengeData);
+  }, 10);
 }
 
 function showMenu() {
@@ -110,11 +142,12 @@ function showGameOver() {
 
   $('#bestTime').html(makeTimeString(car.bestRaceTime));
   $('#currentTime').html(makeTimeString(car.raceTime));
-  $('#gameOverWon, #gameOverLost').hide();
+  $('#gameOverWon, #gameOverLost, #makeChallenge').hide();
 
   var resultId = '#gameOverLost';
   if (car.bestRaceTime === 0 || car.raceTime < car.bestRaceTime) {
     resultId = '#gameOverWon';
+    $('#makeChallenge').show();
   }
   $(resultId).show();
 }

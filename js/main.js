@@ -64,8 +64,8 @@ function windowOnBlur() {
   }
 }
 
-function gameInitialize(levelIndex) {
-  if (!levels[levelIndex]) {
+function gameInitialize(levelIndex, challengeData) {
+  if (!levels[levelIndex] && !challengeData) {
     alert('No level? ' + levelIndex);
     return;
   }
@@ -75,17 +75,17 @@ function gameInitialize(levelIndex) {
   var tintColor = null;
 
   sidebar = new Sidebar(Images.carRedBig, tintColor);
-  track = new Track(levelIndex);
+  track = new Track(levelIndex, challengeData);
   track.initializeTrack();
 
   btnPause = new ButtonImage(drawContext, 0, 0, Images.button_pause, false, false, showGamePause);
   btnEdit = new ButtonImage(drawContext, 44, 0, Images.button_pencil, false, false, sidebar.toggle.bind(sidebar));
 
-  car = new Car(track.playerStart, playerSettings, Images.carRed, DRIVE_POWER, false, tintColor);
+  car = new Car(track.playerStart, challengeData, playerSettings, Images.carRed, DRIVE_POWER, false, tintColor);
 
-  ghost = new Car(track.playerStart, ghostSettings, Images.carYellow, DRIVE_POWER, true);
+  ghost = new Car(track.playerStart, challengeData, ghostSettings, Images.carYellow, DRIVE_POWER, true);
 
-  sidebar.toggle();
+  sidebar.show();
 
   if (STRESSTEST_AI) {
     for (var nextone, loop=0; loop<20; loop++) {
