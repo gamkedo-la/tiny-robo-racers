@@ -295,6 +295,9 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     this.angle += angle;
     if (ANGLE360 <= this.angle) {
       this.angle -= ANGLE360;
+    }    
+    if (-ANGLE360 >= this.angle) {
+      this.angle += ANGLE360;
     }
     this.isTurning = true;
   };
