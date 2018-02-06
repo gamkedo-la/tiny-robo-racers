@@ -101,6 +101,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     this.isTurning = false;
     this.raceTime = 0;
     this.lapTime = 0;
+    this.lapTimeString = '00:00.000';
     this.lapCounter = 1;
     this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
 //    tireTracks.reset();
