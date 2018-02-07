@@ -44,6 +44,8 @@ var Editor = function(levelIndex) {
     if (levels[levelIndex] && !levels[levelIndex].custom) {
       // Output level grid for saving in levels.js
       prompt('Save grid in levels.js', JSON.stringify(grid));
+      console.log(JSON.stringify(grid));
+
       return;
     }
 
