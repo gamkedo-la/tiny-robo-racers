@@ -44,7 +44,7 @@ window.onload = function() {
   levelsList = new LocalStorage('trr', 'levelsList');
   playerSettings = new LocalStorage('trr', 'player');
   ghostSettings = new LocalStorage('trr', 'ghost');
-  
+
   loadCustomLevels();
 
   initDrawingCanvas();
@@ -118,7 +118,7 @@ function gameUpdate(delta) {
   btnEdit.update(delta);
 
   particles.update();
-  if (STRESSTEST_AI) { 
+  if (STRESSTEST_AI) {
     manyGhosts.map(function(nextone){nextone.update(delta);});
   }
   ghost.update(delta);
@@ -151,7 +151,7 @@ function gameDraw(interpolationPercentage) {
   track.draw();
   tireTracks.draw();
 
-  if (STRESSTEST_AI) { 
+  if (STRESSTEST_AI) {
     manyGhosts.map(function(nextone){nextone.draw();});
   }
 

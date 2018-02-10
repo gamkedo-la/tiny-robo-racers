@@ -67,7 +67,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
       this.engineSound.play();
     }
   }.bind(this));
-  
+
   this.useSensors = function(sensorList){
 	  this.sensors = [];
     for (var s = 0; s < sensorList.length; s++) {
@@ -113,6 +113,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     if (!this.isGhost) {
       this.isRacing = true;
     }
+    Sound.play("321");
   };
 
   this.stopRacing = function() {
@@ -154,7 +155,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
       return 0.0;
 
     // plus or minus half the size
-    var thisMuchWobble = Math.random() * ROAD_SURFACE_ROUGHNESS[this.tireSurface] - (ROAD_SURFACE_ROUGHNESS[this.tireSurface]/2); 
+    var thisMuchWobble = Math.random() * ROAD_SURFACE_ROUGHNESS[this.tireSurface] - (ROAD_SURFACE_ROUGHNESS[this.tireSurface]/2);
     //console.log("ROAD_SURFACE_ROUGHNESS["+this.tireSurface+"]:"+ROAD_SURFACE_ROUGHNESS[this.tireSurface]+ ' thisMuchWobble='+thisMuchWobble);
 
     return thisMuchWobble;
@@ -253,6 +254,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
           // Save best lap time and copy sensors to ghost if better
           if (this.isRacing && !this.isGhost && (this.bestRaceTime === 0 || this.raceTime < this.bestRaceTime)) {
             // Don't save ghost-settings if racing a challenge
+            Sound.play("woohoo");
             if (!challengeData) {
               ghost.useSensors(this.getSensorData());
               ghost.setSetting('bestTime', this.raceTime);
@@ -295,7 +297,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     this.angle += angle;
     if (ANGLE360 <= this.angle) {
       this.angle -= ANGLE360;
-    }    
+    }
     if (-ANGLE360 >= this.angle) {
       this.angle += ANGLE360;
     }

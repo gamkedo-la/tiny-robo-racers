@@ -8,7 +8,8 @@ html, body {
 body {
   background: #000;
   color: #fff;
-  font-family: Verdana, sans-serif;
+  font-family: 'Acme', sans-serif;
+  font-size: 18px;
   overflow: hidden;
 }
 
@@ -63,9 +64,15 @@ ul {
 .menu,
 #loading {
   text-align: center;
-  background: #363636;
+  background: #616161;
   border-radius: 6px;
   border: solid 1px #fff;
+}
+
+.menu >li > a{
+  margin: 5px;
+  padding: 5px;
+
 }
 
 .back,
@@ -173,5 +180,5 @@ ul {
 }
 
 .logo {
-  margin-top: -20px;
+  margin-top: 10px;
 }
