@@ -43,6 +43,16 @@ ul {
   left: 0;
   top: 10%;
   right: 0;
+  height: 100%;
+}
+
+#wrapper-inner {
+  max-height: 80%;
+  overflow-y: auto;
+  min-width: 560px;
+  width: 50%;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .menu {
@@ -52,13 +62,10 @@ ul {
 
 .menu,
 #loading {
-  width: 50%;
-  margin: 0 auto;
   text-align: center;
   background: #363636;
   border-radius: 6px;
   border: solid 1px #fff;
-  padding: 20px;
 }
 
 .back,
@@ -137,6 +144,16 @@ ul {
 .menu table tr + tr th,
 .menu table tr + tr td {
   border-top: solid 1px white;
+}
+
+#credits table th {
+  width: 30%;
+}
+
+#credits table th,
+#credits table td {
+  vertical-align: top;
+  padding-bottom: 1em;
 }
 
 #levels > div {

@@ -14,101 +14,134 @@
 </div>
 
 <div id="wrapper">
-  <div id="loading">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Loading Tiny Robo Racers</h2>
-    <img src="img/loader.gif" alt="Loading Tiny Robo Racers">
-  </div>
-
-  <div class="menu" id="menu">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Tiny Robo Racers</h2>
-    <ul>
-      <li><a href="#levels">Levels</a></li>
-      <li><a href="#menu" class="challenge">Load challenge code</a></li>
-      <li><a href="#settings">Settings</a></li>
-      <li><a href="editor.html">Level editor</a></li>
-      <li><a href="#menu" id="resetTrackData">Reset track data</a></li>
-      <li><a href="#credits">Credits</a></li>
-    </ul>
-  </div>
-
-  <div class="menu" id="levels">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Levels</h2>
-    <div>
-      <table>
-        <tbody></tbody>
-      </table>
+  <div id="wrapper-inner">
+    <div id="loading">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Loading Tiny Robo Racers</h2>
+      <img src="img/loader.gif" alt="Loading Tiny Robo Racers">
     </div>
-    <a href="#menu" class="back">Back</a>
-  </div>
 
-  <div class="menu" id="settings">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Settings</h2>
-    <table>
-      <tbody>
-      <tr>
-        <th>Sound</th>
-        <td><button id="settingSound" value="sound"><img src="img/icons/sound-on.png"></button></td>
-      </tr>
-      <tr>
-        <th>Music</th>
-        <td><button id="settingMusic" value="music"><img src="img/icons/music-on.png"></button></td>
-      </tr>
-      </tbody>
-    </table>
-    <a href="#menu" class="back">Back</a>
-  </div>
+    <div class="menu" id="menu">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Tiny Robo Racers</h2>
+      <ul>
+        <li><a href="#levels">Levels</a></li>
+        <li><a href="#menu" class="challenge">Load challenge code</a></li>
+        <li><a href="#settings">Settings</a></li>
+        <li><a href="editor.html">Level editor</a></li>
+        <li><a href="#menu" id="resetTrackData">Reset track data</a></li>
+        <li><a href="#credits">Credits</a></li>
+      </ul>
+    </div>
 
-  <div class="menu" id="gameOver">
-    <h2>Game over!</h2>
-    <table>
-      <tbody>
-      <tr>
-        <th>Best time</th>
-        <td id="bestTime">00:00.000</td>
-      </tr>
-      <tr>
-        <th>Time</th>
-        <td id="currentTime">00:00.000</td>
-      </tr>
-      <tr>
-        <th colspan="2" class="center" id="gameOverWon">You won!</th>
-      </tr>
-      <tr>
-        <th colspan="2" class="center" id="gameOverLost">You lost...</th>
-      </tr>
-      </tbody>
-    </table>
-    <a href="#" class="race-again">Race again</a>
-    <a href="#menu" class="left">Quit</a>
-    <a href="#gameOver" id="makeChallenge" class="left">Challenge</a>
-  </div>
+    <div class="menu" id="levels">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Levels</h2>
+      <div>
+        <table>
+          <tbody></tbody>
+        </table>
+      </div>
+      <a href="#menu" class="back">Back</a>
+    </div>
 
-  <div class="menu" id="gamePause">
-    <h2>Game paused!</h2>
-    <a href="#" class="continue">Continue</a>
-    <a href="#menu" class="left">Quit</a>
-  </div>
+    <div class="menu" id="settings">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Settings</h2>
+      <table>
+        <tbody>
+        <tr>
+          <th>Sound</th>
+          <td><button id="settingSound" value="sound"><img src="img/icons/sound-on.png"></button></td>
+        </tr>
+        <tr>
+          <th>Music</th>
+          <td><button id="settingMusic" value="music"><img src="img/icons/music-on.png"></button></td>
+        </tr>
+        </tbody>
+      </table>
+      <a href="#menu" class="back">Back</a>
+    </div>
 
-  <div class="menu" id="credits">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Credits</h2>
-    <table>
-      <tbody>
-      <tr>
-        <th>Caspar</th>
-        <td>Team lead, code</td>
-      </tr>
-      <tr>
-        <th>Other</th>
-        <td>etc</td>
-      </tr>
-      </tbody>
-    </table>
-    <a href="#menu" class="back">Back</a>
+    <div class="menu" id="gameOver">
+      <h2>Game over!</h2>
+      <table>
+        <tbody>
+        <tr>
+          <th>Best time</th>
+          <td id="bestTime">00:00.000</td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td id="currentTime">00:00.000</td>
+        </tr>
+        <tr>
+          <th colspan="2" class="center" id="gameOverWon">You won!</th>
+        </tr>
+        <tr>
+          <th colspan="2" class="center" id="gameOverLost">You lost...</th>
+        </tr>
+        </tbody>
+      </table>
+      <a href="#" class="race-again">Race again</a>
+      <a href="#menu" class="left">Quit</a>
+      <a href="#gameOver" id="makeChallenge" class="left">Challenge</a>
+    </div>
+
+    <div class="menu" id="gamePause">
+      <h2>Game paused!</h2>
+      <a href="#" class="continue">Continue</a>
+      <a href="#menu" class="left">Quit</a>
+    </div>
+
+    <div class="menu" id="credits">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Credits</h2>
+      <div>
+        <table>
+          <tbody>
+          <tr>
+            <th>Caspar</th>
+            <td>Team lead, initial prototype, level editor, code, track: Sil's Track, tracks layout: Dirtopolis, Speed City</td>
+          </tr>
+          <tr>
+            <th>Vignesh</th>
+            <td>Car image, sounds, Song: Mystery2, track: Purple Stretch</td>
+          </tr>
+          <tr>
+            <th>Christer</th>
+            <td>Track art: Dirtopolis, Speed City, overlay track image mechanism, tire tracks, car driving tweaks, lap timing, particles, track surface code, logo, sound effects, sounds/music implementation</td>
+          </tr>
+          <tr>
+            <th>Marcus</th>
+            <td>Lap timing</td>
+          </tr>
+          <tr>
+            <th>Daniel Lazar</th>
+            <td>Track: Mega Track X</td>
+          </tr>
+          <tr>
+            <th>Gerard Moledo</th>
+            <td>Track: Neon Raceway</td>
+          </tr>
+          <tr>
+            <th>Chris DeLeon</th>
+            <td>Track: Bronze Corridor</td>
+          </tr>
+          <tr>
+            <th>Misha Fewkes</th>
+            <td>Song: Upbeat</td>
+          </tr>
+          <tr>
+            <th>Asix Jin</th>
+            <td>Song: menu2</td>
+          </tr>
+          <tr>
+          </tbody>
+        </table>
+      </div>
+      <a href="#menu" class="back">Back</a>
+    </div>
   </div>
 </div>
 
