@@ -137,7 +137,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     if (this.engineSound) {
       this.engineSound.pause();
     }
-    // Sound.stop(raceBackgroundSounds[randomInt]);
+    Sound.stop(raceBackgroundSounds[randomInt]);
   };
 
   // currently reduces speed based on what is under the tires
