@@ -1,5 +1,6 @@
 var gameCanvas, gameContext;
 var editCanvas, editContext;
+var raceBackgroundSounds = ['mystery', 'musicUpbeat']
 
 var screenShakeAmount = 0;
 var screenShakeAmountHalf = 0;

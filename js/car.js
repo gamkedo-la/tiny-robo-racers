@@ -1,3 +1,5 @@
+
+
 var Car = function(startPosition, challengeData, carSettings, sourceImage, drivePower, isGhost, tintColor) {
 
   this.setSetting = function(name, value) {
@@ -113,11 +115,13 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     if (!this.isGhost) {
       this.isRacing = true;
     }
+    Sound.play(raceBackgroundSounds[randomInt]);
   };
 
   this.stopRacing = function() {
     this.lapCounter = 1;
     this.isRacing = false;
+    Sound.stop(raceBackgroundSounds[randomInt]);
   };
 
   this.startDriving = function() {
@@ -133,6 +137,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     if (this.engineSound) {
       this.engineSound.pause();
     }
+    // Sound.stop(raceBackgroundSounds[randomInt]);
   };
 
   // currently reduces speed based on what is under the tires
@@ -253,6 +258,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
           // Save best lap time and copy sensors to ghost if better
           if (this.isRacing && !this.isGhost && (this.bestRaceTime === 0 || this.raceTime < this.bestRaceTime)) {
             // Don't save ghost-settings if racing a challenge
+            Sound.stop(raceBackgroundSounds[randomInt]);
             Sound.play("woohoo");
             if (!challengeData) {
               ghost.useSensors(this.getSensorData());
