@@ -1,6 +1,9 @@
 var $activeWrapperScreen, $wrapper;
+var menuSound = ['menu','menu2'];
+var randomInt;
 
 function menuInitialize() {
+  randomInt = Math.floor(Math.random()*2);
   $('#loading').remove();
 
   $wrapper = $('#wrapper');
@@ -51,7 +54,7 @@ function menuInitialize() {
     event.preventDefault();
     hideDialog();
     if (!IS_EDITOR) {
-      Sound.stop('menu');
+      Sound.stop(menuSound[randomInt]);
     }
     gameInitialize(this.value);
   }).on('click', 'button.challenge', function(event) {
@@ -68,7 +71,7 @@ function menuInitialize() {
     // start play now!
     hideDialog();
     if (!IS_EDITOR) {
-      Sound.stop('menu');
+      Sound.stop(menuSound[randomInt]);
     }
     gameInitialize(IS_EDITOR ? '_new' : 0);
   }
@@ -150,7 +153,7 @@ function stopGameForMenu() {
     $(document).trigger('stopGame');
   }
 
-  Sound.playUnlessAlreadyPlaying('menu', true, 0.25);
+  Sound.playUnlessAlreadyPlaying(menuSound[randomInt], true, 0.25);
 }
 
 function showGameOver() {
