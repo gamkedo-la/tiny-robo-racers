@@ -1,7 +1,9 @@
-var $activeWrapperScreen;
+var $activeWrapperScreen, $wrapper;
 
 function menuInitialize() {
   $('#loading').remove();
+
+  $wrapper = $('#wrapper');
 
   setupInput();
 
@@ -47,7 +49,7 @@ function menuInitialize() {
   // Level load buttons
   $('#levels').on('click', 'button.load', function(event) {
     event.preventDefault();
-    $activeWrapperScreen.hide();
+    hideDialog();
     if (!IS_EDITOR) {
       Sound.stop('menu');
     }
@@ -64,7 +66,7 @@ function menuInitialize() {
 
   if (DEBUG) {
     // start play now!
-    $activeWrapperScreen.hide();
+    hideDialog();
     if (!IS_EDITOR) {
       Sound.stop('menu');
     }
@@ -81,7 +83,7 @@ function callShowMenuScreen(hash) {
   if (typeof window[functionName] === 'function') {
     window[functionName]();
   }
-  $activeWrapperScreen = $(hash).show();
+  showDialog(hash);
 }
 
 function loadChallenge() {
@@ -113,7 +115,7 @@ function showMenu(keepPlaying) {
   clearCanvas();
 
   if ($activeWrapperScreen) {
-    $activeWrapperScreen.hide();
+    hideDialog();
   }
 
   if (IS_EDITOR) {
@@ -121,7 +123,22 @@ function showMenu(keepPlaying) {
     $('#continueEditor').toggle(!!editor);
   }
 
-  $activeWrapperScreen = $('#menu').show();
+  showDialog('#menu');
+}
+
+function showDialog(dialogId) {
+  if ($activeWrapperScreen) {
+    $activeWrapperScreen.hide();
+  }
+
+  $wrapper.show();
+  $activeWrapperScreen = $(dialogId).show();
+}
+
+function hideDialog() {
+  $activeWrapperScreen.hide();
+  $activeWrapperScreen = null;
+  $wrapper.hide();
 }
 
 function stopGameForMenu() {
@@ -140,7 +157,7 @@ function showGameOver() {
   isPaused = true;
   MainLoop.stop();
   $(document).trigger('pause');
-  $activeWrapperScreen = $('#gameOver').show();
+  showDialog('#gameOver');
 
   $('#bestTime').html(makeTimeString(car.bestRaceTime));
   $('#currentTime').html(makeTimeString(car.raceTime));
@@ -149,16 +166,16 @@ function showGameOver() {
   var resultId = '#gameOverLost';
   if (car.bestRaceTime === 0 || car.raceTime < car.bestRaceTime) {
     resultId = '#gameOverWon';
-    $('#makeChallenge').show();
+    showDialog('#makeChallenge');
   }
-  $(resultId).show();
+  showDialog(resultId);
 }
 
 function raceAgain() {
   isPaused = false;
   MainLoop.start();
   $(document).trigger('play');
-  $activeWrapperScreen = $('#gameOver').hide();
+  hideDialog();
   track.startRace();
 }
 
@@ -170,7 +187,7 @@ function showGamePause() {
     showMenu(true);
   }
   else {
-    $activeWrapperScreen = $('#gamePause').show();
+    showDialog('#gamePause');
   }
 }
 
@@ -178,8 +195,7 @@ function continueGame() {
   isPaused = false;
   MainLoop.start();
   $(document).trigger('play');
-  $activeWrapperScreen.hide();
-  $activeWrapperScreen = null;
+  hideDialog();
 }
 
 function showLevels() {

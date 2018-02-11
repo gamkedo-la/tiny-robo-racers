@@ -9,7 +9,7 @@ var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, cal
   var prevIsHover = false;
   var callbackFired = false;
 
-  if (isString(toggleGroup) && toggleState) {
+  if (toggleGroup && isString(toggleGroup) && toggleState) {
     _buttonToggleGroups[toggleGroup] = this;
   }
 
@@ -26,7 +26,7 @@ var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, cal
     if (isHover && mouse.button === 0) {
       if (!callbackFired) {
         callbackFired = true;
-        if (isString(toggleGroup)) {
+        if (toggleGroup && isString(toggleGroup)) {
           if (_buttonToggleGroups[toggleGroup] !== this) {
             _buttonToggleGroups[toggleGroup].setToggleState(false);
             _buttonToggleGroups[toggleGroup] = this;
@@ -52,6 +52,10 @@ var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, cal
   this.draw = function() {
     var active = isHover || (toggleGroup && toggleState);
     canvasContext.drawImage(image, 0, active ? height : 0, width, height, x, y, width, height);
+    if (DEBUG) {
+      var c = isHover ? '#0f0' : '#0ff';
+      drawStrokeRect(canvasContext, x, y, width, height, c, 2);
+    }
   };
 
 };

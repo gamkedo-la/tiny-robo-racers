@@ -41,6 +41,10 @@ function redrawCanvas() {
   else {
     drawContext.drawImage(gameCanvas, 0, 0, gameCanvas.width, gameCanvas.height, 0, 0, drawCanvas.width, drawCanvas.height);
   }
+
+
+  drawStrokeRect(drawContext, mouse.x-3, mouse.y-3, 6, 6, '#f00', 2);
+  drawStrokeRect(drawContext, 0, 0, drawCanvas.width, drawCanvas.height, '#f00', 2);
 }
 
 function resizeWindow() {
