@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Tiny Robo Racers - Editor</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 </head>
 <body>
 <div id="gameDiv">
@@ -13,32 +14,49 @@
 </div>
 
 <div id="wrapper">
-  <div id="loading">
-    <h2>Loading Tiny Robo Racers - editor</h2>
-    <img src="img/loader.gif" alt="Loading Tiny Robo Racers - editor">
-  </div>
-
-  <div class="menu" id="menu">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Tiny Robo Racers - Editor</h2>
-    <ul>
-      <li><a href="#levels">Levels</a></li>
-      <li><a href="index.html">Back to game</a></li>
-    </ul>
-    <a href="#continue" id="continueEditor" class="back">Continue editing</a>
-  </div>
-
-  <div class="menu" id="levels">
-    <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
-    <h2>Levels</h2>
-    <div>
-      <table>
-        <tbody></tbody>
-      </table>
+  <div id="wrapper-inner">
+    <div id="loading">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Loading Tiny Robo Racers</h2>
+      <img src="img/loader.gif" alt="Loading Tiny Robo Racers">
     </div>
-    <a href="#menu" class="back">Back</a>
-  </div>
 
+    <div class="menu" id="menu">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Track Editor</h2>
+      <ul>
+        <li><a href="#levels">Levels</a></li>
+        <li><a href="#settings">Settings</a></li>
+        <li><a href="index.html">Back to game</a></li>
+      </ul>
+      <a href="#continue" id="continueEditor" class="continue-editor">Continue editing</a>
+    </div>
+
+    <div class="menu" id="levels">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Levels</h2>
+      <div>
+        <table>
+          <tbody></tbody>
+        </table>
+      </div>
+      <a href="#menu" class="back">Back</a>
+    </div>
+
+    <div class="menu" id="settings">
+      <img class="logo" src="img/titlescreen.png" alt="Tiny Robo Racers">
+      <h2>Settings</h2>
+      <table>
+        <tbody>
+        <tr>
+          <th>Sound and Music</th>
+          <td><button id="settingSound"><img src="img/icons/sound-on.png"></button></td>
+        </tr>
+        </tbody>
+      </table>
+      <a href="#menu" class="back">Back</a>
+    </div>
+  </div>
 </div>
 
 <script src="js/lib/jquery-3.3.1.slim.min.js"></script>

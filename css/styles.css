@@ -79,7 +79,8 @@ ul {
 .left,
 .right,
 .continue,
-.race-again {
+.race-again,
+.continue-editor {
   width: 40%;
   text-align: center;
   margin-top: 40px;
@@ -91,14 +92,15 @@ ul {
   padding: 8px;
 }
 
-.back {
+.back,
+.continue-editor {
   float: left;
   margin-left: 30%;
 }
 
 .left,
-.race-again,
-.continue {
+.continue,
+.race-again {
   float: left;
   margin-left: 5%;
 }
@@ -116,7 +118,8 @@ ul {
 
 .menu table {
   border-collapse: collapse;
-  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .menu table th,

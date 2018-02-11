@@ -29,10 +29,7 @@ function keyDown(event) {
 function keyUp(event) {
   switch (event.keyCode) {
     case KEY_ESC:
-      if (IS_EDITOR) {
-        showMenu();
-      }
-      else if (isPaused) {
+      if (isPaused) {
         continueGame();
       }
       else if (isPlaying) {

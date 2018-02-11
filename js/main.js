@@ -70,6 +70,7 @@ function gameInitialize(levelIndex, challengeData) {
     return;
   }
   isPlaying = true;
+  isPaused = false;
 
   // FIXME: 'rgba(10,10,255,0.5)' tint according the player prefs and use a B&W source image
   var tintColor = null;

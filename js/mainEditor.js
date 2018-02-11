@@ -46,6 +46,7 @@ function gameInitialize(levelIndex) {
     return;
   }
   isPlaying = true;
+  isPaused = false;
 
   editor = new Editor(levelIndex);
 

@@ -15,7 +15,7 @@ function menuInitialize() {
 
     $activeWrapperScreen.hide();
 
-    if ($this.hasClass('continue')) {
+    if ($this.hasClass('continue') || $this.hasClass('continue-editor')) {
       continueGame();
     }
     else if ($this.hasClass('race-again')) {
@@ -71,8 +71,8 @@ function menuInitialize() {
     gameInitialize(IS_EDITOR ? '_new' : 0);
   }
 
-  // Initialize music setting
-  toggleMuteMusic(!settings.get('music', true));
+  // Initialize sound setting
+  toggleSound(settings.get('mute-sound', true));
 }
 
 function callShowMenuScreen(hash) {
@@ -106,8 +106,11 @@ function loadChallenge() {
   }, 10);
 }
 
-function showMenu() {
-  stopGameForMenu();
+function showMenu(keepPlaying) {
+  if (!keepPlaying) {
+    stopGameForMenu();
+  }
+  clearCanvas();
 
   if ($activeWrapperScreen) {
     $activeWrapperScreen.hide();
@@ -115,7 +118,7 @@ function showMenu() {
 
   if (IS_EDITOR) {
     // @todo show button only when already editing a level
-    $('#continueEditor').toggle(0);
+    $('#continueEditor').toggle(!!editor);
   }
 
   $activeWrapperScreen = $('#menu').show();
@@ -128,7 +131,6 @@ function stopGameForMenu() {
     isGameOver = false;
     MainLoop.stop();
     $(document).trigger('stopGame');
-    clearCanvas();
   }
 
   Sound.playUnlessAlreadyPlaying('menu', true, 0.25);
@@ -164,14 +166,20 @@ function showGamePause() {
   isPaused = true;
   MainLoop.stop();
   $(document).trigger('pause');
-  $activeWrapperScreen = $('#gamePause').show();
+  if (IS_EDITOR) {
+    showMenu(true);
+  }
+  else {
+    $activeWrapperScreen = $('#gamePause').show();
+  }
 }
 
 function continueGame() {
   isPaused = false;
   MainLoop.start();
   $(document).trigger('play');
-  $activeWrapperScreen = $('#gamePause').hide();
+  $activeWrapperScreen.hide();
+  $activeWrapperScreen = null;
 }
 
 function showLevels() {
@@ -232,11 +240,9 @@ function showSettings() {
   }
   $settingsWrapper.data('initialized', true);
 
-  settingImgToggle($('#settingSound'), 'sound', 'img/icons/sound-');
-  settingImgToggle($('#settingMusic'), 'music', 'img/icons/music-', toggleMuteMusic.bind(null, true), toggleMuteMusic.bind(null, false));
+  settingImgToggle($('#settingSound'), 'mute-sound','img/icons/sound-', toggleSound.bind(null, true), toggleSound.bind(null, false));
 
   function settingImgToggle($button, settingName, src, enableCallback, disableCallback) {
-    console.log('toggle', settingName);
     var $img = $('img', $button);
     $button
       .on('show', function() {
@@ -260,23 +266,17 @@ function showSettings() {
   }
 }
 
-function toggleMuteMusic(force) {
+function toggleSound(force) {
   if (force !== undefined) {
-    window.PlayingMusic = !force;
+    window.enabledSounds = !force;
   }
 
-  if (window.PlayingMusic) // just a bool for the toggling
-  {
-    Sound.muteSoundByName('music');
-    Sound.muteSoundByName('menu');
-    window.PlayingMusic = false;
+  if (window.enabledSounds) {
+    Sound.Mute();
+    window.enabledSounds = false;
   }
-  else // might be undefined at this point
-  {
-    Sound.unMuteSoundByName('music');
-    Sound.unMuteSoundByName('menu');
-    window.PlayingMusic = true;
+  else {
+    Sound.unMute();
+    window.enabledSounds = true;
   }
-
-  settings.set('music', window.PlayingMusic);
 }
