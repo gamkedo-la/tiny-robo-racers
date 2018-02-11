@@ -169,9 +169,9 @@ function showGameOver() {
   var resultId = '#gameOverLost';
   if (car.bestRaceTime === 0 || car.raceTime < car.bestRaceTime) {
     resultId = '#gameOverWon';
-    showDialog('#makeChallenge');
+    $('#makeChallenge').show();
   }
-  showDialog(resultId);
+  $(resultId).show();
 }
 
 function raceAgain() {
