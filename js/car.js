@@ -113,7 +113,6 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     if (!this.isGhost) {
       this.isRacing = true;
     }
-    Sound.play("321");
   };
 
   this.stopRacing = function() {

@@ -48,7 +48,7 @@ var Track = function(levelIndex, challengeData) {
   this.goalStart;
   this.goalEnd;
   this.playerStart;
-  
+
   if (!Images[imageName]) {
     Images.loadImage(imageName, 'img/tracks/' + imageName + '.png');
   }
@@ -100,6 +100,7 @@ var Track = function(levelIndex, challengeData) {
     countdownRemaining = RACE_COUNTDOWN;
     showFinalLap = false;
     finalLapRemaining = 0;
+    Sound.play('321');
   };
 
   this.showFinalLap = function() {
@@ -143,7 +144,7 @@ var Track = function(levelIndex, challengeData) {
       var b = this.trackImageData[dataOffset+2];
       var a = this.trackImageData[dataOffset+3];
       //console.log('road: ' +r+','+g+','+b);
-      
+
       // brownish
       if (colorDistance(r,g,b,70,45,25)<30)
       {
@@ -160,7 +161,7 @@ var Track = function(levelIndex, challengeData) {
         surfaceDetected = ROAD_SURFACE_GRAVEL;
       }
       // assume asphalt (could detect greys and blacks)
-      else 
+      else
       {
         surfaceDetected = ROAD_SURFACE_GRAVEL;
       }
@@ -177,7 +178,7 @@ var Track = function(levelIndex, challengeData) {
 
     if (!this.trackImageData && Images[imageName].downloaded) // cache it once when available and reuse
     {
-      
+
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
       var rgb;
@@ -186,7 +187,7 @@ var Track = function(levelIndex, challengeData) {
       canvas.height = Images[imageName].height;
       context.drawImage(Images[imageName], 0, 0 );
       var myData = context.getImageData(0, 0, canvas.width, canvas.height);
-      
+
       this.trackImageData = myData.data;
       //console.log("grabbed track image data");
     }
@@ -199,16 +200,16 @@ var Track = function(levelIndex, challengeData) {
     var lightenDust = 30; // make more white like in real life due to density
 
     var dataOffset = ((y-1) * Images[imageName].width * 4) + (x*4);
-    rgb = 'rgb(' + 
+    rgb = 'rgb(' +
     Math.min(this.trackImageData[dataOffset]+lightenDust,255)+ ', ' +
-    Math.min(this.trackImageData[dataOffset+1]+lightenDust,255) + ', ' + 
+    Math.min(this.trackImageData[dataOffset+1]+lightenDust,255) + ', ' +
     Math.min(this.trackImageData[dataOffset+2]+lightenDust,255) + ')';
 
     //console.log('pixelColor if img wh:'+Images[imageName].width+','+Images[imageName].height+' at dataOffset:'+dataOffset+'/'+this.trackImageData.length+' xy:'+x+','+y+'='+rgb);
-    
+
     return rgb;
   };
-  
+
   this.draw = function() {
     if (imageName) {
       gameContext.drawImage(Images[imageName], 0, TRACK_PADDING_TOP);
