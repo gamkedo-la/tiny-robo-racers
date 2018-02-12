@@ -310,10 +310,12 @@ function playSong(songs) {
   }
 
   var song = Sound.playUnlessAlreadyPlaying(songs[songIndex], true, 0.25);
-  song.once('end', function() {
-    stopSong(songs);
-    nextSong(songs);
-  });
+  if (song) {
+    song.once('end', function() {
+      stopSong(songs);
+      nextSong(songs);
+    });
+  }
 }
 
 function nextSong(songs) {
