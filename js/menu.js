@@ -305,11 +305,11 @@ function stopSong(songs) {
 }
 
 function playSong(songs) {
-  if (!songIndex || !songs[songIndex]) {
+  if (songIndex === undefined || !songs[songIndex]) {
     return nextSong(songs);
   }
 
-  var song = Sound.playUnlessAlreadyPlaying(songs[songIndex], true, 0.25);
+  var song = Sound.playUnlessAlreadyPlaying(songs[songIndex], false, 0.25);
   if (song) {
     song.once('end', function() {
       stopSong(songs);
