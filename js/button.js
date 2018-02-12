@@ -1,6 +1,6 @@
 var _buttonToggleGroups = {};
 
-var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, callback) {
+var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, callback, useUnscaledMouseCoords) {
 
   var width = image.width;
   var height = image.height / 2;
@@ -17,8 +17,14 @@ var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, cal
     toggleState = _state;
   };
 
+  this.setCanvasContext = function(context) {
+    canvasContext = context;
+  };
+
   this.update = function(delta) {
-    isHover = (x < mouse.x && mouse.x < x + width && y < mouse.y && mouse.y < y + height);
+    var mx = useUnscaledMouseCoords ? mouse.ux : mouse.x;
+    var my = useUnscaledMouseCoords ? mouse.uy : mouse.y;
+    isHover = (x < mx && mx < x + width && y < my && my < y + height);
     if (prevIsHover !== isHover) {
       drawCanvas.style.cursor = isHover ? 'pointer' : 'default';
     }
@@ -60,7 +66,7 @@ var _Button = function(canvasContext, x, y, image, toggleGroup, toggleState, cal
 
 };
 
-var ButtonText = function(canvasContext, x, y, text, font, toggleGroup, toggleState, callback) {
+var ButtonText = function(canvasContext, x, y, text, font, toggleGroup, toggleState, callback, useUnscaledMouseCoords) {
 
   // Set font for measuring text width
   canvasContext.font = font;
@@ -81,13 +87,13 @@ var ButtonText = function(canvasContext, x, y, text, font, toggleGroup, toggleSt
   (new Drawbox(buttonContext, Images.button_active, boxWidth, boxHeight)).draw(0, boxHeight);
   drawText(buttonContext, centerX, centerY + boxHeight, '#fff', font, 'center', 'middle', text);
 
-  _Button.call(this, canvasContext, x, y, buttonCanvas, toggleGroup, toggleState, callback);
+  _Button.call(this, canvasContext, x, y, buttonCanvas, toggleGroup, toggleState, callback, useUnscaledMouseCoords);
 };
 
 ButtonText.prototype = Object.create(_Button.prototype);
 ButtonText.prototype.constructor = ButtonText;
 
-var ButtonImage = function(canvasContext, x, y, image, toggleGroup, toggleState, callback) {
+var ButtonImage = function(canvasContext, x, y, image, toggleGroup, toggleState, callback, useUnscaledMouseCoords) {
 
   var buttonCanvas = document.createElement('canvas');
   buttonCanvas.width = image.width;
@@ -102,7 +108,7 @@ var ButtonImage = function(canvasContext, x, y, image, toggleGroup, toggleState,
   (new Drawbox(buttonContext, Images.button_active, image.width, image.height)).draw(0, image.height);
   drawImage(buttonContext, image, centerX, centerY + image.height);
 
-  _Button.call(this, canvasContext, x, y, buttonCanvas, toggleGroup, toggleState, callback);
+  _Button.call(this, canvasContext, x, y, buttonCanvas, toggleGroup, toggleState, callback, useUnscaledMouseCoords);
 };
 
 ButtonImage.prototype = Object.create(_Button.prototype);

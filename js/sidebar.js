@@ -68,6 +68,11 @@ var Sidebar = function(image, tintColor) {
 
     isEditToggling = true;
 
+    if (!isEditing) {
+      btnEdit.setCanvasContext(editContext);
+      btnPause.setCanvasContext(editContext);
+    }
+
     var p = {
       percentage: sidebar.editingAnimationPercentage
     };
@@ -81,6 +86,10 @@ var Sidebar = function(image, tintColor) {
       .onComplete(function() {
         isEditing = !isEditing;
         isEditToggling = false;
+        if (!isEditing) {
+          btnEdit.setCanvasContext(gameContext);
+          btnPause.setCanvasContext(gameContext);
+        }
       })
       .start();
   };

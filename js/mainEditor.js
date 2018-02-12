@@ -1,6 +1,8 @@
 var gameCanvas, gameContext;
 
 var mouse = {
+  ux: 0,
+  uy: 0,
   x: 0,
   y: 0,
   button: -1

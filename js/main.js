@@ -5,6 +5,8 @@ var screenShakeAmount = 0;
 var screenShakeAmountHalf = 0;
 
 var mouse = {
+  ux: 0,
+  uy: 0,
   x: 0,
   y: 0,
   button: -1
@@ -79,8 +81,8 @@ function gameInitialize(levelIndex, challengeData) {
   track = new Track(levelIndex, challengeData);
   track.initializeTrack();
 
-  btnPause = new ButtonImage(drawContext, 0, 0, Images.button_pause, false, false, showGamePause);
-  btnEdit = new ButtonImage(drawContext, 44, 0, Images.button_pencil, false, false, sidebar.toggle.bind(sidebar));
+  btnPause = new ButtonImage(gameContext, 0, 0, Images.button_pause, false, false, showGamePause);
+  btnEdit = new ButtonImage(gameContext, 44, 0, Images.button_pencil, false, false, sidebar.toggle.bind(sidebar));
 
   car = new Car(track.playerStart, challengeData, playerSettings, Images.carRed, DRIVE_POWER, false, tintColor);
 
@@ -164,11 +166,11 @@ function gameDraw(interpolationPercentage) {
   track.drawOverlay();
   track.drawText();
 
-  gameContext.restore();
-  redrawCanvas();
-
   btnPause.draw();
   btnEdit.draw();
+
+  gameContext.restore();
+  redrawCanvas();
 }
 
 function clearCanvas() {

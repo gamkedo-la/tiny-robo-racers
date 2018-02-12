@@ -75,7 +75,9 @@ function keyUp(event) {
 function setMousePos(posX, posY) {
   var rect = drawCanvas.getBoundingClientRect();
 
-  var scaled = scaleCoordinates(posX - rect.left, posY - rect.top);
+  mouse.ux = posX - rect.left;
+  mouse.uy = posY - rect.top;
+  var scaled = scaleCoordinates(mouse.ux, mouse.uy);
   mouse.x = scaled.x;
   mouse.y = scaled.y;
 }
