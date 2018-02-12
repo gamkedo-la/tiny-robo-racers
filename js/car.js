@@ -37,10 +37,13 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
   this.isTurning = false; // used for skid marks
   this.raceTime = 0;
   this.lapTime = 0;
+  this.prevBestRaceTime = this.getSetting('bestTime', 0);
   this.bestRaceTime = this.getSetting('bestTime', 0);
   this.lapTimeString = '00:00.000';
   this.lapCounter = 1; // in a race you start on lap 1
   this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
+
+  this.hasWon = false;
 
   var ghostAlphaDistanceSquared = Math.pow(this.image.width, 2) + Math.pow(this.image.height, 2);
 
@@ -106,6 +109,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     this.lapTimeString = '00:00.000';
     this.lapCounter = 1;
     this.lapNumberString = this.lapCounter + '/' + RACE_LAP_COUNT;
+    this.hasWon = false;
 //    tireTracks.reset();
   };
 
@@ -114,6 +118,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     this.startDriving();
     if (!this.isGhost) {
       this.isRacing = true;
+      this.prevBestRaceTime = this.bestRaceTime;
     }
     Sound.play(raceBackgroundSounds[randomInt]);
   };
@@ -253,10 +258,11 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
           track.showFinalLap();
         }
         else if (RACE_LAP_COUNT < this.lapCounter) {
-          showGameOver();
+          this.hasWon = false;
 
           // Save best lap time and copy sensors to ghost if better
           if (this.isRacing && !this.isGhost && (this.bestRaceTime === 0 || this.raceTime < this.bestRaceTime)) {
+            this.hasWon = true;
             // Don't save ghost-settings if racing a challenge
             Sound.stop(raceBackgroundSounds[randomInt]);
             Sound.play("woohoo");
@@ -272,6 +278,8 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
 
           this.stopDriving();
           ghost.stopDriving();
+
+          showGameOver();
         }
       }
     }

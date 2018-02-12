@@ -162,12 +162,12 @@ function showGameOver() {
   $(document).trigger('pause');
   showDialog('#gameOver');
 
-  $('#bestTime').html(makeTimeString(car.bestRaceTime));
+  $('#bestTime').html(makeTimeString(car.prevBestRaceTime));
   $('#currentTime').html(makeTimeString(car.raceTime));
   $('#gameOverWon, #gameOverLost, #makeChallenge').hide();
 
   var resultId = '#gameOverLost';
-  if (car.bestRaceTime === 0 || car.raceTime < car.bestRaceTime) {
+  if (car.hasWon) {
     resultId = '#gameOverWon';
     $('#makeChallenge').show();
   }
