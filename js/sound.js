@@ -111,6 +111,8 @@ function SoundSystem() {
     {
         if (!this.isPlaying(samplename))
             this.play(samplename,looping,vol,rate,pan);
+
+        return sounds[samplename]
     };
     
         // returns true if a sample is currently playing

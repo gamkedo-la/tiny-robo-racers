@@ -120,13 +120,11 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
       this.isRacing = true;
       this.prevBestRaceTime = this.bestRaceTime;
     }
-    Sound.play(raceBackgroundSounds[randomInt]);
   };
 
   this.stopRacing = function() {
     this.lapCounter = 1;
     this.isRacing = false;
-    Sound.stop(raceBackgroundSounds[randomInt]);
   };
 
   this.startDriving = function() {
@@ -142,7 +140,6 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
     if (this.engineSound) {
       this.engineSound.pause();
     }
-    Sound.stop(raceBackgroundSounds[randomInt]);
   };
 
   // currently reduces speed based on what is under the tires
@@ -264,7 +261,7 @@ var Car = function(startPosition, challengeData, carSettings, sourceImage, drive
           if (this.isRacing && !this.isGhost && (this.bestRaceTime === 0 || this.raceTime < this.bestRaceTime)) {
             this.hasWon = true;
             // Don't save ghost-settings if racing a challenge
-            Sound.stop(raceBackgroundSounds[randomInt]);
+            Sound.stop(RACE_SONGS[songIndex]);
             Sound.play("woohoo");
             if (!challengeData) {
               ghost.useSensors(this.getSensorData());

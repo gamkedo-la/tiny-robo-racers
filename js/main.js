@@ -1,6 +1,5 @@
 var gameCanvas, gameContext;
 var editCanvas, editContext;
-var raceBackgroundSounds = ['mystery', 'musicUpbeat']
 
 var screenShakeAmount = 0;
 var screenShakeAmountHalf = 0;
@@ -102,6 +101,8 @@ function gameInitialize(levelIndex, challengeData) {
       manyGhosts[manyGhosts.length] = nextone;
     }
   }
+
+  playSong(RACE_SONGS);
 
   MainLoop.start();
 }

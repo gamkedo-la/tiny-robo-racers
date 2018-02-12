@@ -1,16 +1,16 @@
 var $activeWrapperScreen, $wrapper;
-var menuSound = ['menu','menu2'];
-var randomInt;
+var songIndex;
 
 function menuInitialize() {
-  randomInt = Math.floor(Math.random()*2);
   $('#loading').remove();
 
   $wrapper = $('#wrapper');
 
   setupInput();
 
-  showMenu();
+  showMenu()
+
+  playSong(MENU_SONGS);
 
   $('#wrapper a').on('click', function (event) {
     var $this = $(this);
@@ -30,6 +30,10 @@ function menuInitialize() {
       loadChallenge();
     }
     else if (this.hash) {
+      if ($this.hasClass('quit')) {
+        stopSong(RACE_SONGS);
+        nextSong(MENU_SONGS);
+      }
       callShowMenuScreen(this.hash);
     }
   });
@@ -54,7 +58,7 @@ function menuInitialize() {
     event.preventDefault();
     hideDialog();
     if (!IS_EDITOR) {
-      Sound.stop(menuSound[randomInt]);
+      stopSong(MENU_SONGS);
     }
     gameInitialize(this.value);
   }).on('click', 'button.challenge', function(event) {
@@ -71,7 +75,7 @@ function menuInitialize() {
     // start play now!
     hideDialog();
     if (!IS_EDITOR) {
-      Sound.stop(menuSound[randomInt]);
+      stopSong(MENU_SONGS);
     }
     gameInitialize(IS_EDITOR ? '_new' : 0);
   }
@@ -152,8 +156,6 @@ function stopGameForMenu() {
     MainLoop.stop();
     $(document).trigger('stopGame');
   }
-
-  Sound.playUnlessAlreadyPlaying(menuSound[randomInt], true, 0.25);
 }
 
 function showGameOver() {
@@ -269,8 +271,6 @@ function showSettings() {
       })
       .on('click', function(event) {
         event.preventDefault();
-
-        console.log('set', settingName, !settings.get(settingName, true));
         if (settings.set(settingName, !settings.get(settingName, true))) {
           if (enableCallback) {
             enableCallback();
@@ -298,4 +298,25 @@ function toggleSound(force) {
     Sound.unMute();
     window.enabledSounds = true;
   }
+}
+
+function stopSong(songs) {
+  Sound.stop(songs[songIndex]);
+}
+
+function playSong(songs) {
+  if (!songIndex || !songs[songIndex]) {
+    return nextSong(songs);
+  }
+
+  var song = Sound.playUnlessAlreadyPlaying(songs[songIndex], true, 0.25);
+  song.once('end', function() {
+    stopSong(songs);
+    nextSong(songs);
+  });
+}
+
+function nextSong(songs) {
+  songIndex = random(0, songs.length - 1);
+  playSong(songs);
 }

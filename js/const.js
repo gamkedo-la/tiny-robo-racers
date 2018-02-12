@@ -19,6 +19,9 @@ const KEY_O = 79;
 const FRAME_RATE = 60;
 const FRAME_RATE_DELTA = 1000 / FRAME_RATE;
 
+const MENU_SONGS = ['menu', 'menu2'];
+const RACE_SONGS = ['mystery', 'musicUpbeat'];
+
 const DRIVE_POWER = 10 / FRAME_RATE_DELTA;
 const GROUNDSPEED_DECAY_MULT = 0.94 / FRAME_RATE_DELTA;
 
